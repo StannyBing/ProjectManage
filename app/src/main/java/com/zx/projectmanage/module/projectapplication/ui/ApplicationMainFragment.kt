@@ -1,5 +1,6 @@
 package com.zx.projectmanage.module.projectapplication.ui
 
+import android.app.Activity
 import android.os.Bundle
 import android.util.Log
 import androidx.recyclerview.widget.GridLayoutManager
@@ -11,12 +12,14 @@ import com.youth.banner.view.BannerViewPager
 import com.zx.projectmanage.R
 import com.zx.projectmanage.base.BaseFragment
 import com.zx.projectmanage.module.projectapplication.bean.ApplicationFuncBean
+import com.zx.projectmanage.module.projectapplication.construction.ui.ConstructionReportActivity
 import com.zx.projectmanage.module.projectapplication.func.adater.ApplicationFuncsAdapter
 import com.zx.projectmanage.module.projectapplication.func.tool.BannerPageTransformer
 import com.zx.projectmanage.module.projectapplication.func.tool.GlideImageLoader
 import com.zx.projectmanage.module.projectapplication.mvp.contract.ApplicationMainContract
 import com.zx.projectmanage.module.projectapplication.mvp.model.ApplicationMainModel
 import com.zx.projectmanage.module.projectapplication.mvp.presenter.ApplicationMainPresenter
+import com.zx.zxutils.other.QuickAdapter.ZXQuickAdapter
 import kotlinx.android.synthetic.main.fragment_application_main.*
 import java.lang.reflect.Field
 
@@ -105,6 +108,13 @@ class ApplicationMainFragment : BaseFragment<ApplicationMainPresenter, Applicati
      * View事件设置
      */
     override fun onViewListener() {
+        funcAdapter.setOnItemClickListener { adapter, view, position ->
+            when(position){
+                0->{
+                    ConstructionReportActivity.startAction(mContext as Activity,false)
+                }
+            }
 
+        }
     }
 }

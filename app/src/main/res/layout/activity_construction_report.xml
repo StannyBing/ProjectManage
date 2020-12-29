@@ -9,11 +9,11 @@
     <com.allen.library.SuperTextView
         android:id="@+id/head"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        stv:sLeftTextString="@string/inputProjectName"
+        android:layout_height="50dp"
+        stv:sCenterTextString="施工上报"
         android:padding="5dp"
+        stv:sCenterTextSize="20sp"
         stv:sBackgroundDrawableRes="@color/white"
-        android:layout_margin="10dp"
         stv:sRightIconRes="@drawable/selector_main_analysis"/>
 
     <com.allen.library.SuperTextView
