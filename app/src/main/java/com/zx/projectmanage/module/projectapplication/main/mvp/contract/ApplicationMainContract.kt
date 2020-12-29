@@ -1,4 +1,4 @@
-package com.zx.projectmanage.module.projectapplication.mvp.contract
+package com.zx.projectmanage.module.projectapplication.main.mvp.contract
 
 import com.frame.zxmvp.base.BasePresenter
 import com.frame.zxmvp.base.IView

@@ -1,4 +1,4 @@
-package com.zx.projectmanage.module.projectapplication.bean
+package com.zx.projectmanage.module.projectapplication.main.bean
 
 import androidx.annotation.DrawableRes
 

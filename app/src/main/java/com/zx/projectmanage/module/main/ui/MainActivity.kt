@@ -14,7 +14,7 @@ import com.zx.projectmanage.module.dataanalysis.ui.AnalysisMainFragment
 import com.zx.projectmanage.module.main.mvp.contract.MainContract
 import com.zx.projectmanage.module.main.mvp.model.MainModel
 import com.zx.projectmanage.module.main.mvp.presenter.MainPresenter
-import com.zx.projectmanage.module.projectapplication.ui.ApplicationMainFragment
+import com.zx.projectmanage.module.projectapplication.main.ui.ApplicationMainFragment
 import com.zx.projectmanage.module.projectsupervise.ui.SuperviseMainFragment
 import com.zx.zxutils.views.TabViewPager.ZXTabViewPager
 import com.zx.zxutils.views.ZXStatusBarCompat

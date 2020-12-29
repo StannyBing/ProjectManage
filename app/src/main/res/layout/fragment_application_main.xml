@@ -24,8 +24,7 @@
         android:layout_width="match_parent"
         android:layout_height="190dp"
         android:layout_marginTop="15dp"
-        android:layout_marginBottom="15dp"
-        app:image_scale_type="fit_xy">
+        android:layout_marginBottom="15dp">
 
     </com.youth.banner.Banner>
 

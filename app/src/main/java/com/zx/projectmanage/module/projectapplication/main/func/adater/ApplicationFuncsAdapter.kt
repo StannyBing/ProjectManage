@@ -1,7 +1,7 @@
-package com.zx.projectmanage.module.projectapplication.func.adater
+package com.zx.projectmanage.module.projectapplication.main.func.adater
 
 import com.zx.projectmanage.R
-import com.zx.projectmanage.module.projectapplication.bean.ApplicationFuncBean
+import com.zx.projectmanage.module.projectapplication.main.bean.ApplicationFuncBean
 import com.zx.zxutils.other.QuickAdapter.ZXBaseHolder
 import com.zx.zxutils.other.QuickAdapter.ZXQuickAdapter
 

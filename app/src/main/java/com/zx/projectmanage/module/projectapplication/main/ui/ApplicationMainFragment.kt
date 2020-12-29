@@ -1,25 +1,23 @@
-package com.zx.projectmanage.module.projectapplication.ui
+package com.zx.projectmanage.module.projectapplication.main.ui
 
 import android.app.Activity
 import android.os.Bundle
 import android.util.Log
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.viewpager.widget.ViewPager
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners
+import com.bumptech.glide.request.RequestOptions
 import com.youth.banner.Banner
-import com.youth.banner.BannerConfig
-import com.youth.banner.BannerScroller
-import com.youth.banner.view.BannerViewPager
+import com.youth.banner.adapter.BannerImageAdapter
+import com.youth.banner.holder.BannerImageHolder
 import com.zx.projectmanage.R
 import com.zx.projectmanage.base.BaseFragment
-import com.zx.projectmanage.module.projectapplication.bean.ApplicationFuncBean
+import com.zx.projectmanage.module.projectapplication.main.bean.ApplicationFuncBean
 import com.zx.projectmanage.module.projectapplication.construction.ui.ConstructionReportActivity
-import com.zx.projectmanage.module.projectapplication.func.adater.ApplicationFuncsAdapter
-import com.zx.projectmanage.module.projectapplication.func.tool.BannerPageTransformer
-import com.zx.projectmanage.module.projectapplication.func.tool.GlideImageLoader
-import com.zx.projectmanage.module.projectapplication.mvp.contract.ApplicationMainContract
-import com.zx.projectmanage.module.projectapplication.mvp.model.ApplicationMainModel
-import com.zx.projectmanage.module.projectapplication.mvp.presenter.ApplicationMainPresenter
-import com.zx.zxutils.other.QuickAdapter.ZXQuickAdapter
+import com.zx.projectmanage.module.projectapplication.main.func.adater.ApplicationFuncsAdapter
+import com.zx.projectmanage.module.projectapplication.main.mvp.contract.ApplicationMainContract
+import com.zx.projectmanage.module.projectapplication.main.mvp.model.ApplicationMainModel
+import com.zx.projectmanage.module.projectapplication.main.mvp.presenter.ApplicationMainPresenter
 import kotlinx.android.synthetic.main.fragment_application_main.*
 import java.lang.reflect.Field
 
@@ -82,16 +80,20 @@ class ApplicationMainFragment : BaseFragment<ApplicationMainPresenter, Applicati
         images.add("https://gimg2.baidu.com/image_search/src=http%3A%2F%2Foss.huangye88.net%2Flive%2Fimport%2Fnews%2Fa66fe8cb5404d9db0b28bda82e1fb3f2.jpg&refer=http%3A%2F%2Foss.huangye88.net&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=jpeg?sec=1611290806&t=c7e88cafea59540cee5a619de8388a33")
         images.add("https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fimages.shobserver.com%2Fnews%2F690_390%2F2018%2F12%2F2%2Fbaa716ec-9983-426d-b445-f629085b9944.jpg&refer=http%3A%2F%2Fimages.shobserver.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=jpeg?sec=1611290829&t=85b0659903b09403297cbd19b91975a6")
         banner_application_info
-            .setImageLoader(GlideImageLoader())
-            .setBannerStyle(BannerConfig.CIRCLE_INDICATOR)
-            .setPageTransformer(true, BannerPageTransformer())
-            .isAutoPlay(true)
-            .setDelayTime(6000)
-            .setOnBannerListener { index ->
-
+            .isAutoLoop(true)
+            .setLoopTime(5000)
+            .setBannerGalleryEffect(8, 8, 5, 0.85f)
+            .setAdapter(object : BannerImageAdapter<String>(images) {
+                override fun onBindView(holder: BannerImageHolder, data: String?, position: Int, size: Int) {
+                    Glide.with(mContext)
+                        .load(data)
+                        .apply(RequestOptions.bitmapTransform(RoundedCorners(30)))
+                        .into(holder.imageView)
+                }
+            })
+            .setOnBannerListener { data, position ->
 
             }
-            .setImages(images)
             .start()
 
         try {
@@ -109,9 +111,9 @@ class ApplicationMainFragment : BaseFragment<ApplicationMainPresenter, Applicati
      */
     override fun onViewListener() {
         funcAdapter.setOnItemClickListener { adapter, view, position ->
-            when(position){
-                0->{
-                    ConstructionReportActivity.startAction(mContext as Activity,false)
+            when (position) {
+                0 -> {
+                    ConstructionReportActivity.startAction(mContext as Activity, false)
                 }
             }
 
