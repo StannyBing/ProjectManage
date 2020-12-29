@@ -14,7 +14,8 @@
         stv:sBackgroundDrawableRes="@color/white"
         stv:sCenterTextSize="20sp"
         stv:sCenterTextString="施工上报"
+        stv:sLeftIconHeight="@dimen/toolbar_back_width"
         stv:sLeftIconRes="@drawable/icon_toolbar_back"
-        stv:sLeftIconWidth="20dp" />
+        stv:sLeftIconWidth="@dimen/toolbar_back_width" />
 
 </LinearLayout>
