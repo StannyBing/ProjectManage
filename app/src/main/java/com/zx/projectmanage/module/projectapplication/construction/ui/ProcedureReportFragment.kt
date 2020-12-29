@@ -12,6 +12,12 @@ import com.zx.projectmanage.module.projectapplication.construction.mvp.presenter
  * 功能：
  */
 class ProcedureReportFragment : BaseFragment<ProcedureReportPresenter, ProcedureReportModel>(), ProcedureReportContract.View {
+    /**
+     * layout配置
+     */
+    override fun getLayoutId(): Int {
+        return R.layout.fragment_procedure_report
+    }
     companion object {
         /**
          * 启动器
@@ -23,12 +29,7 @@ class ProcedureReportFragment : BaseFragment<ProcedureReportPresenter, Procedure
         }
     }
 
-    /**
-     * layout配置
-     */
-    override fun getLayoutId(): Int {
-        return R.layout.fragment_procedure_report
-    }
+
 
     /**
      * 初始化
