@@ -1,0 +1,20 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+    </style>
+
+    <style name="MyBtnStyle" parent="TextAppearance.AppCompat.Widget.Button.Colored">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">@dimen/normal_button_height</item>
+        <item name="android:background">@drawable/shape_btn_bg</item>
+        <item name="text_size">@dimen/text_normal_size</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:letterSpacing" tools:targetApi="lollipop">0.1</item>
+    </style>
+
+</resources>

@@ -1,0 +1,217 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_alignParentBottom="true"
+    android:gravity="center_horizontal"
+    android:orientation="vertical">
+
+    <com.lt.zxmap.view.MaxWidthCardView
+        android:id="@+id/mea_layout"
+        android:layout_width="340dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_gravity="center_horizontal"
+        android:layout_margin="10dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        card_view:cardCornerRadius="10dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/mainColor"
+            android:orientation="vertical"
+            android:paddingTop="5dp"
+            android:paddingBottom="5dp">
+
+            <FrameLayout
+                android:id="@+id/fl_tool_content"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="8dp"
+                android:layout_marginTop="-40dp">
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rv_mea_tools"
+                    android:layout_width="325dp"
+                    android:layout_height="40dp" />
+
+                <LinearLayout
+                    android:id="@+id/measureSecondFuncLl"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:orientation="horizontal" />
+            </FrameLayout>
+
+
+            <RadioGroup
+                android:id="@+id/mea_rg"
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:layout_alignParentBottom="true"
+                android:layout_centerHorizontal="true"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:visibility="visible">
+
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1" />
+
+                <LinearLayout
+                    android:id="@+id/mea_result"
+                    android:layout_width="60dp"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/mea_count"
+                        android:layout_width="match_parent"
+                        android:layout_height="25dp"
+                        android:layout_weight="1"
+                        android:gravity="center_horizontal"
+                        android:text="0"
+                        android:textColor="@color/white"
+                        android:textSize="12dp" />
+
+                    <TextView
+                        android:id="@+id/mea_unit"
+                        android:layout_width="match_parent"
+                        android:layout_height="25dp"
+                        android:layout_weight="1"
+                        android:gravity="center_horizontal"
+                        android:text="米"
+                        android:textColor="@color/white"
+                        android:textSize="12dp" />
+
+                </LinearLayout>
+
+                <View
+                    android:id="@+id/mea_view1"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1" />
+
+                <RadioButton
+                    android:id="@+id/mea_line"
+                    android:layout_width="28dp"
+                    android:layout_height="23dp"
+                    android:background="@drawable/selector_call_left"
+                    android:button="@null"
+                    android:checked="true"
+                    android:gravity="center"
+                    android:text="线"
+                    android:textColor="@color/mainColor"
+                    android:textSize="12dp" />
+
+                <RadioButton
+                    android:id="@+id/mea_poly"
+                    android:layout_width="28dp"
+                    android:layout_height="23dp"
+                    android:layout_marginRight="10dp"
+                    android:background="@drawable/selector_call_right"
+                    android:button="@null"
+                    android:gravity="center"
+                    android:text="面"
+                    android:textColor="@color/white"
+                    android:textSize="12dp" />
+
+                <View
+                    android:id="@+id/mea_view2"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1" />
+
+                <ImageView
+                    android:id="@+id/mea_undo"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:layout_margin="7dp"
+                    android:background="@mipmap/goback_off" />
+
+                <ImageView
+                    android:id="@+id/mea_redo"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:layout_margin="7dp"
+                    android:background="@mipmap/recover_off" />
+
+                <View
+                    android:id="@+id/mea_view3"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1" />
+
+                <ImageView
+                    android:id="@+id/mea_delete"
+                    android:layout_width="wrap_content"
+                    android:layout_height="35dp"
+                    android:padding="2dp"
+                    android:src="@drawable/delete" />
+
+                <View
+                    android:id="@+id/mea_view4"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1" />
+
+                <ImageView
+                    android:id="@+id/mea_tools"
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
+                    android:padding="7dp"
+                    android:src="@drawable/selector_mea_tools" />
+
+                <View
+                    android:id="@+id/mea_view5"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1" />
+
+                <ImageView
+                    android:id="@+id/mea_shape"
+                    android:layout_width="wrap_content"
+                    android:layout_height="35dp"
+                    android:padding="9dp"
+                    android:src="@drawable/mea_shape"
+                    android:visibility="gone" />
+
+                <TextView
+                    android:id="@+id/mea_submit"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:padding="5dp"
+                    android:text="完成"
+                    android:textColor="@color/white"
+                    android:textSize="12dp" />
+
+                <View
+                    android:id="@+id/mea_view6"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1" />
+
+                <TextView
+                    android:id="@+id/mea_exit"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:padding="5dp"
+                    android:text="退出"
+                    android:textColor="@color/white"
+                    android:textSize="12dp" />
+
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1" />
+            </RadioGroup>
+
+        </LinearLayout>
+
+    </com.lt.zxmap.view.MaxWidthCardView>
+</LinearLayout>

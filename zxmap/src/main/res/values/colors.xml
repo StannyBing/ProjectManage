@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#627d94</color>
+    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorAccent">#FF4081</color>
+    <color name="dimgray">#696969</color>
+    <color name="mainColor">#0090ff</color>
+    <color name="white">#FFFFFF</color>
+    <color name="linecolor">#d66050</color>
+    <color name="lightsteelblue">#B0C4DE</color>
+    <color name="highLightColor">#55A4F1</color>
+    <color name="measureBlue">#2475E0</color>
+    <color name="areaColor">#207ec6</color>
+
+    <color name="map_mea_color">#F5627d94</color>
+</resources>

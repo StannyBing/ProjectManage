@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:background="@drawable/login_bg" />
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:background="@color/white" />
+
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="150dp"
+        android:gravity="center"
+        android:text="@string/app_title"
+        android:textColor="@color/white"
+        android:textSize="18sp" />
+
+    <View
+        android:id="@+id/view_login_center"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_centerInParent="true" />
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/view_login_center"
+        android:layout_marginLeft="30dp"
+        android:layout_marginTop="-30dp"
+        android:layout_marginRight="30dp"
+        app:cardCornerRadius="8dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/password_bg"
+            android:orientation="vertical"
+            android:paddingLeft="30dp"
+            android:paddingTop="50dp"
+            android:paddingRight="30dp"
+            android:paddingBottom="50dp">
+
+            <EditText
+                android:id="@+id/et_login_username"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/normal_edit_height"
+                android:background="@drawable/shape_normal_edit"
+                android:hint="账号"
+                android:imeOptions="actionNext"
+                android:maxLength="20"
+                android:paddingLeft="10dp"
+                android:singleLine="true"
+                android:textSize="@dimen/text_normal_size" />
+
+            <EditText
+                android:id="@+id/et_login_password"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/normal_edit_height"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/shape_normal_edit"
+                android:hint="密码"
+                android:imeOptions="actionDone"
+                android:inputType="textPassword"
+                android:maxLength="20"
+                android:paddingLeft="10dp"
+                android:singleLine="true"
+                android:textSize="@dimen/text_normal_size" />
+
+            <Button
+                android:id="@+id/btn_login_submit"
+                style="@style/MyBtnStyle"
+                android:layout_height="@dimen/normal_button_height"
+                android:layout_marginTop="20dp"
+                android:text="登录" />
+
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="40dp"
+        android:gravity="center"
+        android:text="@string/support_comany"
+        android:textColor="@color/gray_8f"
+        android:textSize="@dimen/text_smaller_size" />
+
+</RelativeLayout>

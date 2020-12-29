@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools">
+
+    <style name="MBubble_anim_left" parent="Widget.AppCompat.PopupWindow">
+        <item name="android:windowEnterAnimation">@anim/mbubble_show_left</item>
+        <item name="android:windowExitAnimation">@anim/mbubble_hide_left</item>
+    </style>
+
+    <style name="MBubble_anim_right" parent="Widget.AppCompat.PopupWindow">
+        <item name="android:windowEnterAnimation">@anim/mbubble_show_right</item>
+        <item name="android:windowExitAnimation">@anim/mbubble_hide_right</item>
+    </style>
+
+    <style name="MBubble_anim_top" parent="Widget.AppCompat.PopupWindow">
+        <item name="android:windowEnterAnimation">@anim/mbubble_show_top</item>
+        <item name="android:windowExitAnimation">@anim/mbubble_hide_top</item>
+    </style>
+
+    <style name="MBubble_anim_bottom" parent="Widget.AppCompat.PopupWindow">
+        <item name="android:windowEnterAnimation">@anim/mbubble_show_bottom</item>
+        <item name="android:windowExitAnimation">@anim/mbubble_hide_bottom</item>
+    </style>
+
+</resources>

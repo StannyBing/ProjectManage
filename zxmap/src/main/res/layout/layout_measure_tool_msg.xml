@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal">
+
+    <ImageView
+        android:id="@+id/iv_tool_back"
+        android:layout_width="16dp"
+        android:layout_height="16dp"
+        android:layout_centerVertical="true"
+        android:src="@mipmap/arrow_back" />
+
+    <TextView
+        android:id="@+id/tv_tool_tips"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_marginStart="5dp"
+        android:layout_toEndOf="@id/iv_tool_back"
+        android:text="光标位置："
+        android:textColor="@color/white" />
+
+    <TextView
+        android:id="@+id/tv_tool_locationinfo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_toEndOf="@id/tv_tool_tips"
+        android:textColor="@color/white" />
+
+    <LinearLayout
+        android:id="@+id/locationLl"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_toStartOf="@id/tv_tool_add"
+        android:layout_toEndOf="@id/tv_tool_locationinfo"
+        android:orientation="horizontal"
+        android:visibility="gone">
+
+        <EditText
+            android:id="@+id/et_tool_longitude"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:backgroundTint="@color/white"
+            android:hint="经度"
+            android:imeOptions="actionNext"
+            android:inputType="numberDecimal"
+            android:lines="1"
+            android:textColor="@color/white"
+            android:textColorHint="@color/white"
+            android:textCursorDrawable="@drawable/input_cursor_white"
+            android:textSize="@dimen/sp_12" />
+
+        <EditText
+            android:id="@+id/et_tool_latitude"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:backgroundTint="@color/white"
+            android:hint="纬度"
+            android:imeOptions="actionDone"
+            android:inputType="numberDecimal"
+            android:lines="1"
+            android:textColor="@color/white"
+            android:textColorHint="@color/white"
+            android:textCursorDrawable="@drawable/input_cursor_white"
+            android:textSize="@dimen/sp_12" />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/tv_tool_add"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_alignParentEnd="true"
+        android:layout_centerVertical="true"
+        android:layout_marginEnd="8dp"
+        android:gravity="center_vertical"
+        android:paddingStart="3dp"
+        android:text="完成"
+        android:textColor="@color/white"
+        android:visibility="gone" />
+
+    <TextView
+        android:id="@+id/tv_tool_add_point"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_centerVertical="true"
+        android:layout_marginEnd="3dp"
+        android:layout_toStartOf="@id/tv_tool_add"
+        android:gravity="center_vertical"
+        android:text="打点"
+        android:textColor="@color/white"
+        android:visibility="gone" />
+</RelativeLayout>

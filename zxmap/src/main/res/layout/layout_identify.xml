@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:gravity="center"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="220dp"
+        android:layout_height="wrap_content"
+        android:elevation="5dp"
+        android:alpha="0.90"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/shape_identify_bg"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:id="@+id/rl_identify_title"
+                android:layout_width="match_parent"
+                android:layout_height="35dp"
+                android:background="@drawable/shape_identify_title">
+
+                <ImageView
+                    android:id="@+id/iv_identify_location"
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
+                    android:layout_centerVertical="true"
+                    android:padding="12dp"
+                    android:src="@drawable/ic_identify_location" />
+
+                <TextView
+                    android:id="@+id/tv_identify_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:layout_toLeftOf="@id/iv_identify_close"
+                    android:layout_toRightOf="@id/iv_identify_location"
+                    android:ellipsize="end"
+                    android:gravity="center"
+                    android:maxLines="2"
+                    android:text="重庆市"
+                    android:textColor="@color/white"
+                    android:textSize="13sp" />
+
+                <ImageView
+                    android:id="@+id/iv_identify_close"
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:padding="13dp"
+                    android:src="@drawable/ic_identify_close" />
+
+            </RelativeLayout>
+
+            <LinearLayout
+                android:id="@+id/ll_identify_customview"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:visibility="gone" />
+
+            <ScrollView
+                android:id="@+id/sv_identify_queryList"
+                android:layout_width="match_parent"
+                android:layout_height="180dp">
+
+                <LinearLayout
+                    android:id="@+id/ll_identify_list"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+
+                </LinearLayout>
+            </ScrollView>
+
+            <LinearLayout
+                android:id="@+id/ll_identify_btnfunc"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:alpha="0.90"
+                android:background="@drawable/shape_identify_func"
+                android:orientation="horizontal" />
+
+        </LinearLayout>
+
+        <ImageView
+            android:layout_width="26dp"
+            android:layout_height="16dp"
+            android:alpha="0.85"
+            android:background="@drawable/identify_bottom" />
+
+    </LinearLayout>
+
+</LinearLayout>
+

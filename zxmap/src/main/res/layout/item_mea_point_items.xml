@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal">
+
+    <TextView
+        android:id="@+id/tv_mea_point_items_num"
+        android:layout_width="0dp"
+        android:layout_height="25dp"
+        android:layout_weight="0.7"
+        android:background="@drawable/shape_point_list"
+        android:gravity="center"
+        android:textSize="10sp" />
+
+    <TextView
+        android:id="@+id/tv_mea_point_items_lon"
+        android:layout_width="0dp"
+        android:layout_height="25dp"
+        android:layout_weight="1"
+        android:background="@drawable/shape_point_list"
+        android:gravity="center"
+        android:textSize="10sp" />
+
+    <TextView
+        android:id="@+id/tv_mea_point_items_lat"
+        android:layout_width="0dp"
+        android:layout_height="25dp"
+        android:layout_weight="1"
+        android:background="@drawable/shape_point_list"
+        android:gravity="center"
+        android:textSize="10sp" />
+
+</LinearLayout>

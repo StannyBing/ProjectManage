@@ -1,0 +1,22 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+
+          package="com.lt.zxmap">
+
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+    <uses-permission android:name="android.permission.VIBRATE" />
+
+    <application
+        android:allowBackup="true"
+        android:label="@string/app_name"
+        android:supportsRtl="true">
+
+        <meta-data
+            android:name="com.zxmap.AccessToken"
+            android:value="pk.eyJ1IjoiYmxzdGFnaW5nIiwiYSI6ImNpdDF3OHpoaTAwMDcyeXA5Y3Z0Nmk2dzEifQ.0IfB7v5Qbm2MGVYt8Kb8fg"/>
+        <meta-data
+            android:name="com.zxmap.EventsServer"
+            android:value="https://cloudfront-staging.tilestream.net"/>
+
+    </application>
+
+</manifest>
