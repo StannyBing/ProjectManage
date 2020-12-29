@@ -23,7 +23,7 @@
         android:layout_below="@id/head"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        stv:sLeftTextString="@string/inputProjectName"
+        stv:sLeftTextString="@string/inputChildProjectName"
         android:padding="5dp"
         stv:sUseShape="true"
         stv:sBackgroundDrawableRes="@color/white"
@@ -31,11 +31,11 @@
         stv:sShapeCornersRadius="30dp"
         stv:sRightIconRes="@drawable/selector_main_analysis"/>
 
-<androidx.recyclerview.widget.RecyclerView
-    android:id="@+id/swipeRecyler"
-    android:background="@color/white"
-    android:layout_below="@+id/search"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"/>
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/swipeRecyler"
+        android:background="@color/white"
+        android:layout_below="@+id/search"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
 
 </RelativeLayout>

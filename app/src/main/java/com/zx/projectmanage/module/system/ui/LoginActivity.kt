@@ -11,6 +11,7 @@ import com.zx.projectmanage.base.UserManager
 import com.zx.projectmanage.module.main.bean.UserBean
 import com.zx.projectmanage.module.main.ui.MainActivity
 import com.zx.projectmanage.module.projectapplication.construction.ui.ConstructionDataActivity
+import com.zx.projectmanage.module.projectapplication.construction.ui.ConstructionReportActivity
 
 import com.zx.projectmanage.module.system.mvp.contract.LoginContract
 import com.zx.projectmanage.module.system.mvp.contract.SplashContract
@@ -66,18 +67,18 @@ class LoginActivity : BaseActivity<SplashPresenter, SplashModel>(), SplashContra
      */
     override fun onViewListener() {
         btn_login_submit.setOnClickListener {
-            ConstructionDataActivity.startAction(this, false)
-            if (et_login_username.text.toString().isEmpty() || et_login_password.text.toString().isEmpty()) {
-                showToast("请输入用户名及密码！")
-            } else {
-                mPresenter.doAppLogin(
-                    hashMapOf(
-                        "username" to et_login_username.text.toString(),
-                        "password" to et_login_password.text.toString(),
-                        "grant_type" to "password"
-                    ).toJson()
-                )
-            }
+            ConstructionReportActivity.startAction(this, false)
+//            if (et_login_username.text.toString().isEmpty() || et_login_password.text.toString().isEmpty()) {
+//                showToast("请输入用户名及密码！")
+//            } else {
+//                mPresenter.doAppLogin(
+//                    hashMapOf(
+//                        "username" to et_login_username.text.toString(),
+//                        "password" to et_login_password.text.toString(),
+//                        "grant_type" to "password"
+//                    ).toJson()
+//                )
+//            }
         }
     }
 

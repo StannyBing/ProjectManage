@@ -73,6 +73,7 @@ class UserFragment : BaseFragment<UserPresenter, UserModel>(), UserContract.View
             adapter = settingAdapter
             addItemDecoration(SimpleDecoration(mContext))
         }
+        R.dimen.text_big_size
         super.initView(savedInstanceState)
     }
 

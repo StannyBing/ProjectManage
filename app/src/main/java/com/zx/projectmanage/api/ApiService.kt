@@ -1,6 +1,6 @@
 package com.zx.projectmanage.api
 
-import com.frame.zxmvp.basebean.BaseRespose
+
 import com.zx.projectmanage.module.main.bean.UserBean
 import okhttp3.RequestBody
 import retrofit2.http.*
