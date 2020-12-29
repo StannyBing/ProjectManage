@@ -11,7 +11,6 @@ import android.view.WindowManager
 import com.frame.zxmvp.base.BaseModel
 import com.frame.zxmvp.base.BasePresenter
 import com.frame.zxmvp.base.RxBaseActivity
-import com.zx.projectmanage.BuildConfig
 import com.zx.projectmanage.app.MyApplication
 import com.zx.projectmanage.module.system.ui.LoginActivity
 import com.zx.projectmanage.module.system.ui.SplashActivity

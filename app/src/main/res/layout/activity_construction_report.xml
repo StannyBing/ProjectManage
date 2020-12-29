@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:stv="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:background="@color/gray_8f"
+    android:layout_height="match_parent">
+    <com.allen.library.SuperTextView
+        android:id="@+id/head"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        stv:sLeftTextString="@string/inputProjectName"
+        android:padding="5dp"
+        stv:sBackgroundDrawableRes="@color/white"
+        android:layout_margin="10dp"
+        stv:sRightIconRes="@drawable/selector_main_analysis"/>
+
+    <com.allen.library.SuperTextView
+        android:id="@+id/search"
+        android:layout_below="@id/head"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        stv:sLeftTextString="@string/inputProjectName"
+        android:padding="5dp"
+        stv:sBackgroundDrawableRes="@color/white"
+        android:layout_margin="10dp"
+        stv:sShapeCornersRadius="30dp"
+        stv:sRightIconRes="@drawable/selector_main_analysis"/>
+
+<com.zx.zxutils.views.SwipeRecylerView.ZXSwipeRecyler
+    android:id="@+id/swipeRecyler"
+    android:background="@color/white"
+    android:layout_below="@+id/search"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"/>
+
+</RelativeLayout>

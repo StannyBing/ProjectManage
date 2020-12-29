@@ -2,4 +2,5 @@
     <string name="app_name">项目管理平台</string>
     <string name="app_title">自动化监测工程项目\n管理系统</string>
     <string name="support_comany">技术支持:重庆市南地科技开发有限公司</string>
+    <string name="inputProjectName">请输入项目名称</string>
 </resources>

@@ -11,7 +11,7 @@ interface ApiService {
 
 
     @POST("auth/oauth/token")
-    fun doAppLogin(@Body body: RequestBody): Observable<UserBean>
+    fun doAppLogin(@Body body: RequestBody): Observable<BaseRespose<UserBean>>
 
 
 }
