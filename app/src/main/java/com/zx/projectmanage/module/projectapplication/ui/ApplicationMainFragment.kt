@@ -86,6 +86,7 @@ class ApplicationMainFragment : BaseFragment<ApplicationMainPresenter, Applicati
             .setDelayTime(6000)
             .setOnBannerListener { index ->
 
+
             }
             .setImages(images)
             .start()
