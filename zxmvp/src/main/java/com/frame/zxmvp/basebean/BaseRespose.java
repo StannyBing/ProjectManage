@@ -10,6 +10,7 @@ import java.io.Serializable;
 public class BaseRespose<T> implements Serializable {
     public String code;
     public String message;
+    public String msg;
     public String status;
 
     public T data;

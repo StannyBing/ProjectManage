@@ -48,7 +48,7 @@ object UserManager {
             val sharedPref = MyApplication.mSharedPrefUtil
             user = sharedPref.getObject("userBean")
             if (user == null) {
-                user = UserBean("")
+                user = UserBean()
             }
         }
         return user!!

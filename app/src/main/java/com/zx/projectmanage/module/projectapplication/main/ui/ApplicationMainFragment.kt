@@ -87,7 +87,7 @@ class ApplicationMainFragment : BaseFragment<ApplicationMainPresenter, Applicati
                 override fun onBindView(holder: BannerImageHolder, data: String?, position: Int, size: Int) {
                     Glide.with(mContext)
                         .load(data)
-                        .apply(RequestOptions.bitmapTransform(RoundedCorners(30)))
+//                        .apply(RequestOptions.bitmapTransform(RoundedCorners(30)))
                         .into(holder.imageView)
                 }
             })
@@ -96,14 +96,6 @@ class ApplicationMainFragment : BaseFragment<ApplicationMainPresenter, Applicati
             }
             .start()
 
-        try {
-            val mField: Field = Banner::class.java.getDeclaredField("viewPager")
-            mField.isAccessible = true
-            val method = mField.declaringClass.getDeclaredMethod("setPageMargin", Int::class.java)
-            method.invoke(mField, 50)
-        } catch (e: Exception) {
-            Log.e(tag, e.message!!)
-        }
     }
 
     /**

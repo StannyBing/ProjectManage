@@ -27,6 +27,9 @@
         android:usesCleartextTraffic="true"
         tools:ignore="LockedOrientationActivity">
         <activity
+            android:name=".module.projectapplication.construction.ui.ConstructionDataActivity"
+            android:screenOrientation="portrait" />
+        <activity
             android:name=".module.projectapplication.construction.ui.ConstructionReportActivity"
             android:screenOrientation="portrait" />
         <activity

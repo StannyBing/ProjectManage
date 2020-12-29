@@ -6,6 +6,7 @@ import com.zx.projectmanage.api.ApiConfigModule
 import com.zx.projectmanage.base.UserManager
 import com.zx.projectmanage.module.main.bean.UserBean
 import com.zx.projectmanage.module.system.mvp.contract.SplashContract
+import com.zx.zxutils.http.ZXHttpTool
 import okhttp3.RequestBody
 
 
@@ -20,14 +21,18 @@ class SplashPresenter : SplashContract.Presenter() {
             .compose(RxHelper.bindToLifecycle(mView))
             .subscribe(object : RxSubscriber<UserBean>(mView) {
                 override fun _onNext(t: UserBean?) {
-                    if (t != null) {
+                    if (t != null && t.code == null) {
                         UserManager.setUser(t)
+                    } else {
+                        t?.msg?.let {
+                            mView.showToast(it)
+                        }
+                        mView.onAppLoginResult(null)
                     }
-                    mView.onAppLoginResult(t)
                 }
 
                 override fun _onError(code: Int, message: String?) {
-                    mView.handleError(code, message)
+                    mView.handleError(code, "登录失败，请检查密码后再试")
                     mView.onAppLoginResult(null)
                     UserManager.loginOut()
                 }

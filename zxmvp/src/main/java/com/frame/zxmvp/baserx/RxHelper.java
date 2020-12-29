@@ -38,7 +38,7 @@ public class RxHelper {
                 if (result.success()) {
                     return createData(result.res);
                 } else {
-                    return Observable.error(new ServerException(result.code == null ? "100" : result.code, result.message));
+                    return Observable.error(new ServerException(result.code, result.message == null ? result.msg : result.message));
                 }
             }
         }).subscribeOn(Schedulers.io()).observeOn(Schedulers.io());
