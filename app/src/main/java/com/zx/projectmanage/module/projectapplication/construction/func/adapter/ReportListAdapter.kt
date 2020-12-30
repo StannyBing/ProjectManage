@@ -11,14 +11,16 @@ import com.zx.projectmanage.module.projectapplication.construction.ui.Constructi
 import com.zx.zxutils.other.QuickAdapter.ZXBaseHolder
 import com.zx.zxutils.other.QuickAdapter.ZXQuickAdapter
 
-class ReportListAdapter(dataList: List<ReportListBean>) : ZXQuickAdapter<ReportListBean, ZXBaseHolder>(R.layout.item_report_list, dataList) {
-    override fun convert(helper: ZXBaseHolder, item: ReportListBean?) {
+class ReportListAdapter(dataList: List<ReportListBean.RecordsBean>) : ZXQuickAdapter<ReportListBean.RecordsBean, ZXBaseHolder>(R.layout.item_report_list, dataList) {
+    override fun convert(helper: ZXBaseHolder, item: ReportListBean.RecordsBean?) {
         val superTextView = helper?.getView<SuperTextView>(R.id.reportList)
         superTextView.setLeftTopString("项目名称：xxxxx")
             .setLeftBottomString("项目状态：xxxxx")
             .setRightString("上报")
         superTextView.setOnClickListener {
-            ConstructionReportChildActivity.startAction(mContext as Activity, false, item?.id!!, "xxx项目")
+            item?.let {
+                ConstructionReportChildActivity.startAction(mContext as Activity, false, it.projectId.toString(), it.projectName.toString())
+            }
         }
     }
 }

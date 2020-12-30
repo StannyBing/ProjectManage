@@ -15,6 +15,7 @@
         stv:sCenterTextSize="20sp"
         stv:sCenterTextString="施工上报"
         stv:sLeftIconHeight="@dimen/toolbar_back_width"
+        stv:sRightIconRes="@drawable/application_icon2"
         stv:sLeftIconRes="@drawable/icon_toolbar_back"
         stv:sLeftIconWidth="@dimen/toolbar_back_width" />
 

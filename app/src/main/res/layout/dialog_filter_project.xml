@@ -1,4 +1,78 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent" android:layout_height="match_parent">
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:zhy="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical"
+    android:paddingBottom="300dp">
 
-</RelativeLayout>
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/item_height"
+        android:background="@color/ghostwhite">
+
+        <androidx.appcompat.widget.AppCompatTextView
+
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_weight="1"
+            android:text="筛选"
+            android:textSize="@dimen/text_biger_size" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/bottomSheetCancel"
+            android:layout_width="80dp"
+            android:layout_height="@dimen/item_height"
+            android:gravity="center"
+            android:text="取消" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/bottomSheetOK"
+            android:layout_width="80dp"
+            android:layout_height="@dimen/item_height"
+            android:layout_marginStart="10dp"
+            android:layout_marginRight="10dp"
+            android:background="@color/green"
+            android:gravity="center"
+            android:text="确认"
+            android:textColor="@color/white" />
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="10dp"
+        android:text="期次"
+        android:textColor="@color/green" />
+
+    <com.zhy.view.flowlayout.TagFlowLayout
+        android:id="@+id/periodFlow"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+
+        android:layout_marginTop="11dp"
+        android:layout_marginRight="8dp"
+        zhy:max_select="5" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="15dp"
+        android:text="状态"
+        android:textColor="@color/green" />
+
+    <com.zhy.view.flowlayout.TagFlowLayout
+        android:id="@+id/statusFlow"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/periodFlow"
+        android:layout_marginTop="11dp"
+        android:layout_marginRight="8dp"
+        zhy:max_select="5" />
+
+</LinearLayout>

@@ -32,7 +32,7 @@ class ConstructionReportChildActivity : BaseActivity<ConstructionReportChildPres
         /**
          * 启动器
          */
-        fun startAction(activity: Activity, isFinish: Boolean, no: Int, name: String) {
+        fun startAction(activity: Activity, isFinish: Boolean, no: String, name: String) {
             val intent = Intent(activity, ConstructionReportChildActivity::class.java)
             intent.putExtra("projectName", name)
             intent.putExtra("projectNo", no)
@@ -55,10 +55,7 @@ class ConstructionReportChildActivity : BaseActivity<ConstructionReportChildPres
         super.initView(savedInstanceState)
         //获取title并设置
         head.setCenterString(intent.getStringExtra("projectName"))
-        //模拟数据
-        for (index in 0..20) {
-            list.add(ReportListBean(index))
-        }
+
         //设置列表adapter
         swipeRecyler.apply {
             layoutManager = LinearLayoutManager(mContext)

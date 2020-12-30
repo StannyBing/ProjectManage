@@ -52,9 +52,9 @@ class ProcedureReportFragment : BaseFragment<ProcedureReportPresenter, Procedure
     override fun initView(savedInstanceState: Bundle?) {
         super.initView(savedInstanceState)
         //模拟数据
-        for (index in 0..20) {
-            list.add(ReportListBean(1))
-        }
+//        for (index in 0..20) {
+//            list.add(ReportListBean(1))
+//        }
         //设置adapter
         dataShow.apply {
             layoutManager = LinearLayoutManager(mContext)
