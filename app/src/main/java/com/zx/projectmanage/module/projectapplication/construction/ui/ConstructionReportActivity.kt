@@ -56,7 +56,7 @@ class ConstructionReportActivity : BaseActivity<ConstructionReportPresenter, Con
         swipeRecyler.apply {
             layoutManager = LinearLayoutManager(mContext)
             adapter = reportListAdapter
-            addItemDecoration(SimpleDecoration(mContext))
+//            addItemDecoration(SimpleDecoration(mContext))
         }
     }
 

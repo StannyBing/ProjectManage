@@ -84,6 +84,9 @@ class MacroReportInfoActivity : BaseActivity<MacroReportInfoPresenter, MacroRepo
 
             }
         })
+        head.setLeftImageViewClickListener { finish() }
+
+
     }
 
 }

@@ -71,11 +71,6 @@ class ConstructionReportChildActivity : BaseActivity<ConstructionReportChildPres
      * View事件设置
      */
     override fun onViewListener() {
-        reportListAdapter.setOnItemClickListener { adapter, view, position ->
-            MacroReportInfoActivity.startAction(mContext as Activity, false)
-
-        }
-
         //头部点击事件
         head.setRightImageViewClickListener {
             ZXToastUtil.showToast("点击右侧筛选")

@@ -3,6 +3,7 @@ package com.zx.projectmanage.module.projectapplication.construction.func.adapter
 import android.app.Activity
 import android.os.Bundle
 import com.allen.library.SuperTextView
+import com.allen.library.SuperTextView.BOTTOM
 import com.zx.projectmanage.R
 
 import com.zx.projectmanage.module.projectapplication.construction.bean.ReportListBean
@@ -16,8 +17,8 @@ class ReportListAdapter(dataList: List<ReportListBean>) : ZXQuickAdapter<ReportL
         superTextView.setLeftTopString("项目名称：xxxxx")
             .setLeftBottomString("项目状态：xxxxx")
             .setRightString("上报")
-        superTextView.setRightImageViewClickListener {
-            ConstructionReportChildActivity.startAction(mContext as Activity,false, item?.id!!,"xxx项目")
+        superTextView.setOnClickListener {
+            ConstructionReportChildActivity.startAction(mContext as Activity, false, item?.id!!, "xxx项目")
         }
     }
 }

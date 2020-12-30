@@ -10,7 +10,8 @@
     <com.allen.library.SuperTextView
         android:layout_width="match_parent"
         android:layout_height="@dimen/item_height"
-        android:paddingStart="35dp"
+        android:paddingStart="20dp"
+        stv:sBackgroundDrawableRes="@color/white"
         stv:sLeftTextColor="@color/default_text_color"
         stv:sLeftTextString="工序均分"
         stv:sRightTextString="90" />
@@ -18,7 +19,8 @@
     <com.allen.library.SuperTextView
         android:layout_width="match_parent"
         android:layout_height="@dimen/item_height"
-        android:paddingStart="35dp"
+        android:paddingStart="20dp"
+        stv:sBackgroundDrawableRes="@color/white"
         stv:sLeftTextColor="@color/default_text_color"
         stv:sLeftTextString="工序进度"
         stv:sRightIconRes="@drawable/icon_next" />
@@ -26,15 +28,18 @@
     <com.allen.library.SuperTextView
         android:layout_width="match_parent"
         android:layout_height="@dimen/item_height"
-        stv:sLeftIconWidth="20sp"
+        stv:sBackgroundDrawableRes="@color/white"
         stv:sLeftTextColor="@color/default_text_color"
         stv:sLeftTextString="说明"
-        stv:sLeftTvDrawableLeft="@mipmap/__picker_ic_delete_black_24dp" />
+        stv:sLeftIconWidth="5dp"
+        stv:sLeftIconHeight="17dp"
+        stv:sLeftIconRes="@drawable/title_rangle"  />
 
     <com.allen.library.SuperTextView
         android:layout_width="match_parent"
         android:layout_height="@dimen/item_height"
-        android:paddingStart="35dp"
+        android:paddingStart="20dp"
+        stv:sBackgroundDrawableRes="@color/white"
         stv:sLeftTextColor="@color/default_text_color"
         stv:sLeftTextString="操作指南"
         stv:sRightIconRes="@drawable/icon_next" />
@@ -42,7 +47,8 @@
     <com.allen.library.SuperTextView
         android:layout_width="match_parent"
         android:layout_height="@dimen/item_height"
-        android:paddingStart="35dp"
+        android:paddingStart="20dp"
+        stv:sBackgroundDrawableRes="@color/white"
         stv:sLeftTextColor="@color/default_text_color"
         stv:sLeftTextString="安全规范"
         stv:sRightIconRes="@drawable/icon_next" />
@@ -50,7 +56,8 @@
     <com.allen.library.SuperTextView
         android:layout_width="match_parent"
         android:layout_height="@dimen/item_height"
-        android:paddingStart="35dp"
+        android:paddingStart="20dp"
+        stv:sBackgroundDrawableRes="@color/white"
         stv:sLeftTextColor="@color/default_text_color"
         stv:sLeftTextString="物料清单"
         stv:sRightIconRes="@drawable/icon_next" />
@@ -58,11 +65,16 @@
     <com.allen.library.SuperTextView
         android:layout_width="match_parent"
         android:layout_height="@dimen/item_height"
+        stv:sBackgroundDrawableRes="@color/white"
         stv:sLeftTextColor="@color/default_text_color"
         stv:sLeftTextString="上传资料"
-        stv:sLeftTvDrawableLeft="@mipmap/__picker_ic_delete_black_24dp" />
+        stv:sLeftIconWidth="5dp"
+        stv:sLeftIconHeight="17dp"
+        stv:sLeftIconRes="@drawable/title_rangle" />
 
     <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/dataShow"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        stv:sBackgroundDrawableRes="@color/white" />
 </LinearLayout>

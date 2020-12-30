@@ -3,10 +3,11 @@
     xmlns:stv="http://schemas.android.com/apk/res-auto"
     android:id="@+id/reportList"
     android:paddingTop="5dp"
-    android:layout_marginTop="10dp"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:paddingBottom="5dp"
+    stv:sDividerLineType="bottom"
+    stv:sDividerLineColor="@color/default_text_color"
     stv:sRightIconRes="@drawable/icon_next"
     android:orientation="vertical">
 </com.allen.library.SuperTextView>

@@ -23,6 +23,7 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/item_height"
         stv:sLeftTextString="基础信息"
+        android:paddingStart="20dp"
         stv:sLeftTextSize="@dimen/text_big_size"
         stv:sRightIconRes="@drawable/icon_next"/>
 
