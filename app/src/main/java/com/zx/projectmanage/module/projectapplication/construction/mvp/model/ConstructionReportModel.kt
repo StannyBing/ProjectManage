@@ -3,6 +3,7 @@ package com.zx.projectmanage.module.projectapplication.construction.mvp.model
 
 import com.frame.zxmvp.base.BaseModel
 import com.frame.zxmvp.basebean.BaseRespose
+import com.frame.zxmvp.baserx.RxHelper
 import com.frame.zxmvp.baserx.RxSchedulers
 import com.zx.projectmanage.api.ApiService
 
@@ -24,9 +25,10 @@ class ConstructionReportModel : BaseModel(), ConstructionReportContract.Model {
                                  pageNo: Int?,
                                  pageSize: Int?,
                                  projectStatus: Int?,
-                                 tenders: Int?): Observable<BaseRespose<ReportListBean>> {
+                                 tenders: Int?): Observable<ReportListBean>{
         return mRepositoryManager.obtainRetrofitService(ApiService::class.java)
             .getPageProject(districtCode, keyword, pageNo, pageSize, projectStatus, tenders)
+            .compose(RxHelper.handleResult())
             .compose(RxSchedulers.io_main())
     }
 }

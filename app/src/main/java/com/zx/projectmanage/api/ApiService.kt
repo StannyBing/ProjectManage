@@ -26,5 +26,16 @@ interface ApiService {
         @Query("tenders") tenders: Int?
     ): Observable<BaseRespose<ReportListBean>>
 
+    @GET("/app/buildpost/pageProject")
+    fun getPageSubProject(
+        @Query("districtCode") districtCode: String?,
+        @Query("subProjectName") subProjectName: String?,
+        @Query("pageNo") pageNo: Int?,
+        @Query("pageSize") pageSize: Int?,
+        @Query("status") status: Int?,
+        @Query("projectId") projectId: String,
+        @Query("tenders") tenders: Int?
+    ): Observable<BaseRespose<ReportListBean>>
+
 
 }
