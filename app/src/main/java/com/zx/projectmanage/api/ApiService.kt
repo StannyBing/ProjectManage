@@ -1,10 +1,7 @@
 package com.zx.projectmanage.api
 
 
-import com.frame.zxmvp.basebean.BaseRespose
 import com.zx.projectmanage.module.main.bean.UserBean
-import com.zx.projectmanage.module.projectapplication.construction.bean.ReportListBean
-import com.zx.projectmanage.module.projectapplication.construction.dto.ReportListDto
 import okhttp3.RequestBody
 import retrofit2.http.*
 import rx.Observable
@@ -12,9 +9,12 @@ import rx.Observable
 interface ApiService {
 
 
+
     @POST("auth/oauth/token")
     fun doAppLogin(@Body body: RequestBody): Observable<UserBean>
 
+    @GET
+    fun geocoder(@Url url : String) : Observable<BaiduGeocoderBean>
 
     @GET("/app/buildpost/pageProject")
     fun getPageProject(

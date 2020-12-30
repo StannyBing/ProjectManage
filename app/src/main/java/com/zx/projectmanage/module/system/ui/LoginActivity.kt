@@ -67,18 +67,18 @@ class LoginActivity : BaseActivity<SplashPresenter, SplashModel>(), SplashContra
      */
     override fun onViewListener() {
         btn_login_submit.setOnClickListener {
-            ConstructionReportActivity.startAction(this, false)
-//            if (et_login_username.text.toString().isEmpty() || et_login_password.text.toString().isEmpty()) {
-//                showToast("请输入用户名及密码！")
-//            } else {
-//                mPresenter.doAppLogin(
-//                    hashMapOf(
-//                        "username" to et_login_username.text.toString(),
-//                        "password" to et_login_password.text.toString(),
-//                        "grant_type" to "password"
-//                    ).toJson()
-//                )
-//            }
+            ConstructionDataActivity.startAction(this, false)
+            if (et_login_username.text.toString().isEmpty() || et_login_password.text.toString().isEmpty()) {
+                showToast("请输入用户名及密码！")
+            } else {
+                mPresenter.doAppLogin(
+                    hashMapOf(
+                        "username" to et_login_username.text.toString(),
+                        "password" to et_login_password.text.toString(),
+                        "grant_type" to "password"
+                    ).toJson()
+                )
+            }
         }
     }
 

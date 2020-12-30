@@ -6,7 +6,7 @@
     <dimen name="normal_radius">20dp</dimen>
     <dimen name="toolbar_height">45dp</dimen>
     <dimen name="item_height">45dp</dimen>
-    <dimen name="toolbar_back_width">30dp</dimen>
+    <dimen name="toolbar_back_width">25dp</dimen>
 
     <dimen name="text_big_size">16sp</dimen>
     <dimen name="text_biger_size">18sp</dimen>

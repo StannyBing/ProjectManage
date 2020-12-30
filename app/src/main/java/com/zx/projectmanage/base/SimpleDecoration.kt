@@ -15,7 +15,7 @@ import com.zx.projectmanage.R
 import com.zx.zxutils.util.ZXSystemUtil
 
 
-class SimpleDecoration(var context: Context, @ColorRes var color: Int = R.color.light_gray, var height: Int = 1) : ItemDecoration() {
+class SimpleDecoration(var context: Context, @ColorRes var color: Int = R.color.light_gray, var height: Int = 1, var heightList: List<Int> = arrayListOf()) : ItemDecoration() {
 
     private val paint = Paint()
 
@@ -27,7 +27,11 @@ class SimpleDecoration(var context: Context, @ColorRes var color: Int = R.color.
 
     override fun getItemOffsets(outRect: Rect, view: View, parent: RecyclerView, state: RecyclerView.State) {
         super.getItemOffsets(outRect, view, parent, state)
-        outRect.bottom = height //类似加了一个bottom padding
+        if (heightList.isEmpty() || heightList.size <= parent.getChildAdapterPosition(view)) {
+            outRect.bottom = height //类似加了一个bottom padding
+        } else {
+            outRect.bottom = heightList[parent.getChildAdapterPosition(view)]
+        }
     }
 
     override fun onDraw(c: Canvas, parent: RecyclerView, state: RecyclerView.State) {

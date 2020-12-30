@@ -7,15 +7,20 @@
     android:orientation="vertical">
 
     <com.allen.library.SuperTextView
-        android:id="@+id/head"
+        android:id="@+id/stv_construction_data"
         android:layout_width="match_parent"
         android:layout_height="@dimen/toolbar_height"
         android:padding="5dp"
         stv:sBackgroundDrawableRes="@color/white"
-        stv:sCenterTextSize="20sp"
-        stv:sCenterTextString="施工上报"
+        stv:sCenterTextSize="@dimen/text_big_size"
+        stv:sCenterTextString="施工资料"
         stv:sLeftIconHeight="@dimen/toolbar_back_width"
         stv:sLeftIconRes="@drawable/icon_toolbar_back"
         stv:sLeftIconWidth="@dimen/toolbar_back_width" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_construction_data"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
 
 </LinearLayout>

@@ -9,7 +9,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.frame.zxmvp.basebean.BaseRespose
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
-import com.zhy.view.flowlayout.FlowLayout
 import com.zhy.view.flowlayout.TagAdapter
 import com.zhy.view.flowlayout.TagFlowLayout
 import com.zx.projectmanage.R
@@ -102,7 +101,7 @@ class ConstructionReportActivity : BaseActivity<ConstructionReportPresenter, Con
     private fun setPeriodFlow(inflate: View, mVals: List<String>, flag: Int) {
 
         val tagAdapter = object : TagAdapter<Any>(mVals) {
-            override fun getView(parent: FlowLayout?, position: Int, t: Any?): View {
+            override fun getView(parent: com.zhy.view.flowlayout.FlowLayout?, position: Int, t: Any?): View {
 
                 val view = View.inflate(mContext, R.layout.flowlayout_textview_selected, null) as TextView
                 //设置展示的值
