@@ -15,11 +15,11 @@ import com.zx.projectmanage.R
 import com.zx.projectmanage.base.BaseActivity
 import com.zx.projectmanage.module.projectapplication.construction.bean.ReportListBean
 import com.zx.projectmanage.module.projectapplication.construction.func.adapter.ReportListAdapter
+import com.zx.projectmanage.module.projectapplication.construction.func.tool.setHintKtx
 import com.zx.projectmanage.module.projectapplication.construction.mvp.contract.ConstructionReportContract
 import com.zx.projectmanage.module.projectapplication.construction.mvp.model.ConstructionReportModel
 import com.zx.projectmanage.module.projectapplication.construction.mvp.presenter.ConstructionReportPresenter
 import com.zx.zxutils.util.ZXToastUtil
-
 import kotlinx.android.synthetic.main.activity_construction_report.*
 import kotlinx.android.synthetic.main.dialog_filter_project.view.*
 
@@ -33,6 +33,9 @@ class ConstructionReportActivity : BaseActivity<ConstructionReportPresenter, Con
     private val reportListAdapter = ReportListAdapter(list)
     private var mVals = listOf<String>("1", "2", "3")
     private var mVals1 = listOf<String>("已完成", "未通过", "进行中")
+    private var pageNo = 1
+    private var pageSize = 10
+    var isRefresh = true
 
     companion object {
         /**
@@ -57,6 +60,7 @@ class ConstructionReportActivity : BaseActivity<ConstructionReportPresenter, Con
      */
     override fun initView(savedInstanceState: Bundle?) {
         super.initView(savedInstanceState)
+        searchText.setHintKtx(13, "请输入项目名称")
         //设置adapter
         swipeRecyler.apply {
             layoutManager = LinearLayoutManager(mContext)
@@ -64,6 +68,31 @@ class ConstructionReportActivity : BaseActivity<ConstructionReportPresenter, Con
 //            addItemDecoration(SimpleDecoration(mContext))
         }
         mPresenter.getPageProject()
+    }
+
+    /**
+     * 刷新
+     */
+    fun refresh() {
+        pageNo = 1
+        mPresenter.getPageProject()
+    }
+
+    private fun setData(data: MutableList<ReportListBean.RecordsBean>?) {
+        pageNo++
+        val size = data?.size ?: 0
+        if (isRefresh) {
+            reportListAdapter.setNewData(data)
+        } else {
+            if (size > 0) {
+                reportListAdapter.addData(data!!)
+            }
+        }
+        if (size < pageSize) {
+            reportListAdapter.loadMoreEnd(isRefresh)
+        } else {
+            reportListAdapter.loadMoreComplete()
+        }
     }
 
     /**
@@ -83,6 +112,7 @@ class ConstructionReportActivity : BaseActivity<ConstructionReportPresenter, Con
             }
             inflate.bottomSheetOK.setOnClickListener {
                 //发起筛选请求
+                mPresenter.getPageProject()
             }
             inflate?.let { it1 -> bottomSheetDialog.setContentView(it1) }
             //设置bottomsheet behavior
@@ -92,7 +122,11 @@ class ConstructionReportActivity : BaseActivity<ConstructionReportPresenter, Con
         }.setLeftImageViewClickListener {
             finish()
         }
-
+        refresh.setOnRefreshListener {
+            refresh()
+            refresh.isRefreshing = false
+        }
+        reportListAdapter.setOnLoadMoreListener({ mPresenter.getPageProject(pageNo = pageNo) }, swipeRecyler)
     }
 
     /**
@@ -149,10 +183,10 @@ class ConstructionReportActivity : BaseActivity<ConstructionReportPresenter, Con
         return peekHeight - peekHeight / 3
     }
 
-    override fun getDataResult(baseRespose: BaseRespose<ReportListBean>?) {
+    override fun getDataResult(baseRespose: ReportListBean?) {
         if (baseRespose != null) {
-            ZXToastUtil.showToast(baseRespose.data.current.toString())
-            reportListAdapter.setNewData(baseRespose.data.records)
+            ZXToastUtil.showToast(baseRespose.current.toString())
+            reportListAdapter.setNewData(baseRespose.records)
         }
     }
 

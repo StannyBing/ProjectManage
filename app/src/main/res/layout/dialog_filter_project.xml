@@ -34,7 +34,7 @@
             android:layout_height="@dimen/item_height"
             android:layout_marginStart="10dp"
             android:layout_marginRight="10dp"
-            android:background="@color/green"
+            android:background="@color/colorAccent"
             android:gravity="center"
             android:text="确认"
             android:textColor="@color/white" />

@@ -16,26 +16,45 @@
         stv:sCenterTextString="施工上报"
         stv:sLeftIconHeight="@dimen/toolbar_back_width"
         stv:sLeftIconRes="@drawable/icon_toolbar_back"
-        stv:sLeftIconWidth="@dimen/toolbar_back_width" />
+        stv:sLeftIconWidth="@dimen/toolbar_back_width"
+        stv:sRightIconRes="@drawable/application_icon2" />
 
-    <com.allen.library.SuperTextView
+    <LinearLayout
         android:id="@+id/search"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/normal_edit_height"
         android:layout_below="@id/head"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        stv:sLeftTextString="@string/inputChildProjectName"
-        android:padding="5dp"
-        stv:sUseShape="true"
-        stv:sBackgroundDrawableRes="@color/white"
-        android:layout_margin="10dp"
-        stv:sShapeCornersRadius="30dp"
-        stv:sRightIconRes="@drawable/selector_main_analysis"/>
+        android:layout_margin="@dimen/dp_10"
+        android:background="@drawable/shape_search_funcbg"
+        android:gravity="center_vertical">
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/swipeRecyler"
-        android:background="@color/white"
-        android:layout_below="@+id/search"
+        <androidx.appcompat.widget.AppCompatEditText
+            android:id="@+id/searchText"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/item_height"
+            android:layout_weight="1"
+            android:background="@null"
+            android:paddingStart="15dp" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/dp_10"
+            stv:srcCompat="@drawable/icon_search" />
+    </LinearLayout>
+
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/refresh"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent"
+        android:layout_below="@+id/search">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/swipeRecyler"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+
+            android:background="@color/white" />
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
 </RelativeLayout>

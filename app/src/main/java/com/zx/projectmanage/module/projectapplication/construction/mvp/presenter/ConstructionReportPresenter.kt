@@ -28,8 +28,8 @@ class ConstructionReportPresenter : ConstructionReportContract.Presenter() {
         ApiConfigModule.COOKIE = ""
         mModel.getPageProject(districtCode, keyword, pageNo, pageSize, projectStatus, tenders)
             .compose(RxHelper.bindToLifecycle(mView))
-            .subscribe(object : RxSubscriber<BaseRespose<ReportListBean>>(mView) {
-                override fun _onNext(t: BaseRespose<ReportListBean>?) {
+            .subscribe(object : RxSubscriber<ReportListBean>(mView) {
+                override fun _onNext(t: ReportListBean?) {
                     mView.getDataResult(t)
                 }
 
