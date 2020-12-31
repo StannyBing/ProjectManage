@@ -223,7 +223,7 @@ class ConstructionReportActivity : BaseActivity<ConstructionReportPresenter, Con
     }
 
     override fun getProjectStatusResult(baseRespose: Any?) {
-        val map: MutableMap<Int, String> = Gson().fromJson(baseRespose.toString(), MutableMap::class.java) as MutableMap<Int, String>
+        val map: MutableMap<String, String> = Gson().fromJson(baseRespose.toString(), MutableMap::class.java) as MutableMap<String, String>
         for (mutableEntry in map) {
             mVals1.add(ProjectStatusBean(mutableEntry.key, mutableEntry.value))
         }

@@ -7,4 +7,4 @@ Date:2020/12/31
 Time:11:27 AM
 author:qingsong
  */
-data class ProjectStatusBean(var statusId: Int, var statusName: String)
+data class ProjectStatusBean(var statusId: String, var statusName: String)
