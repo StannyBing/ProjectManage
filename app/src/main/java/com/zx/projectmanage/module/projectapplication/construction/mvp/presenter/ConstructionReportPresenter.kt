@@ -38,8 +38,8 @@ class ConstructionReportPresenter : ConstructionReportContract.Presenter() {
     override fun getProjectStatus() {
         mModel.getProjectStatus()
             .compose(RxHelper.bindToLifecycle(mView))
-            .subscribe(object : RxSubscriber<ProjectStatusBean>(mView) {
-                override fun _onNext(t: ProjectStatusBean?) {
+            .subscribe(object : RxSubscriber<Any>(mView) {
+                override fun _onNext(t: Any?) {
                     mView.getProjectStatusResult(t)
                 }
 

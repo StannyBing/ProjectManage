@@ -2,6 +2,7 @@ package com.zx.projectmanage.module.projectapplication.construction.bean
 
 import android.os.Parcel
 import android.os.Parcelable
+import java.io.Serializable
 
 /**
 Date:2020/12/29
@@ -9,7 +10,7 @@ Time:3:49 PM
 author:qingsong
  */
 
-class ProjectProcessInfoBean() : Parcelable {
+class ProjectProcessInfoBean() : Serializable {
 
     /**
      * processId : 1341276250770563074
@@ -34,17 +35,8 @@ class ProjectProcessInfoBean() : Parcelable {
     var processCount: Any? = null
     var detailedList: List<DetailedListBean?>? = null
 
-    constructor(parcel: Parcel) : this() {
-        processId = parcel.readString()
-        processName = parcel.readString()
-        remarks = parcel.readString()
-        createTime = parcel.readString()
-        updateTime = parcel.readString()
-        detailedList = parcel.createTypedArrayList(DetailedListBean.CREATOR)
-    }
 
-
-    class DetailedListBean() : Parcelable {
+    class DetailedListBean() : Serializable {
         /**
          * id : 1344208677254467585
          * processId : 1341276250770563074
@@ -94,65 +86,6 @@ class ProjectProcessInfoBean() : Parcelable {
         var participants: String? = null
         var delFlag: String? = null
 
-        constructor(parcel: Parcel) : this() {
-            id = parcel.readString()
-            processId = parcel.readString()
-            approvalMode = parcel.readString()
-            assessment = parcel.readString()
-            operationGuide = parcel.readString()
-            safetyRegulations = parcel.readString()
-            materials = parcel.readString()
-            subProcessName = parcel.readString()
-            scoreRights = parcel.readString()
-            resetPermissions = parcel.readString()
-            enableAssessment = parcel.readInt()
-            enableScoreRights = parcel.readInt()
-            enableResetPermissions = parcel.readInt()
-            sort = parcel.readInt()
-            showOperationGuide = parcel.readInt()
-            showSafetyRegulations = parcel.readInt()
-            showMaterials = parcel.readInt()
-            createTime = parcel.readString()
-            updateTime = parcel.readString()
-            participants = parcel.readString()
-            delFlag = parcel.readString()
-        }
-
-        override fun writeToParcel(p0: Parcel?, p1: Int) {
-            TODO("Not yet implemented")
-        }
-
-        override fun describeContents(): Int {
-            TODO("Not yet implemented")
-        }
-
-        companion object CREATOR : Parcelable.Creator<DetailedListBean> {
-            override fun createFromParcel(parcel: Parcel): DetailedListBean {
-                return DetailedListBean(parcel)
-            }
-
-            override fun newArray(size: Int): Array<DetailedListBean?> {
-                return arrayOfNulls(size)
-            }
-        }
-
     }
 
-    override fun writeToParcel(p0: Parcel?, p1: Int) {
-        TODO("Not yet implemented")
-    }
-
-    override fun describeContents(): Int {
-        TODO("Not yet implemented")
-    }
-
-    companion object CREATOR : Parcelable.Creator<ProjectProcessInfoBean> {
-        override fun createFromParcel(parcel: Parcel): ProjectProcessInfoBean {
-            return ProjectProcessInfoBean(parcel)
-        }
-
-        override fun newArray(size: Int): Array<ProjectProcessInfoBean?> {
-            return arrayOfNulls(size)
-        }
-    }
 }

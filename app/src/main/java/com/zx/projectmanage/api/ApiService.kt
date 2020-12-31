@@ -4,10 +4,7 @@ package com.zx.projectmanage.api
 import com.frame.zxmvp.basebean.BaseRespose
 import com.gt.giscollect.base.NormalList
 import com.zx.projectmanage.module.main.bean.UserBean
-import com.zx.projectmanage.module.projectapplication.construction.bean.ProjectProcessInfoBean
-import com.zx.projectmanage.module.projectapplication.construction.bean.ProjectStatusBean
-import com.zx.projectmanage.module.projectapplication.construction.bean.ReportListBean
-import com.zx.projectmanage.module.projectapplication.construction.bean.ReportSubListBean
+import com.zx.projectmanage.module.projectapplication.construction.bean.*
 import com.zx.projectmanage.module.projectapplication.construction.dto.ReportListDto
 import okhttp3.RequestBody
 import retrofit2.http.*
@@ -16,17 +13,18 @@ import rx.Observable
 interface ApiService {
 
 
-
     @POST("auth/oauth/token")
     fun doAppLogin(@Body body: RequestBody): Observable<UserBean>
 
     /**
      * 获取所有项目状态
      */
-    @GET("/project/projectStatus")
-    fun getProjectStatus(): Observable<BaseRespose<ProjectStatusBean>>
+    @GET("/business/project/projectStatus")
+    fun getProjectStatus(): Observable<BaseRespose<Any>>
+
+
     @GET
-    fun geocoder(@Url url : String) : Observable<BaiduGeocoderBean>
+    fun geocoder(@Url url: String): Observable<BaiduGeocoderBean>
 
     /**
      * 插叙项目列表

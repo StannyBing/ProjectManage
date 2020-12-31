@@ -53,14 +53,14 @@ class ProcedureReportFragment : BaseFragment<ProcedureReportPresenter, Procedure
      */
     override fun initView(savedInstanceState: Bundle?) {
         super.initView(savedInstanceState)
-        val parcelable = arguments?.getParcelable<ProjectProcessInfoBean.DetailedListBean>("bean")
-        if (parcelable?.showMaterials == 0) {
+        val parcelable = arguments?.getSerializable("bean") as ProjectProcessInfoBean.DetailedListBean
+        if (parcelable.showMaterials == 0) {
             materials.visibility = View.GONE
         }
-        if (parcelable?.showOperationGuide == 0) {
+        if (parcelable.showOperationGuide == 0) {
             operationGuide.visibility = View.GONE
         }
-        if (parcelable?.showSafetyRegulations == 0) {
+        if (parcelable.showSafetyRegulations == 0) {
             safetyRegulations.visibility = View.GONE
         }
         //设置adapter

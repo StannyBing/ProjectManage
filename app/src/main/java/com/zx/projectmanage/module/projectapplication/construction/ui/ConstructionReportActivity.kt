@@ -5,11 +5,11 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.view.inputmethod.EditorInfo
-import android.widget.Adapter
 import android.widget.TextView
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
+import com.google.gson.Gson
 import com.zhy.view.flowlayout.TagAdapter
 import com.zhy.view.flowlayout.TagFlowLayout
 import com.zx.projectmanage.R
@@ -39,7 +39,7 @@ class ConstructionReportActivity : BaseActivity<ConstructionReportPresenter, Con
     private var mVals = listOf<String>("1", "2", "3")
 
     //状态list
-    private var mVals1 = listOf<String>("已完成", "未通过", "进行中")
+    private var mVals1: MutableList<ProjectStatusBean> = ArrayList()
     private var pageNo = 1
     private var pageSize = 10
     var isRefresh = true
@@ -115,7 +115,7 @@ class ConstructionReportActivity : BaseActivity<ConstructionReportPresenter, Con
         //头部点击事件
         head.setRightImageViewClickListener {
             val inflate = View.inflate(mContext, R.layout.dialog_filter_project, null)
-            setPeriodFlow(inflate, mVals, 1)
+            setPeriodFlow(inflate, mVals1, 1)
             setPeriodFlow(inflate, mVals1, 2)
 
             val bottomSheetDialog = BottomSheetDialog(this, R.style.flow_dialog)
@@ -166,21 +166,21 @@ class ConstructionReportActivity : BaseActivity<ConstructionReportPresenter, Con
     /**
      * 设置Flow选项卡列表
      */
-    private fun setPeriodFlow(inflate: View, mVals: List<String>, flag: Int) {
+    private fun setPeriodFlow(inflate: View, mVals: List<ProjectStatusBean>, flag: Int) {
 
         val tagAdapter = object : TagAdapter<Any>(mVals) {
             override fun getView(parent: com.zhy.view.flowlayout.FlowLayout?, position: Int, t: Any?): View {
 
                 val view = View.inflate(mContext, R.layout.flowlayout_textview_selected, null) as TextView
                 //设置展示的值
-                view.text = mVals[position]
+                view.text = mVals[position].statusName
                 //动态设置标签宽度
                 view.width = 170
                 return view
             }
         }
         //预先设置选中
-        tagAdapter.setSelectedList(0, 1)
+        tagAdapter.setSelectedList(0)
         if (flag == 1) {
             inflate.periodFlow.adapter = tagAdapter
             inflate.periodFlow.setMaxSelectCount(9)
@@ -222,8 +222,11 @@ class ConstructionReportActivity : BaseActivity<ConstructionReportPresenter, Con
 
     }
 
-    override fun getProjectStatusResult(baseRespose: ProjectStatusBean?) {
-
+    override fun getProjectStatusResult(baseRespose: Any?) {
+        val map: MutableMap<Int, String> = Gson().fromJson(baseRespose.toString(), MutableMap::class.java) as MutableMap<Int, String>
+        for (mutableEntry in map) {
+            mVals1.add(ProjectStatusBean(mutableEntry.key, mutableEntry.value))
+        }
     }
 
 

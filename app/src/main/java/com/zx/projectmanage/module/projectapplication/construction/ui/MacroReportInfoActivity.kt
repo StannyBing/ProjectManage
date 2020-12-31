@@ -65,7 +65,7 @@ class MacroReportInfoActivity : BaseActivity<MacroReportInfoPresenter, MacroRepo
 
             for (s in detailedList) {
                 val bundle = Bundle()
-                bundle.putParcelable("bean",s)
+                bundle.putSerializable("bean",s)
                 tvp_macro_report_layout.addTab(ProcedureReportFragment.newInstance(bundle), s?.subProcessName)
             }
         }

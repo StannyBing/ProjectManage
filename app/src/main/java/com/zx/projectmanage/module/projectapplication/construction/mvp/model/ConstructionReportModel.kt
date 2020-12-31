@@ -41,7 +41,7 @@ class ConstructionReportModel : BaseModel(), ConstructionReportContract.Model {
     /**
      * 获取所有工序状态
      */
-    override fun getProjectStatus(): Observable<ProjectStatusBean> {
+    override fun getProjectStatus(): Observable<Any> {
         return mRepositoryManager.obtainRetrofitService(ApiService::class.java)
             .getProjectStatus()
             .compose(RxHelper.handleResult())
