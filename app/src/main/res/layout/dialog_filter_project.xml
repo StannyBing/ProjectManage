@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:background="@color/white"
     android:orientation="vertical"
-    android:paddingBottom="300dp">
+    android:paddingBottom="150dp">
 
     <androidx.appcompat.widget.LinearLayoutCompat
         android:layout_width="match_parent"
@@ -41,22 +41,6 @@
 
     </androidx.appcompat.widget.LinearLayoutCompat>
 
-    <androidx.appcompat.widget.AppCompatTextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="8dp"
-        android:layout_marginTop="10dp"
-        android:text="期次"
-        android:textColor="@color/green" />
-
-    <com.zhy.view.flowlayout.TagFlowLayout
-        android:id="@+id/periodFlow"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-
-        android:layout_marginTop="11dp"
-        android:layout_marginRight="8dp"
-        zhy:max_select="5" />
 
     <androidx.appcompat.widget.AppCompatTextView
         android:layout_width="match_parent"
@@ -71,6 +55,23 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/periodFlow"
+        android:layout_marginTop="11dp"
+        android:layout_marginRight="8dp" />
+
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="10dp"
+        android:text="期次"
+        android:textColor="@color/green" />
+
+    <com.zhy.view.flowlayout.TagFlowLayout
+        android:id="@+id/periodFlow"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+
         android:layout_marginTop="11dp"
         android:layout_marginRight="8dp"
         zhy:max_select="5" />

@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/gray_8f"
+    android:background="@color/light_gray"
     android:orientation="vertical">
 
     <com.allen.library.SuperTextView
@@ -13,7 +13,7 @@
         android:layout_height="@dimen/toolbar_height"
         android:padding="5dp"
         stv:sBackgroundDrawableRes="@color/white"
-        stv:sCenterTextSize="20sp"
+        stv:sCenterTextSize="@dimen/text_big_size"
         stv:sCenterTextString="施工上报"
         stv:sLeftIconHeight="@dimen/toolbar_back_width"
         stv:sLeftIconRes="@drawable/icon_toolbar_back"

@@ -22,6 +22,12 @@ interface ApiService {
     @GET("/business/project/projectStatus")
     fun getProjectStatus(): Observable<BaseRespose<Any>>
 
+    /**
+     * 获取所有项目期次
+     */
+    @GET("/admin/dict/type/period")
+    fun getProjectPeriod(): Observable<BaseRespose<MutableList<ProjectPeriodBean>>>
+
 
     @GET
     fun geocoder(@Url url: String): Observable<BaiduGeocoderBean>

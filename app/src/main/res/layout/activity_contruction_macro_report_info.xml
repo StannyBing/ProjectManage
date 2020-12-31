@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:stv="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:stv="http://schemas.android.com/apk/res-auto"
+    android:background="@color/light_gray"
     android:orientation="vertical">
 
     <com.allen.library.SuperTextView
@@ -12,25 +13,30 @@
         android:layout_height="@dimen/toolbar_height"
         android:padding="5dp"
         stv:sBackgroundDrawableRes="@color/white"
-        stv:sCenterTextSize="20sp"
+        stv:sCenterTextSize="@dimen/text_big_size"
         stv:sCenterTextString="施工上报"
+        stv:sCenterTopTextColor="@color/default_text_color"
         stv:sLeftIconHeight="@dimen/toolbar_back_width"
         stv:sLeftIconRes="@drawable/icon_toolbar_back"
         stv:sLeftIconWidth="@dimen/toolbar_back_width" />
+
     <com.allen.library.SuperTextView
         android:id="@+id/basicInformation"
-        android:layout_below="@id/head"
         android:layout_width="match_parent"
         android:layout_height="@dimen/item_height"
-        stv:sLeftTextString="基础信息"
+        android:layout_below="@id/head"
         android:paddingStart="20dp"
+        stv:sBackgroundDrawableRes="@color/white"
+        stv:sLeftTextColor="@color/default_text_color"
         stv:sLeftTextSize="@dimen/text_big_size"
-        stv:sRightIconRes="@drawable/icon_next"/>
+        stv:sLeftTextString="基础信息"
+        stv:sRightIconRes="@drawable/icon_next" />
 
     <com.zx.zxutils.views.TabViewPager.ZXTabViewPager
-        android:layout_below="@id/basicInformation"
         android:id="@+id/tvp_macro_report_layout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:layout_below="@id/basicInformation"
+        />
 
 </RelativeLayout>

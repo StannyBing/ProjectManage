@@ -14,6 +14,7 @@ import com.zhy.view.flowlayout.TagAdapter
 import com.zhy.view.flowlayout.TagFlowLayout
 import com.zx.projectmanage.R
 import com.zx.projectmanage.base.BaseActivity
+import com.zx.projectmanage.module.projectapplication.construction.bean.ProjectPeriodBean
 import com.zx.projectmanage.module.projectapplication.construction.bean.ProjectStatusBean
 import com.zx.projectmanage.module.projectapplication.construction.bean.ReportListBean
 import com.zx.projectmanage.module.projectapplication.construction.func.adapter.ReportListAdapter
@@ -36,7 +37,7 @@ class ConstructionReportActivity : BaseActivity<ConstructionReportPresenter, Con
     private val reportListAdapter = ReportListAdapter(list)
 
     //期次list
-    private var mVals = listOf<String>("1", "2", "3")
+    private var mVals: MutableList<ProjectPeriodBean> = ArrayList()
 
     //状态list
     private var mVals1: MutableList<ProjectStatusBean> = ArrayList()
@@ -78,6 +79,7 @@ class ConstructionReportActivity : BaseActivity<ConstructionReportPresenter, Con
         }
         mPresenter.getPageProject()
         mPresenter.getProjectStatus()
+        mPresenter.getProjectPeriod()
 
     }
 
@@ -115,8 +117,8 @@ class ConstructionReportActivity : BaseActivity<ConstructionReportPresenter, Con
         //头部点击事件
         head.setRightImageViewClickListener {
             val inflate = View.inflate(mContext, R.layout.dialog_filter_project, null)
-            setPeriodFlow(inflate, mVals1, 1)
-            setPeriodFlow(inflate, mVals1, 2)
+            setPeriodFlow(inflate, 1)
+            setPeriodFlow(inflate, 2)
 
             val bottomSheetDialog = BottomSheetDialog(this, R.style.flow_dialog)
             bottomSheetDialog.setCanceledOnTouchOutside(false)
@@ -126,6 +128,7 @@ class ConstructionReportActivity : BaseActivity<ConstructionReportPresenter, Con
             inflate.bottomSheetOK.setOnClickListener {
                 //发起筛选请求
                 mPresenter.getPageProject()
+                bottomSheetDialog.dismiss()
             }
             inflate?.let { it1 -> bottomSheetDialog.setContentView(it1) }
             //设置bottomsheet behavior
@@ -166,22 +169,22 @@ class ConstructionReportActivity : BaseActivity<ConstructionReportPresenter, Con
     /**
      * 设置Flow选项卡列表
      */
-    private fun setPeriodFlow(inflate: View, mVals: List<ProjectStatusBean>, flag: Int) {
+    private fun setPeriodFlow(inflate: View, flag: Int) {
 
-        val tagAdapter = object : TagAdapter<Any>(mVals) {
-            override fun getView(parent: com.zhy.view.flowlayout.FlowLayout?, position: Int, t: Any?): View {
-
-                val view = View.inflate(mContext, R.layout.flowlayout_textview_selected, null) as TextView
-                //设置展示的值
-                view.text = mVals[position].statusName
-                //动态设置标签宽度
-                view.width = 170
-                return view
-            }
-        }
-        //预先设置选中
-        tagAdapter.setSelectedList(0)
         if (flag == 1) {
+            val tagAdapter = object : TagAdapter<Any>(mVals as List<Any>?) {
+                override fun getView(parent: com.zhy.view.flowlayout.FlowLayout?, position: Int, t: Any?): View {
+
+                    val view = View.inflate(mContext, R.layout.flowlayout_textview_selected, null) as TextView
+                    //设置展示的值
+                    view.text = mVals?.get(position)?.label
+                    //动态设置标签宽度
+                    view.width = 170
+                    return view
+                }
+            }
+            //预先设置选中
+            tagAdapter.setSelectedList(0)
             inflate.periodFlow.adapter = tagAdapter
             inflate.periodFlow.setMaxSelectCount(9)
             //为FlowLayout的标签设置选中监听事件
@@ -192,6 +195,19 @@ class ConstructionReportActivity : BaseActivity<ConstructionReportPresenter, Con
                 }
             })
         } else {
+            val tagAdapter = object : TagAdapter<Any>(mVals1 as List<Any>?) {
+                override fun getView(parent: com.zhy.view.flowlayout.FlowLayout?, position: Int, t: Any?): View {
+
+                    val view = View.inflate(mContext, R.layout.flowlayout_textview_selected, null) as TextView
+                    //设置展示的值
+                    view.text = mVals1?.get(position)?.statusName
+                    //动态设置标签宽度
+                    view.width = 170
+                    return view
+                }
+            }
+            //预先设置选中
+            tagAdapter.setSelectedList(0)
             inflate.statusFlow.adapter = tagAdapter
             inflate.statusFlow.setMaxSelectCount(9)
             //为FlowLayout的标签设置选中监听事件
@@ -226,6 +242,12 @@ class ConstructionReportActivity : BaseActivity<ConstructionReportPresenter, Con
         val map: MutableMap<String, String> = Gson().fromJson(baseRespose.toString(), MutableMap::class.java) as MutableMap<String, String>
         for (mutableEntry in map) {
             mVals1.add(ProjectStatusBean(mutableEntry.key, mutableEntry.value))
+        }
+    }
+
+    override fun getProjectPeriodResult(data: MutableList<ProjectPeriodBean>?) {
+        if (data != null) {
+            mVals = data
         }
     }
 

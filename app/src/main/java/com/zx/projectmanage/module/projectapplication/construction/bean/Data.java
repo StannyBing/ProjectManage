@@ -1,7 +1,5 @@
 package com.zx.projectmanage.module.projectapplication.construction.bean;
 
-import com.google.gson.annotations.SerializedName;
-
 /**
  * Date:2020/12/30
  * Time:1:52 PM
@@ -11,83 +9,116 @@ class Data {
 
 
     /**
-     * 0 : 未派工
-     * 1 : 未开始
-     * 2 : 进行中
-     * 3 : 已逾期
-     * 4 : 超期已竣工
-     * 5 : 已竣工
-     * 6 : 已验收
+     * id : 354797950775332864
+     * dictId : 354797870819315712
+     * value : 1
+     * label : 第一期
+     * type : period
+     * description : 无
+     * sort : 1
+     * createTime : 2020-12-25 07:32:43
+     * updateTime : 2020-12-25 07:32:43
+     * remarks : 无
+     * delFlag : 0
      */
 
-    @SerializedName("0")
-    private String _$0;
-    @SerializedName("1")
-    private String _$1;
-    @SerializedName("2")
-    private String _$2;
-    @SerializedName("3")
-    private String _$3;
-    @SerializedName("4")
-    private String _$4;
-    @SerializedName("5")
-    private String _$5;
-    @SerializedName("6")
-    private String _$6;
+    private String id;
+    private String dictId;
+    private String value;
+    private String label;
+    private String type;
+    private String description;
+    private int sort;
+    private String createTime;
+    private String updateTime;
+    private String remarks;
+    private String delFlag;
 
-    public String get_$0() {
-        return _$0;
+    public String getId() {
+        return id;
     }
 
-    public void set_$0(String _$0) {
-        this._$0 = _$0;
+    public void setId(String id) {
+        this.id = id;
     }
 
-    public String get_$1() {
-        return _$1;
+    public String getDictId() {
+        return dictId;
     }
 
-    public void set_$1(String _$1) {
-        this._$1 = _$1;
+    public void setDictId(String dictId) {
+        this.dictId = dictId;
     }
 
-    public String get_$2() {
-        return _$2;
+    public String getValue() {
+        return value;
     }
 
-    public void set_$2(String _$2) {
-        this._$2 = _$2;
+    public void setValue(String value) {
+        this.value = value;
     }
 
-    public String get_$3() {
-        return _$3;
+    public String getLabel() {
+        return label;
     }
 
-    public void set_$3(String _$3) {
-        this._$3 = _$3;
+    public void setLabel(String label) {
+        this.label = label;
     }
 
-    public String get_$4() {
-        return _$4;
+    public String getType() {
+        return type;
     }
 
-    public void set_$4(String _$4) {
-        this._$4 = _$4;
+    public void setType(String type) {
+        this.type = type;
     }
 
-    public String get_$5() {
-        return _$5;
+    public String getDescription() {
+        return description;
     }
 
-    public void set_$5(String _$5) {
-        this._$5 = _$5;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
-    public String get_$6() {
-        return _$6;
+    public int getSort() {
+        return sort;
     }
 
-    public void set_$6(String _$6) {
-        this._$6 = _$6;
+    public void setSort(int sort) {
+        this.sort = sort;
+    }
+
+    public String getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(String createTime) {
+        this.createTime = createTime;
+    }
+
+    public String getUpdateTime() {
+        return updateTime;
+    }
+
+    public void setUpdateTime(String updateTime) {
+        this.updateTime = updateTime;
+    }
+
+    public String getRemarks() {
+        return remarks;
+    }
+
+    public void setRemarks(String remarks) {
+        this.remarks = remarks;
+    }
+
+    public String getDelFlag() {
+        return delFlag;
+    }
+
+    public void setDelFlag(String delFlag) {
+        this.delFlag = delFlag;
     }
 }

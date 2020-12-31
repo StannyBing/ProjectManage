@@ -22,7 +22,7 @@ import kotlinx.android.synthetic.main.activity_contruction_macro_report_info.*
  */
 class MacroReportInfoActivity : BaseActivity<MacroReportInfoPresenter, MacroReportInfoModel>(), MacroReportInfoContract.View {
     //工序list
-    lateinit var listProcedure:MutableList<String>
+    lateinit var listProcedure: MutableList<String>
     var processId = ""
 
     /**
@@ -65,7 +65,7 @@ class MacroReportInfoActivity : BaseActivity<MacroReportInfoPresenter, MacroRepo
 
             for (s in detailedList) {
                 val bundle = Bundle()
-                bundle.putSerializable("bean",s)
+                bundle.putSerializable("bean", s)
                 tvp_macro_report_layout.addTab(ProcedureReportFragment.newInstance(bundle), s?.subProcessName)
             }
         }
@@ -74,9 +74,9 @@ class MacroReportInfoActivity : BaseActivity<MacroReportInfoPresenter, MacroRepo
             ContextCompat.getColor(this, R.color.colorAccent)
         )
             .setTabTextSize(10)
-            .setIndicatorHeight(0)
+            .setIndicatorHeight(8)
+            .setIndicatorColor(ContextCompat.getColor(this, R.color.colorAccent))
             .setTablayoutHeight(50)
-            .setTabImageSize(20)
             .setTablayoutBackgroundColor(ContextCompat.getColor(this, R.color.white))
             .showDivider()
             .build()

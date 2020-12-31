@@ -2,9 +2,11 @@ package com.zx.projectmanage.module.projectapplication.construction.mvp.presente
 
 import com.frame.zxmvp.baserx.RxHelper
 import com.frame.zxmvp.baserx.RxSubscriber
+import com.zx.projectmanage.module.projectapplication.construction.bean.ProjectPeriodBean
 import com.zx.projectmanage.module.projectapplication.construction.bean.ProjectStatusBean
 import com.zx.projectmanage.module.projectapplication.construction.bean.ReportListBean
 import com.zx.projectmanage.module.projectapplication.construction.mvp.contract.ConstructionReportContract
+import rx.functions.Func1
 
 
 /**
@@ -46,6 +48,22 @@ class ConstructionReportPresenter : ConstructionReportContract.Presenter() {
                 override fun _onError(code: Int, message: String?) {
                     mView.handleError(code, "请求失败，请检查网络后再试")
                     mView.getProjectStatusResult(null)
+
+                }
+            })
+    }
+
+    override fun getProjectPeriod() {
+        mModel.getProjectPeriod()
+            .compose(RxHelper.bindToLifecycle(mView))
+            .subscribe(object : RxSubscriber<MutableList<ProjectPeriodBean>>(mView) {
+                override fun _onNext(t: MutableList<ProjectPeriodBean>?) {
+                    mView.getProjectPeriodResult(t)
+                }
+
+                override fun _onError(code: Int, message: String?) {
+                    mView.handleError(code, "请求失败，请检查网络后再试")
+                    mView.getProjectPeriodResult(null)
 
                 }
             })

@@ -14,11 +14,17 @@
             android:id="@+id/super_tv"
             android:layout_width="match_parent"
             android:layout_height="60dp"
+            shape:sCenterTopTextColor="@color/default_text_color"
             shape:sLeftBottomLines="1"
             shape:sLeftBottomMaxEms="100"
+            shape:sLeftBottomTextColor="@color/default_text_color"
             shape:sLeftBottomTextSize="@dimen/text_normal_size"
+            shape:sLeftTopTextColor="@color/default_text_color"
             shape:sLeftTopTextSize="@dimen/text_normal_size"
+            shape:sRightTvDrawableRight="@drawable/icon_next"
             shape:sLeftViewGravity="left_center"
+            shape:sTextViewDrawablePadding="3dp"
+            shape:sRightTextColor="@color/default_text_color"
             shape:sUseRipple="false" />
 
     </com.allen.library.shape.ShapeFrameLayout>

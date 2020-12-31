@@ -69,7 +69,7 @@ class ConstructionReportChildActivity : BaseActivity<ConstructionReportChildPres
      * layout配置
      */
     override fun getLayoutId(): Int {
-        return R.layout.activity_construction_report
+        return R.layout.activity_construction_report_child
     }
 
     /**
@@ -148,6 +148,7 @@ class ConstructionReportChildActivity : BaseActivity<ConstructionReportChildPres
             inflate.bottomSheetOK.setOnClickListener {
                 //发起筛选请求
 //                refresh(searchText.toString())
+                bottomSheetDialog.dismiss()
             }
             inflate?.let { it1 -> bottomSheetDialog.setContentView(it1) }
             //设置bottomsheet behavior

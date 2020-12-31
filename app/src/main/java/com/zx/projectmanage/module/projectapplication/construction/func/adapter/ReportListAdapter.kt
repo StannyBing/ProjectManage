@@ -14,6 +14,9 @@ class ReportListAdapter(dataList: List<ReportListBean.RecordsBean>) : ZXQuickAda
         superTextView.setLeftTopString("项目名称：${item?.projectName}")
             .setLeftBottomString("项目状态：${item?.projectDesc}")
             .setRightString("上报")
+
+
+
         superTextView.setOnSuperTextViewClickListener {
             item?.let {
                 ConstructionReportChildActivity.startAction(mContext as Activity, false, it.projectId.toString(), it.projectName.toString())

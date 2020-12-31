@@ -7,6 +7,7 @@ import com.frame.zxmvp.base.IModel
 import com.frame.zxmvp.basebean.BaseRespose
 import com.gt.giscollect.base.NormalList
 import com.zx.projectmanage.module.main.bean.UserBean
+import com.zx.projectmanage.module.projectapplication.construction.bean.ProjectPeriodBean
 import com.zx.projectmanage.module.projectapplication.construction.bean.ProjectStatusBean
 import com.zx.projectmanage.module.projectapplication.construction.bean.ReportListBean
 import com.zx.projectmanage.module.projectapplication.construction.dto.ReportListDto
@@ -21,6 +22,7 @@ interface ConstructionReportContract {
     interface View : IView {
         fun getDataResult(baseRespose: ReportListBean?)
         fun getProjectStatusResult(baseRespose: Any?)
+        fun getProjectPeriodResult(data: MutableList<ProjectPeriodBean>?)
     }
 
     //Model层定义接口,外部只需关心Model返回的数据,无需关心内部细节,即是否使用缓存
@@ -35,6 +37,7 @@ interface ConstructionReportContract {
         ): Observable<ReportListBean>
 
         fun getProjectStatus(): Observable<Any>
+        fun getProjectPeriod(): Observable<MutableList<ProjectPeriodBean>>
     }
 
     //方法
@@ -49,6 +52,7 @@ interface ConstructionReportContract {
         )
 
         abstract fun getProjectStatus()
+        abstract fun getProjectPeriod()
 
     }
 }

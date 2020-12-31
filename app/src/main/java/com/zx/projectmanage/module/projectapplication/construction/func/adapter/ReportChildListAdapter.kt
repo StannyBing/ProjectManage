@@ -19,6 +19,7 @@ class ReportChildListAdapter(@Nullable data: List<ReportSubListBean>?) : ZXQuick
         superTextView.setLeftTopString("项目名称：${item?.getSubProjectName()}")
             .setLeftBottomString("项目位置：${item?.getAddress()}")
             .setRightString(item?.getStatusDesc())
+
         superTextView.setOnSuperTextViewClickListener {
             item?.let {
                 MacroReportInfoActivity.startAction(mContext as Activity, false, item?.getProcessId().toString())
