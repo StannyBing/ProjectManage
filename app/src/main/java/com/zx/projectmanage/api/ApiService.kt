@@ -1,7 +1,14 @@
 package com.zx.projectmanage.api
 
 
+import com.frame.zxmvp.basebean.BaseRespose
+import com.gt.giscollect.base.NormalList
 import com.zx.projectmanage.module.main.bean.UserBean
+import com.zx.projectmanage.module.projectapplication.construction.bean.ProjectProcessInfoBean
+import com.zx.projectmanage.module.projectapplication.construction.bean.ProjectStatusBean
+import com.zx.projectmanage.module.projectapplication.construction.bean.ReportListBean
+import com.zx.projectmanage.module.projectapplication.construction.bean.ReportSubListBean
+import com.zx.projectmanage.module.projectapplication.construction.dto.ReportListDto
 import okhttp3.RequestBody
 import retrofit2.http.*
 import rx.Observable
@@ -13,10 +20,18 @@ interface ApiService {
     @POST("auth/oauth/token")
     fun doAppLogin(@Body body: RequestBody): Observable<UserBean>
 
+    /**
+     * 获取所有项目状态
+     */
+    @GET("/project/projectStatus")
+    fun getProjectStatus(): Observable<BaseRespose<ProjectStatusBean>>
     @GET
     fun geocoder(@Url url : String) : Observable<BaiduGeocoderBean>
 
-    @GET("/app/buildpost/pageProject")
+    /**
+     * 插叙项目列表
+     */
+    @GET("/business/app/buildpost/pageProject")
     fun getPageProject(
         @Query("districtCode") districtCode: String?,
         @Query("keyword") keyword: String?,
@@ -26,16 +41,22 @@ interface ApiService {
         @Query("tenders") tenders: Int?
     ): Observable<BaseRespose<ReportListBean>>
 
-    @GET("/app/buildpost/pageProject")
+
+    /**
+     * 查询子项目列表
+     */
+    @GET("/business/app/buildpost/pageSubProject")
     fun getPageSubProject(
-        @Query("districtCode") districtCode: String?,
-        @Query("subProjectName") subProjectName: String?,
-        @Query("pageNo") pageNo: Int?,
-        @Query("pageSize") pageSize: Int?,
-        @Query("status") status: Int?,
-        @Query("projectId") projectId: String,
-        @Query("tenders") tenders: Int?
-    ): Observable<BaseRespose<ReportListBean>>
+        @QueryMap map: Map<String, String>
+    ): Observable<BaseRespose<NormalList<ReportSubListBean>>>
+
+    /**
+     * 查询工序详情
+     */
+    @GET("/business//app/buildpost/process/{processId}")
+    fun getProcessProjectInfo(
+        @Path("processId") processId: String
+    ): Observable<BaseRespose<ProjectProcessInfoBean>>
 
 
 }

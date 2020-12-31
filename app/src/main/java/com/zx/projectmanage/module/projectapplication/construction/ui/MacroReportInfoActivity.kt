@@ -7,6 +7,7 @@ import androidx.core.content.ContextCompat
 import com.google.android.material.tabs.TabLayout
 import com.zx.projectmanage.R
 import com.zx.projectmanage.base.BaseActivity
+import com.zx.projectmanage.module.projectapplication.construction.bean.ProjectProcessInfoBean
 
 import com.zx.projectmanage.module.projectapplication.construction.mvp.contract.MacroReportInfoContract
 import com.zx.projectmanage.module.projectapplication.construction.mvp.model.MacroReportInfoModel
@@ -21,7 +22,8 @@ import kotlinx.android.synthetic.main.activity_contruction_macro_report_info.*
  */
 class MacroReportInfoActivity : BaseActivity<MacroReportInfoPresenter, MacroReportInfoModel>(), MacroReportInfoContract.View {
     //工序list
-    var listProcedure = listOf("基础定位", "基础部分", "安防设施", "设施设备")
+    lateinit var listProcedure:MutableList<String>
+    var processId = ""
 
     /**
      * layout配置
@@ -34,8 +36,9 @@ class MacroReportInfoActivity : BaseActivity<MacroReportInfoPresenter, MacroRepo
         /**
          * 启动器
          */
-        fun startAction(activity: Activity, isFinish: Boolean) {
+        fun startAction(activity: Activity, isFinish: Boolean, processId: String) {
             val intent = Intent(activity, MacroReportInfoActivity::class.java)
+            intent.putExtra("processId", processId)
             activity.startActivity(intent)
             if (isFinish) activity.finish()
         }
@@ -47,14 +50,24 @@ class MacroReportInfoActivity : BaseActivity<MacroReportInfoPresenter, MacroRepo
      */
     override fun initView(savedInstanceState: Bundle?) {
         super.initView(savedInstanceState)
+        processId = intent.getStringExtra("processId").toString()
+        mPresenter.getProcessInfo(processId)
+    }
+
+    private fun initTab(detailedList: List<ProjectProcessInfoBean.DetailedListBean?>?) {
         //设置工序Tab
         tvp_macro_report_layout.setManager(supportFragmentManager)
             .setTabScrollable(false)
             .setViewpagerCanScroll(false)
             .setTabLayoutGravity(ZXTabViewPager.TabGravity.GRAVITY_TOP)
 
-        for (s in listProcedure) {
-            tvp_macro_report_layout.addTab(ProcedureReportFragment.newInstance(Bundle()), s)
+        if (detailedList != null) {
+
+            for (s in detailedList) {
+                val bundle = Bundle()
+                bundle.putParcelable("bean",s)
+                tvp_macro_report_layout.addTab(ProcedureReportFragment.newInstance(bundle), s?.subProcessName)
+            }
         }
         tvp_macro_report_layout.setTitleColor(
             ContextCompat.getColor(this, R.color.default_text_color),
@@ -87,6 +100,11 @@ class MacroReportInfoActivity : BaseActivity<MacroReportInfoPresenter, MacroRepo
         head.setLeftImageViewClickListener { finish() }
 
 
+    }
+
+    override fun getDataProcessResult(data: ProjectProcessInfoBean?) {
+
+        initTab(data?.detailedList)
     }
 
 }

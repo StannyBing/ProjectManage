@@ -27,6 +27,9 @@
         android:usesCleartextTraffic="true"
         tools:ignore="LockedOrientationActivity">
         <activity
+            android:name=".module.projectapplication.construction.ui.ProjectBaseInfomationActivity"
+            android:screenOrientation="portrait" />
+        <activity
             android:name=".module.projectapplication.construction.ui.MacroReportInfoActivity"
             android:screenOrientation="portrait" />
         <activity
@@ -38,13 +41,6 @@
         <activity
             android:name=".module.projectapplication.construction.ui.ConstructionReportActivity"
             android:screenOrientation="portrait" />
-        <activity
-            android:name=".module.projectapplication.ui.ConstructionReportActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".module.projectapplication.ui.TestActivity"
-            android:screenOrientation="portrait" />
-        <activity android:name=".module.projectapplication.ui.activity.ConstructionReportActivity" />
         <activity
             android:name=".module.main.ui.MainActivity"
             android:screenOrientation="portrait" />

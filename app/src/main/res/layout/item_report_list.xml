@@ -1,13 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.allen.library.SuperTextView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:stv="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/reportList"
-    android:paddingTop="5dp"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:shape="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:paddingBottom="5dp"
-    stv:sDividerLineType="bottom"
-    stv:sDividerLineColor="@color/default_text_color"
-    stv:sRightIconRes="@drawable/icon_next"
     android:orientation="vertical">
-</com.allen.library.SuperTextView>
+
+    <com.allen.library.shape.ShapeFrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp">
+
+        <com.allen.library.SuperTextView
+            android:id="@+id/super_tv"
+            android:layout_width="match_parent"
+            android:layout_height="80dp"
+            shape:sLeftBottomLines="1"
+            shape:sLeftBottomMaxEms="100"
+            shape:sLeftViewGravity="left_center"
+            shape:sUseRipple="false" />
+
+    </com.allen.library.shape.ShapeFrameLayout>
+
+
+</LinearLayout>

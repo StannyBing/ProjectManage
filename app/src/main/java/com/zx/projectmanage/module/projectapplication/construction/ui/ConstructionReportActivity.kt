@@ -4,17 +4,20 @@ import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import android.view.inputmethod.EditorInfo
+import android.widget.Adapter
 import android.widget.TextView
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.frame.zxmvp.basebean.BaseRespose
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.zhy.view.flowlayout.TagAdapter
 import com.zhy.view.flowlayout.TagFlowLayout
 import com.zx.projectmanage.R
 import com.zx.projectmanage.base.BaseActivity
+import com.zx.projectmanage.module.projectapplication.construction.bean.ProjectStatusBean
 import com.zx.projectmanage.module.projectapplication.construction.bean.ReportListBean
 import com.zx.projectmanage.module.projectapplication.construction.func.adapter.ReportListAdapter
+import com.zx.projectmanage.module.projectapplication.construction.func.tool.hitSoft
 import com.zx.projectmanage.module.projectapplication.construction.func.tool.setHintKtx
 import com.zx.projectmanage.module.projectapplication.construction.mvp.contract.ConstructionReportContract
 import com.zx.projectmanage.module.projectapplication.construction.mvp.model.ConstructionReportModel
@@ -31,7 +34,11 @@ import kotlinx.android.synthetic.main.dialog_filter_project.view.*
 class ConstructionReportActivity : BaseActivity<ConstructionReportPresenter, ConstructionReportModel>(), ConstructionReportContract.View {
     private var list: MutableList<ReportListBean.RecordsBean> = arrayListOf<ReportListBean.RecordsBean>()
     private val reportListAdapter = ReportListAdapter(list)
+
+    //期次list
     private var mVals = listOf<String>("1", "2", "3")
+
+    //状态list
     private var mVals1 = listOf<String>("已完成", "未通过", "进行中")
     private var pageNo = 1
     private var pageSize = 10
@@ -62,22 +69,28 @@ class ConstructionReportActivity : BaseActivity<ConstructionReportPresenter, Con
         super.initView(savedInstanceState)
         searchText.setHintKtx(13, "请输入项目名称")
         //设置adapter
+
         swipeRecyler.apply {
             layoutManager = LinearLayoutManager(mContext)
             adapter = reportListAdapter
 //            addItemDecoration(SimpleDecoration(mContext))
+            reportListAdapter.setEmptyView(R.layout.item_empty, swipeRecyler)
         }
         mPresenter.getPageProject()
+        mPresenter.getProjectStatus()
+
     }
 
     /**
      * 刷新
      */
     fun refresh() {
+        isRefresh = true
         pageNo = 1
         mPresenter.getPageProject()
     }
 
+    //设置数据到适配器
     private fun setData(data: MutableList<ReportListBean.RecordsBean>?) {
         pageNo++
         val size = data?.size ?: 0
@@ -122,11 +135,32 @@ class ConstructionReportActivity : BaseActivity<ConstructionReportPresenter, Con
         }.setLeftImageViewClickListener {
             finish()
         }
+
+        //软键盘搜索按钮监听
+        searchText.setOnEditorActionListener(TextView.OnEditorActionListener { v, actionId, event ->
+            if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+                //点击搜索的时候隐藏软键盘
+                searchText.hitSoft()
+                // 网络请求数据
+                mPresenter.getPageProject(pageSize = 50, keyword = v.text.toString().trim())
+                return@OnEditorActionListener true
+            }
+            false
+        })
+        //搜索图标点击监听
+        searchImg.setOnClickListener {
+            // 网络请求数据
+            mPresenter.getPageProject(pageSize = 50, keyword = searchText.text.toString().trim())
+        }
+        //刷新列表
         refresh.setOnRefreshListener {
             refresh()
             refresh.isRefreshing = false
         }
-        reportListAdapter.setOnLoadMoreListener({ mPresenter.getPageProject(pageNo = pageNo) }, swipeRecyler)
+        reportListAdapter.setOnLoadMoreListener({
+            isRefresh = false
+            mPresenter.getPageProject(pageNo = pageNo)
+        }, swipeRecyler)
     }
 
     /**
@@ -184,10 +218,12 @@ class ConstructionReportActivity : BaseActivity<ConstructionReportPresenter, Con
     }
 
     override fun getDataResult(baseRespose: ReportListBean?) {
-        if (baseRespose != null) {
-            ZXToastUtil.showToast(baseRespose.current.toString())
-            reportListAdapter.setNewData(baseRespose.records)
-        }
+        setData(baseRespose?.getRecords() as MutableList<ReportListBean.RecordsBean>?)
+
+    }
+
+    override fun getProjectStatusResult(baseRespose: ProjectStatusBean?) {
+
     }
 
 

@@ -9,128 +9,155 @@ author:qingsong
 class ReportListBean {
 
     /**
-     * current : 0
-     * hitCount : true
+     * records : [{"projectId":"1341663839851696129","projectName":"通用项目","projectNumber":"日期-顺序编号（count+1）","mainProjectName":"测试项目","tenders":"标段枚举ID","buildPeriod":"建设期枚举","districtCode":"500000000000","projectAddress":"重庆市","recordNo":"备案号","longitude":"106.496346","latitude":"29.591109","completedTime":"2021-01-22 16:36:00","assessmentId":"考核模板id","score":0,"projectStatus":0,"participates":null,"projectSurvey":"","projectMeasures":"","remarks":"备注123","createTime":"2020-12-23 16:36:00","createUser":"admin","updateTime":"2020-12-25 04:07:09","updateUser":"","delFlag":"0","finalJudgmen":"","subProjectCount":1,"projectDesc":"未派工"}]
+     * total : 1
+     * size : 10
+     * current : 1
+     * orders : []
      * optimizeCountSql : true
-     * orders : [{"asc":true,"column":"string"}]
-     * pages : 0
-     * records : [{"assessmentId":"string","buildPeriod":"string","completedTime":"2020-12-30T05:50:26.687Z","createTime":"2020-12-30T05:50:26.687Z","createUser":"string","delFlag":"string","districtCode":"string","finalJudgmen":"string","latitude":"string","longitude":"string","mainProjectName":"string","participates":[{"approvalOrder":0,"chargeUser":"string","contactWay":"string","createTime":"2020-12-30T05:50:26.687Z","createUser":"string","delFlag":"string","id":"string","orgId":"string","orgName":"string","projectId":"string","superviseUser":"string","type":"string","updateTime":"2020-12-30T05:50:26.687Z","updateUser":"string"}],"projectAddress":"string","projectDesc":"string","projectId":"string","projectMeasures":"string","projectName":"string","projectNumber":"string","projectStatus":0,"projectSurvey":"string","recordNo":"string","remarks":"string","score":0,"subProjectCount":0,"tenders":"string","updateTime":"2020-12-30T05:50:26.687Z","updateUser":"string"}]
+     * hitCount : false
      * searchCount : true
-     * size : 0
-     * total : 0
+     * pages : 1
      */
-   var current = 0
-   var hitCount = false
-   var optimizeCountSql = false
-   var pages = 0
-   var searchCount = false
-   var size = 0
-   var total = 0
-   var orders: List<OrdersBean?>? = null
-   var records: List<RecordsBean?>? = null
+    private var total = 0
+    private var size = 0
+    private var current = 0
+    private var optimizeCountSql = false
+    private var hitCount = false
+    private var searchCount = false
+    private var pages = 0
+    private var records: List<RecordsBean?>? = null
+    private var orders: List<*>? = null
 
-    class OrdersBean {
-        /**
-         * asc : true
-         * column : string
-         */
-        var isAsc = false
-        var column: String? = null
+    fun getTotal(): Int {
+        return total
+    }
 
+    fun setTotal(total: Int) {
+        this.total = total
+    }
+
+    fun getSize(): Int {
+        return size
+    }
+
+    fun setSize(size: Int) {
+        this.size = size
+    }
+
+    fun getCurrent(): Int {
+        return current
+    }
+
+    fun setCurrent(current: Int) {
+        this.current = current
+    }
+
+    fun isOptimizeCountSql(): Boolean {
+        return optimizeCountSql
+    }
+
+    fun setOptimizeCountSql(optimizeCountSql: Boolean) {
+        this.optimizeCountSql = optimizeCountSql
+    }
+
+    fun isHitCount(): Boolean {
+        return hitCount
+    }
+
+    fun setHitCount(hitCount: Boolean) {
+        this.hitCount = hitCount
+    }
+
+    fun isSearchCount(): Boolean {
+        return searchCount
+    }
+
+    fun setSearchCount(searchCount: Boolean) {
+        this.searchCount = searchCount
+    }
+
+    fun getPages(): Int {
+        return pages
+    }
+
+    fun setPages(pages: Int) {
+        this.pages = pages
+    }
+
+    fun getRecords(): List<RecordsBean?>? {
+        return records
+    }
+
+    fun setRecords(records: List<RecordsBean?>?) {
+        this.records = records
+    }
+
+    fun getOrders(): List<*>? {
+        return orders
+    }
+
+    fun setOrders(orders: List<*>?) {
+        this.orders = orders
     }
 
     class RecordsBean {
         /**
-         * assessmentId : string
-         * buildPeriod : string
-         * completedTime : 2020-12-30T05:50:26.687Z
-         * createTime : 2020-12-30T05:50:26.687Z
-         * createUser : string
-         * delFlag : string
-         * districtCode : string
-         * finalJudgmen : string
-         * latitude : string
-         * longitude : string
-         * mainProjectName : string
-         * participates : [{"approvalOrder":0,"chargeUser":"string","contactWay":"string","createTime":"2020-12-30T05:50:26.687Z","createUser":"string","delFlag":"string","id":"string","orgId":"string","orgName":"string","projectId":"string","superviseUser":"string","type":"string","updateTime":"2020-12-30T05:50:26.687Z","updateUser":"string"}]
-         * projectAddress : string
-         * projectDesc : string
-         * projectId : string
-         * projectMeasures : string
-         * projectName : string
-         * projectNumber : string
-         * projectStatus : 0
-         * projectSurvey : string
-         * recordNo : string
-         * remarks : string
+         * projectId : 1341663839851696129
+         * projectName : 通用项目
+         * projectNumber : 日期-顺序编号（count+1）
+         * mainProjectName : 测试项目
+         * tenders : 标段枚举ID
+         * buildPeriod : 建设期枚举
+         * districtCode : 500000000000
+         * projectAddress : 重庆市
+         * recordNo : 备案号
+         * longitude : 106.496346
+         * latitude : 29.591109
+         * completedTime : 2021-01-22 16:36:00
+         * assessmentId : 考核模板id
          * score : 0
-         * subProjectCount : 0
-         * tenders : string
-         * updateTime : 2020-12-30T05:50:26.687Z
-         * updateUser : string
+         * projectStatus : 0
+         * participates : null
+         * projectSurvey :
+         * projectMeasures :
+         * remarks : 备注123
+         * createTime : 2020-12-23 16:36:00
+         * createUser : admin
+         * updateTime : 2020-12-25 04:07:09
+         * updateUser :
+         * delFlag : 0
+         * finalJudgmen :
+         * subProjectCount : 1
+         * projectDesc : 未派工
          */
-        var assessmentId: String? = null
-        var buildPeriod: String? = null
-        var completedTime: String? = null
-        var createTime: String? = null
-        var createUser: String? = null
-        var delFlag: String? = null
-        var districtCode: String? = null
-        var finalJudgmen: String? = null
-        var latitude: String? = null
-        var longitude: String? = null
-        var mainProjectName: String? = null
-        var projectAddress: String? = null
-        var projectDesc: String? = null
         var projectId: String? = null
-        var projectMeasures: String? = null
         var projectName: String? = null
         var projectNumber: String? = null
-        var projectStatus = 0
-        var projectSurvey: String? = null
-        var recordNo: String? = null
-        var remarks: String? = null
-        var score = 0
-        var subProjectCount = 0
+        var mainProjectName: String? = null
         var tenders: String? = null
+        var buildPeriod: String? = null
+        var districtCode: String? = null
+        var projectAddress: String? = null
+        var recordNo: String? = null
+        var longitude: String? = null
+        var latitude: String? = null
+        var completedTime: String? = null
+        var assessmentId: String? = null
+        var score = 0
+        var projectStatus = 0
+        var participates: Any? = null
+        var projectSurvey: String? = null
+        var projectMeasures: String? = null
+        var remarks: String? = null
+        var createTime: String? = null
+        var createUser: String? = null
         var updateTime: String? = null
         var updateUser: String? = null
-        var participates: List<ParticipatesBean>? = null
+        var delFlag: String? = null
+        var finalJudgmen: String? = null
+        var subProjectCount = 0
+        var projectDesc: String? = null
 
-        class ParticipatesBean {
-            /**
-             * approvalOrder : 0
-             * chargeUser : string
-             * contactWay : string
-             * createTime : 2020-12-30T05:50:26.687Z
-             * createUser : string
-             * delFlag : string
-             * id : string
-             * orgId : string
-             * orgName : string
-             * projectId : string
-             * superviseUser : string
-             * type : string
-             * updateTime : 2020-12-30T05:50:26.687Z
-             * updateUser : string
-             */
-            var approvalOrder = 0
-            var chargeUser: String? = null
-            var contactWay: String? = null
-            var createTime: String? = null
-            var createUser: String? = null
-            var delFlag: String? = null
-            var id: String? = null
-            var orgId: String? = null
-            var orgName: String? = null
-            var projectId: String? = null
-            var superviseUser: String? = null
-            var type: String? = null
-            var updateTime: String? = null
-            var updateUser: String? = null
-
-        }
     }
-
-    
 }

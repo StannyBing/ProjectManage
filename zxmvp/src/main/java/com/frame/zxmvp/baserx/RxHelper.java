@@ -36,7 +36,7 @@ public class RxHelper {
             public Observable<T> call(BaseRespose<T> result) {
 
                 if (result.success()) {
-                    return createData(result.res);
+                    return createData(result.data);
                 } else {
                     return Observable.error(new ServerException(result.code, result.message == null ? result.msg : result.message));
                 }

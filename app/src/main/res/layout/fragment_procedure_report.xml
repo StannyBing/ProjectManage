@@ -29,13 +29,14 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/item_height"
         stv:sBackgroundDrawableRes="@color/white"
-        stv:sLeftTextColor="@color/default_text_color"
-        stv:sLeftTextString="说明"
-        stv:sLeftIconWidth="5dp"
         stv:sLeftIconHeight="17dp"
-        stv:sLeftIconRes="@drawable/title_rangle"  />
+        stv:sLeftIconRes="@drawable/title_rangle"
+        stv:sLeftIconWidth="5dp"
+        stv:sLeftTextColor="@color/default_text_color"
+        stv:sLeftTextString="说明" />
 
     <com.allen.library.SuperTextView
+        android:id="@+id/operationGuide"
         android:layout_width="match_parent"
         android:layout_height="@dimen/item_height"
         android:paddingStart="20dp"
@@ -45,6 +46,7 @@
         stv:sRightIconRes="@drawable/icon_next" />
 
     <com.allen.library.SuperTextView
+        android:id="@+id/safetyRegulations"
         android:layout_width="match_parent"
         android:layout_height="@dimen/item_height"
         android:paddingStart="20dp"
@@ -54,6 +56,7 @@
         stv:sRightIconRes="@drawable/icon_next" />
 
     <com.allen.library.SuperTextView
+        android:id="@+id/materials"
         android:layout_width="match_parent"
         android:layout_height="@dimen/item_height"
         android:paddingStart="20dp"
@@ -66,15 +69,25 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/item_height"
         stv:sBackgroundDrawableRes="@color/white"
-        stv:sLeftTextColor="@color/default_text_color"
-        stv:sLeftTextString="上传资料"
-        stv:sLeftIconWidth="5dp"
         stv:sLeftIconHeight="17dp"
-        stv:sLeftIconRes="@drawable/title_rangle" />
+        stv:sLeftIconRes="@drawable/title_rangle"
+        stv:sLeftIconWidth="5dp"
+        stv:sLeftTextColor="@color/default_text_color"
+        stv:sLeftTextString="上传资料" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/dataShow"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         stv:sBackgroundDrawableRes="@color/white" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:layout_width="match_parent"
+        android:layout_marginTop="5dp"
+        android:layout_height="@dimen/item_height"
+        android:text="添加设备"
+        android:gravity="center"
+        android:textColor="@color/colorAccent"
+        android:textSize="@dimen/text_normal_size" />
+
 </LinearLayout>

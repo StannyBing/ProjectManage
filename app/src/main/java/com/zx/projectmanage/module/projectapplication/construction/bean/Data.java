@@ -9,207 +9,296 @@ import java.util.List;
  */
 class Data {
 
+
     /**
-     * current : 0
-     * hitCount : true
-     * optimizeCountSql : true
-     * orders : [{"asc":true,"column":"string"}]
-     * pages : 0
-     * records : [{"assessmentId":"string","buildPeriod":"string","completedTime":"2020-12-30T05:50:26.687Z","createTime":"2020-12-30T05:50:26.687Z","createUser":"string","delFlag":"string","districtCode":"string","finalJudgmen":"string","latitude":"string","longitude":"string","mainProjectName":"string","participates":[{"approvalOrder":0,"chargeUser":"string","contactWay":"string","createTime":"2020-12-30T05:50:26.687Z","createUser":"string","delFlag":"string","id":"string","orgId":"string","orgName":"string","projectId":"string","superviseUser":"string","type":"string","updateTime":"2020-12-30T05:50:26.687Z","updateUser":"string"}],"projectAddress":"string","projectDesc":"string","projectId":"string","projectMeasures":"string","projectName":"string","projectNumber":"string","projectStatus":0,"projectSurvey":"string","recordNo":"string","remarks":"string","score":0,"subProjectCount":0,"tenders":"string","updateTime":"2020-12-30T05:50:26.687Z","updateUser":"string"}]
-     * searchCount : true
-     * size : 0
-     * total : 0
+     * processId : 1341276250770563074
+     * processName : 测试修复
+     * remarks : fsdafs
+     * createTime : 2020-12-30 11:32:38
+     * createUser : null
+     * updateTime : 2020-12-30 11:32:38
+     * updateUser : null
+     * delFlag : null
+     * detailedList : [{"id":"1344208677254467585","processId":"1341276250770563074","approvalMode":"354724257168625664","assessment":"354136375345287168,354134317070290944,356239445776666624,1","operationGuide":"356633892335128576","safetyRegulations":"356633901403213824","materials":"356633910802649088","subProcessName":"工序1","scoreRights":"354136375345287168,354134317070290944,356239445776666624","resetPermissions":"","enableAssessment":0,"enableScoreRights":1,"enableResetPermissions":0,"sort":0,"showOperationGuide":1,"showSafetyRegulations":1,"showMaterials":1,"createTime":"2020-12-31 12:40:19","createUser":null,"updateTime":"2020-12-31 04:40:23","updateUser":null,"participants":"354136375345287168,354134317070290944,356239445776666624,1,354344298709258240","delFlag":"0"},{"id":"1344209269234339841","processId":"1341276250770563074","approvalMode":"354724257168625664","assessment":"354136375345287168,354134317070290944,356239445776666624","operationGuide":"356634417109667840","safetyRegulations":"356634425183703040","materials":"356634434788659200","subProcessName":"工序1","scoreRights":"354136375345287168,354134317070290944","resetPermissions":"","enableAssessment":0,"enableScoreRights":1,"enableResetPermissions":0,"sort":0,"showOperationGuide":1,"showSafetyRegulations":1,"showMaterials":1,"createTime":"2020-12-31 12:40:23","createUser":null,"updateTime":"2020-12-31 04:40:26","updateUser":null,"participants":"354136375345287168,354134317070290944,356239445776666624","delFlag":"0"}]
+     * processCount : null
      */
 
-    private int current;
-    private boolean hitCount;
-    private boolean optimizeCountSql;
-    private int pages;
-    private boolean searchCount;
-    private int size;
-    private int total;
-    private List<OrdersBean> orders;
-    private List<RecordsBean> records;
+    private String processId;
+    private String processName;
+    private String remarks;
+    private String createTime;
+    private Object createUser;
+    private String updateTime;
+    private Object updateUser;
+    private Object delFlag;
+    private Object processCount;
+    private List<DetailedListBean> detailedList;
 
-    public int getCurrent() {
-        return current;
+    public String getProcessId() {
+        return processId;
     }
 
-    public void setCurrent(int current) {
-        this.current = current;
+    public void setProcessId(String processId) {
+        this.processId = processId;
     }
 
-    public boolean isHitCount() {
-        return hitCount;
+    public String getProcessName() {
+        return processName;
     }
 
-    public void setHitCount(boolean hitCount) {
-        this.hitCount = hitCount;
+    public void setProcessName(String processName) {
+        this.processName = processName;
     }
 
-    public boolean isOptimizeCountSql() {
-        return optimizeCountSql;
+    public String getRemarks() {
+        return remarks;
     }
 
-    public void setOptimizeCountSql(boolean optimizeCountSql) {
-        this.optimizeCountSql = optimizeCountSql;
+    public void setRemarks(String remarks) {
+        this.remarks = remarks;
     }
 
-    public int getPages() {
-        return pages;
+    public String getCreateTime() {
+        return createTime;
     }
 
-    public void setPages(int pages) {
-        this.pages = pages;
+    public void setCreateTime(String createTime) {
+        this.createTime = createTime;
     }
 
-    public boolean isSearchCount() {
-        return searchCount;
+    public Object getCreateUser() {
+        return createUser;
     }
 
-    public void setSearchCount(boolean searchCount) {
-        this.searchCount = searchCount;
+    public void setCreateUser(Object createUser) {
+        this.createUser = createUser;
     }
 
-    public int getSize() {
-        return size;
+    public String getUpdateTime() {
+        return updateTime;
     }
 
-    public void setSize(int size) {
-        this.size = size;
+    public void setUpdateTime(String updateTime) {
+        this.updateTime = updateTime;
     }
 
-    public int getTotal() {
-        return total;
+    public Object getUpdateUser() {
+        return updateUser;
     }
 
-    public void setTotal(int total) {
-        this.total = total;
+    public void setUpdateUser(Object updateUser) {
+        this.updateUser = updateUser;
     }
 
-    public List<OrdersBean> getOrders() {
-        return orders;
+    public Object getDelFlag() {
+        return delFlag;
     }
 
-    public void setOrders(List<OrdersBean> orders) {
-        this.orders = orders;
+    public void setDelFlag(Object delFlag) {
+        this.delFlag = delFlag;
     }
 
-    public List<RecordsBean> getRecords() {
-        return records;
+    public Object getProcessCount() {
+        return processCount;
     }
 
-    public void setRecords(List<RecordsBean> records) {
-        this.records = records;
+    public void setProcessCount(Object processCount) {
+        this.processCount = processCount;
     }
 
-    public static class OrdersBean {
+    public List<DetailedListBean> getDetailedList() {
+        return detailedList;
+    }
+
+    public void setDetailedList(List<DetailedListBean> detailedList) {
+        this.detailedList = detailedList;
+    }
+
+    public static class DetailedListBean {
         /**
-         * asc : true
-         * column : string
+         * id : 1344208677254467585
+         * processId : 1341276250770563074
+         * approvalMode : 354724257168625664
+         * assessment : 354136375345287168,354134317070290944,356239445776666624,1
+         * operationGuide : 356633892335128576
+         * safetyRegulations : 356633901403213824
+         * materials : 356633910802649088
+         * subProcessName : 工序1
+         * scoreRights : 354136375345287168,354134317070290944,356239445776666624
+         * resetPermissions :
+         * enableAssessment : 0
+         * enableScoreRights : 1
+         * enableResetPermissions : 0
+         * sort : 0
+         * showOperationGuide : 1
+         * showSafetyRegulations : 1
+         * showMaterials : 1
+         * createTime : 2020-12-31 12:40:19
+         * createUser : null
+         * updateTime : 2020-12-31 04:40:23
+         * updateUser : null
+         * participants : 354136375345287168,354134317070290944,356239445776666624,1,354344298709258240
+         * delFlag : 0
          */
 
-        private boolean asc;
-        private String column;
-
-        public boolean isAsc() {
-            return asc;
-        }
-
-        public void setAsc(boolean asc) {
-            this.asc = asc;
-        }
-
-        public String getColumn() {
-            return column;
-        }
-
-        public void setColumn(String column) {
-            this.column = column;
-        }
-    }
-
-    public static class RecordsBean {
-        /**
-         * assessmentId : string
-         * buildPeriod : string
-         * completedTime : 2020-12-30T05:50:26.687Z
-         * createTime : 2020-12-30T05:50:26.687Z
-         * createUser : string
-         * delFlag : string
-         * districtCode : string
-         * finalJudgmen : string
-         * latitude : string
-         * longitude : string
-         * mainProjectName : string
-         * participates : [{"approvalOrder":0,"chargeUser":"string","contactWay":"string","createTime":"2020-12-30T05:50:26.687Z","createUser":"string","delFlag":"string","id":"string","orgId":"string","orgName":"string","projectId":"string","superviseUser":"string","type":"string","updateTime":"2020-12-30T05:50:26.687Z","updateUser":"string"}]
-         * projectAddress : string
-         * projectDesc : string
-         * projectId : string
-         * projectMeasures : string
-         * projectName : string
-         * projectNumber : string
-         * projectStatus : 0
-         * projectSurvey : string
-         * recordNo : string
-         * remarks : string
-         * score : 0
-         * subProjectCount : 0
-         * tenders : string
-         * updateTime : 2020-12-30T05:50:26.687Z
-         * updateUser : string
-         */
-
-        private String assessmentId;
-        private String buildPeriod;
-        private String completedTime;
+        private String id;
+        private String processId;
+        private String approvalMode;
+        private String assessment;
+        private String operationGuide;
+        private String safetyRegulations;
+        private String materials;
+        private String subProcessName;
+        private String scoreRights;
+        private String resetPermissions;
+        private int enableAssessment;
+        private int enableScoreRights;
+        private int enableResetPermissions;
+        private int sort;
+        private int showOperationGuide;
+        private int showSafetyRegulations;
+        private int showMaterials;
         private String createTime;
-        private String createUser;
-        private String delFlag;
-        private String districtCode;
-        private String finalJudgmen;
-        private String latitude;
-        private String longitude;
-        private String mainProjectName;
-        private String projectAddress;
-        private String projectDesc;
-        private String projectId;
-        private String projectMeasures;
-        private String projectName;
-        private String projectNumber;
-        private int projectStatus;
-        private String projectSurvey;
-        private String recordNo;
-        private String remarks;
-        private int score;
-        private int subProjectCount;
-        private String tenders;
+        private Object createUser;
         private String updateTime;
-        private String updateUser;
-        private List<ParticipatesBean> participates;
+        private Object updateUser;
+        private String participants;
+        private String delFlag;
 
-        public String getAssessmentId() {
-            return assessmentId;
+        public String getId() {
+            return id;
         }
 
-        public void setAssessmentId(String assessmentId) {
-            this.assessmentId = assessmentId;
+        public void setId(String id) {
+            this.id = id;
         }
 
-        public String getBuildPeriod() {
-            return buildPeriod;
+        public String getProcessId() {
+            return processId;
         }
 
-        public void setBuildPeriod(String buildPeriod) {
-            this.buildPeriod = buildPeriod;
+        public void setProcessId(String processId) {
+            this.processId = processId;
         }
 
-        public String getCompletedTime() {
-            return completedTime;
+        public String getApprovalMode() {
+            return approvalMode;
         }
 
-        public void setCompletedTime(String completedTime) {
-            this.completedTime = completedTime;
+        public void setApprovalMode(String approvalMode) {
+            this.approvalMode = approvalMode;
+        }
+
+        public String getAssessment() {
+            return assessment;
+        }
+
+        public void setAssessment(String assessment) {
+            this.assessment = assessment;
+        }
+
+        public String getOperationGuide() {
+            return operationGuide;
+        }
+
+        public void setOperationGuide(String operationGuide) {
+            this.operationGuide = operationGuide;
+        }
+
+        public String getSafetyRegulations() {
+            return safetyRegulations;
+        }
+
+        public void setSafetyRegulations(String safetyRegulations) {
+            this.safetyRegulations = safetyRegulations;
+        }
+
+        public String getMaterials() {
+            return materials;
+        }
+
+        public void setMaterials(String materials) {
+            this.materials = materials;
+        }
+
+        public String getSubProcessName() {
+            return subProcessName;
+        }
+
+        public void setSubProcessName(String subProcessName) {
+            this.subProcessName = subProcessName;
+        }
+
+        public String getScoreRights() {
+            return scoreRights;
+        }
+
+        public void setScoreRights(String scoreRights) {
+            this.scoreRights = scoreRights;
+        }
+
+        public String getResetPermissions() {
+            return resetPermissions;
+        }
+
+        public void setResetPermissions(String resetPermissions) {
+            this.resetPermissions = resetPermissions;
+        }
+
+        public int getEnableAssessment() {
+            return enableAssessment;
+        }
+
+        public void setEnableAssessment(int enableAssessment) {
+            this.enableAssessment = enableAssessment;
+        }
+
+        public int getEnableScoreRights() {
+            return enableScoreRights;
+        }
+
+        public void setEnableScoreRights(int enableScoreRights) {
+            this.enableScoreRights = enableScoreRights;
+        }
+
+        public int getEnableResetPermissions() {
+            return enableResetPermissions;
+        }
+
+        public void setEnableResetPermissions(int enableResetPermissions) {
+            this.enableResetPermissions = enableResetPermissions;
+        }
+
+        public int getSort() {
+            return sort;
+        }
+
+        public void setSort(int sort) {
+            this.sort = sort;
+        }
+
+        public int getShowOperationGuide() {
+            return showOperationGuide;
+        }
+
+        public void setShowOperationGuide(int showOperationGuide) {
+            this.showOperationGuide = showOperationGuide;
+        }
+
+        public int getShowSafetyRegulations() {
+            return showSafetyRegulations;
+        }
+
+        public void setShowSafetyRegulations(int showSafetyRegulations) {
+            this.showSafetyRegulations = showSafetyRegulations;
+        }
+
+        public int getShowMaterials() {
+            return showMaterials;
+        }
+
+        public void setShowMaterials(int showMaterials) {
+            this.showMaterials = showMaterials;
         }
 
         public String getCreateTime() {
@@ -220,164 +309,12 @@ class Data {
             this.createTime = createTime;
         }
 
-        public String getCreateUser() {
+        public Object getCreateUser() {
             return createUser;
         }
 
-        public void setCreateUser(String createUser) {
+        public void setCreateUser(Object createUser) {
             this.createUser = createUser;
-        }
-
-        public String getDelFlag() {
-            return delFlag;
-        }
-
-        public void setDelFlag(String delFlag) {
-            this.delFlag = delFlag;
-        }
-
-        public String getDistrictCode() {
-            return districtCode;
-        }
-
-        public void setDistrictCode(String districtCode) {
-            this.districtCode = districtCode;
-        }
-
-        public String getFinalJudgmen() {
-            return finalJudgmen;
-        }
-
-        public void setFinalJudgmen(String finalJudgmen) {
-            this.finalJudgmen = finalJudgmen;
-        }
-
-        public String getLatitude() {
-            return latitude;
-        }
-
-        public void setLatitude(String latitude) {
-            this.latitude = latitude;
-        }
-
-        public String getLongitude() {
-            return longitude;
-        }
-
-        public void setLongitude(String longitude) {
-            this.longitude = longitude;
-        }
-
-        public String getMainProjectName() {
-            return mainProjectName;
-        }
-
-        public void setMainProjectName(String mainProjectName) {
-            this.mainProjectName = mainProjectName;
-        }
-
-        public String getProjectAddress() {
-            return projectAddress;
-        }
-
-        public void setProjectAddress(String projectAddress) {
-            this.projectAddress = projectAddress;
-        }
-
-        public String getProjectDesc() {
-            return projectDesc;
-        }
-
-        public void setProjectDesc(String projectDesc) {
-            this.projectDesc = projectDesc;
-        }
-
-        public String getProjectId() {
-            return projectId;
-        }
-
-        public void setProjectId(String projectId) {
-            this.projectId = projectId;
-        }
-
-        public String getProjectMeasures() {
-            return projectMeasures;
-        }
-
-        public void setProjectMeasures(String projectMeasures) {
-            this.projectMeasures = projectMeasures;
-        }
-
-        public String getProjectName() {
-            return projectName;
-        }
-
-        public void setProjectName(String projectName) {
-            this.projectName = projectName;
-        }
-
-        public String getProjectNumber() {
-            return projectNumber;
-        }
-
-        public void setProjectNumber(String projectNumber) {
-            this.projectNumber = projectNumber;
-        }
-
-        public int getProjectStatus() {
-            return projectStatus;
-        }
-
-        public void setProjectStatus(int projectStatus) {
-            this.projectStatus = projectStatus;
-        }
-
-        public String getProjectSurvey() {
-            return projectSurvey;
-        }
-
-        public void setProjectSurvey(String projectSurvey) {
-            this.projectSurvey = projectSurvey;
-        }
-
-        public String getRecordNo() {
-            return recordNo;
-        }
-
-        public void setRecordNo(String recordNo) {
-            this.recordNo = recordNo;
-        }
-
-        public String getRemarks() {
-            return remarks;
-        }
-
-        public void setRemarks(String remarks) {
-            this.remarks = remarks;
-        }
-
-        public int getScore() {
-            return score;
-        }
-
-        public void setScore(int score) {
-            this.score = score;
-        }
-
-        public int getSubProjectCount() {
-            return subProjectCount;
-        }
-
-        public void setSubProjectCount(int subProjectCount) {
-            this.subProjectCount = subProjectCount;
-        }
-
-        public String getTenders() {
-            return tenders;
-        }
-
-        public void setTenders(String tenders) {
-            this.tenders = tenders;
         }
 
         public String getUpdateTime() {
@@ -388,166 +325,28 @@ class Data {
             this.updateTime = updateTime;
         }
 
-        public String getUpdateUser() {
+        public Object getUpdateUser() {
             return updateUser;
         }
 
-        public void setUpdateUser(String updateUser) {
+        public void setUpdateUser(Object updateUser) {
             this.updateUser = updateUser;
         }
 
-        public List<ParticipatesBean> getParticipates() {
-            return participates;
+        public String getParticipants() {
+            return participants;
         }
 
-        public void setParticipates(List<ParticipatesBean> participates) {
-            this.participates = participates;
+        public void setParticipants(String participants) {
+            this.participants = participants;
         }
 
-        public static class ParticipatesBean {
-            /**
-             * approvalOrder : 0
-             * chargeUser : string
-             * contactWay : string
-             * createTime : 2020-12-30T05:50:26.687Z
-             * createUser : string
-             * delFlag : string
-             * id : string
-             * orgId : string
-             * orgName : string
-             * projectId : string
-             * superviseUser : string
-             * type : string
-             * updateTime : 2020-12-30T05:50:26.687Z
-             * updateUser : string
-             */
+        public String getDelFlag() {
+            return delFlag;
+        }
 
-            private int approvalOrder;
-            private String chargeUser;
-            private String contactWay;
-            private String createTime;
-            private String createUser;
-            private String delFlag;
-            private String id;
-            private String orgId;
-            private String orgName;
-            private String projectId;
-            private String superviseUser;
-            private String type;
-            private String updateTime;
-            private String updateUser;
-
-            public int getApprovalOrder() {
-                return approvalOrder;
-            }
-
-            public void setApprovalOrder(int approvalOrder) {
-                this.approvalOrder = approvalOrder;
-            }
-
-            public String getChargeUser() {
-                return chargeUser;
-            }
-
-            public void setChargeUser(String chargeUser) {
-                this.chargeUser = chargeUser;
-            }
-
-            public String getContactWay() {
-                return contactWay;
-            }
-
-            public void setContactWay(String contactWay) {
-                this.contactWay = contactWay;
-            }
-
-            public String getCreateTime() {
-                return createTime;
-            }
-
-            public void setCreateTime(String createTime) {
-                this.createTime = createTime;
-            }
-
-            public String getCreateUser() {
-                return createUser;
-            }
-
-            public void setCreateUser(String createUser) {
-                this.createUser = createUser;
-            }
-
-            public String getDelFlag() {
-                return delFlag;
-            }
-
-            public void setDelFlag(String delFlag) {
-                this.delFlag = delFlag;
-            }
-
-            public String getId() {
-                return id;
-            }
-
-            public void setId(String id) {
-                this.id = id;
-            }
-
-            public String getOrgId() {
-                return orgId;
-            }
-
-            public void setOrgId(String orgId) {
-                this.orgId = orgId;
-            }
-
-            public String getOrgName() {
-                return orgName;
-            }
-
-            public void setOrgName(String orgName) {
-                this.orgName = orgName;
-            }
-
-            public String getProjectId() {
-                return projectId;
-            }
-
-            public void setProjectId(String projectId) {
-                this.projectId = projectId;
-            }
-
-            public String getSuperviseUser() {
-                return superviseUser;
-            }
-
-            public void setSuperviseUser(String superviseUser) {
-                this.superviseUser = superviseUser;
-            }
-
-            public String getType() {
-                return type;
-            }
-
-            public void setType(String type) {
-                this.type = type;
-            }
-
-            public String getUpdateTime() {
-                return updateTime;
-            }
-
-            public void setUpdateTime(String updateTime) {
-                this.updateTime = updateTime;
-            }
-
-            public String getUpdateUser() {
-                return updateUser;
-            }
-
-            public void setUpdateUser(String updateUser) {
-                this.updateUser = updateUser;
-            }
+        public void setDelFlag(String delFlag) {
+            this.delFlag = delFlag;
         }
     }
 }

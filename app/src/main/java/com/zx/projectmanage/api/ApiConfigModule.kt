@@ -9,6 +9,7 @@ import com.frame.zxmvp.http.GlobalHttpHandler
 import com.frame.zxmvp.integration.ConfigModule
 import com.frame.zxmvp.integration.IRepositoryManager
 import com.zx.projectmanage.app.ConstStrings
+import com.zx.projectmanage.base.UserManager
 import com.zx.zxutils.util.ZXLogUtil
 import com.zx.zxutils.util.ZXSharedPrefUtil
 import okhttp3.Interceptor
@@ -71,6 +72,7 @@ class ApiConfigModule : ConfigModule {
                     chain: Interceptor.Chain,
                     request: Request
                 ): Request {
+
                     // 如果需要再请求服务器之前做一些操作,则重新返回一个做过操作的的requeat如增加header,不做操作则直接返回request参数
                     ZXLogUtil.loge("Request : ${request.url()}")
 //                        var requestList = if (ZXSharedPrefUtil().contains("request_list")) ZXSharedPrefUtil().getString("request_list") else ""

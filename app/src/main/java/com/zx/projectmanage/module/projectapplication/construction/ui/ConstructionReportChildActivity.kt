@@ -6,27 +6,25 @@ import android.os.Bundle
 import android.view.View
 import android.widget.TextView
 import androidx.recyclerview.widget.LinearLayoutManager
-
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
+import com.gt.giscollect.base.NormalList
 import com.zhy.view.flowlayout.FlowLayout
 import com.zhy.view.flowlayout.TagAdapter
 import com.zhy.view.flowlayout.TagFlowLayout
-
 import com.zx.projectmanage.R
+import com.zx.projectmanage.app.toJson
 import com.zx.projectmanage.base.BaseActivity
-
-import com.zx.projectmanage.module.projectapplication.construction.bean.ReportListBean
-import com.zx.projectmanage.module.projectapplication.construction.func.adapter.ReportListAdapter
+import com.zx.projectmanage.module.projectapplication.construction.bean.ReportSubListBean
+import com.zx.projectmanage.module.projectapplication.construction.func.adapter.ReportChildListAdapter
 import com.zx.projectmanage.module.projectapplication.construction.func.tool.setHintKtx
-
 import com.zx.projectmanage.module.projectapplication.construction.mvp.contract.ConstructionReportChildContract
 import com.zx.projectmanage.module.projectapplication.construction.mvp.model.ConstructionReportChildModel
 import com.zx.projectmanage.module.projectapplication.construction.mvp.presenter.ConstructionReportChildPresenter
 import com.zx.zxutils.util.ZXToastUtil
-import kotlinx.android.synthetic.main.activity_construction_report.searchText
-import kotlinx.android.synthetic.main.activity_construction_report_child.*
+import kotlinx.android.synthetic.main.activity_construction_report.*
 import kotlinx.android.synthetic.main.activity_construction_report_child.head
+import kotlinx.android.synthetic.main.activity_construction_report_child.searchText
 import kotlinx.android.synthetic.main.activity_construction_report_child.swipeRecyler
 import kotlinx.android.synthetic.main.dialog_filter_project.view.*
 
@@ -36,20 +34,21 @@ import kotlinx.android.synthetic.main.dialog_filter_project.view.*
  * 功能： 项目列表
  */
 class ConstructionReportChildActivity : BaseActivity<ConstructionReportChildPresenter, ConstructionReportChildModel>(), ConstructionReportChildContract.View {
-    private var list: MutableList<ReportListBean.RecordsBean> = arrayListOf<ReportListBean.RecordsBean>()
-    private val reportListAdapter = ReportListAdapter(list)
+    private var list: MutableList<ReportSubListBean> = arrayListOf<ReportSubListBean>()
+    private val reportListAdapter = ReportChildListAdapter(list)
     private var mVals = listOf<String>("1", "2", "3")
     private var mVals1 = listOf<String>("已完成", "未通过", "进行中")
     private var pageNo = 1
     private var pageSize = 10
     var isRefresh = true
+    lateinit var projectId: String
 
     companion object {
         /**
          * 启动器
          */
         fun startAction(activity: Activity, isFinish: Boolean) {
-            val intent = Intent(activity, ConstructionReportActivity::class.java)
+            val intent = Intent(activity, ConstructionReportChildActivity::class.java)
             activity.startActivity(intent)
             if (isFinish) activity.finish()
         }
@@ -58,7 +57,7 @@ class ConstructionReportChildActivity : BaseActivity<ConstructionReportChildPres
          * 启动器
          */
         fun startAction(activity: Activity, isFinish: Boolean, projectId: String, projectName: String) {
-            val intent = Intent(activity, ConstructionReportActivity::class.java)
+            val intent = Intent(activity, ConstructionReportChildActivity::class.java)
             intent.putExtra("projectName", projectName)
             intent.putExtra("projectId", projectId)
             activity.startActivity(intent)
@@ -78,29 +77,47 @@ class ConstructionReportChildActivity : BaseActivity<ConstructionReportChildPres
      */
     override fun initView(savedInstanceState: Bundle?) {
         super.initView(savedInstanceState)
+        projectId = intent.getStringExtra("projectId").toString()
+        head.setCenterString(intent.getStringExtra("projectName").toString())
         searchText.setHintKtx(13, "请输入项目名称")
-        //设置adapter
         swipeRecyler.apply {
             layoutManager = LinearLayoutManager(mContext)
             adapter = reportListAdapter
 //            addItemDecoration(SimpleDecoration(mContext))
         }
-        mPresenter.getPageSubProject(projectId = "")
+        refresh()
     }
 
     /**
      * 刷新
      */
-    fun refresh() {
+    fun refresh(searchText: String? = null) {
         pageNo = 1
-        mPresenter.getPageSubProject(projectId = "")
+        mPresenter.getPageSubProject(
+            hashMapOf(
+                "projectId" to projectId
+            )
+        )
     }
 
-    private fun setData(data: MutableList<ReportListBean.RecordsBean>?) {
+
+    private fun loadMore() {
+        pageNo++
+        mPresenter.getPageSubProject(
+            hashMapOf(
+                "projectId" to projectId,
+                "pageNo" to pageNo.toString()
+            )
+        )
+    }
+
+
+    //设置数据到适配器
+    private fun setData(data: List<ReportSubListBean>) {
         pageNo++
         val size = data?.size ?: 0
         if (isRefresh) {
-            reportListAdapter.setNewData(data)
+            reportListAdapter.setNewData(data as List<ReportSubListBean?>?)
         } else {
             if (size > 0) {
                 reportListAdapter.addData(data!!)
@@ -130,7 +147,7 @@ class ConstructionReportChildActivity : BaseActivity<ConstructionReportChildPres
             }
             inflate.bottomSheetOK.setOnClickListener {
                 //发起筛选请求
-                mPresenter.getPageSubProject(projectId = "")
+//                refresh(searchText.toString())
             }
             inflate?.let { it1 -> bottomSheetDialog.setContentView(it1) }
             //设置bottomsheet behavior
@@ -140,11 +157,14 @@ class ConstructionReportChildActivity : BaseActivity<ConstructionReportChildPres
         }.setLeftImageViewClickListener {
             finish()
         }
+
+        //刷新列表
         refresh.setOnRefreshListener {
             refresh()
             refresh.isRefreshing = false
         }
-        reportListAdapter.setOnLoadMoreListener({ mPresenter.getPageSubProject(projectId = "", pageNo = pageNo) }, swipeRecyler)
+        reportListAdapter.setOnLoadMoreListener({ loadMore() }, swipeRecyler)
+
     }
 
     /**
@@ -201,11 +221,12 @@ class ConstructionReportChildActivity : BaseActivity<ConstructionReportChildPres
         return peekHeight - peekHeight / 3
     }
 
-    override fun getDataResult(baseRespose: ReportListBean?) {
-        if (baseRespose != null) {
-            ZXToastUtil.showToast(baseRespose.current.toString())
-            reportListAdapter.setNewData(baseRespose.records)
+    override fun getDataSubResult(baseRespose: NormalList<ReportSubListBean>?) {
+
+        if (baseRespose?.records != null) {
+            setData(baseRespose.records)
         }
     }
+
 
 }

@@ -2,10 +2,12 @@ package com.zx.projectmanage.module.projectapplication.construction.ui
 
 import android.app.Activity
 import android.os.Bundle
+import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.zx.projectmanage.R
 import com.zx.projectmanage.base.BaseFragment
 import com.zx.projectmanage.base.SimpleDecoration
+import com.zx.projectmanage.module.projectapplication.construction.bean.ProjectProcessInfoBean
 import com.zx.projectmanage.module.projectapplication.construction.bean.ReportListBean
 import com.zx.projectmanage.module.projectapplication.construction.func.adapter.ProcedureListAdapter
 import com.zx.projectmanage.module.projectapplication.construction.func.adapter.ReportListAdapter
@@ -33,6 +35,7 @@ class ProcedureReportFragment : BaseFragment<ProcedureReportPresenter, Procedure
     override fun getLayoutId(): Int {
         return R.layout.fragment_procedure_report
     }
+
     companion object {
         /**
          * 启动器
@@ -45,21 +48,26 @@ class ProcedureReportFragment : BaseFragment<ProcedureReportPresenter, Procedure
     }
 
 
-
     /**
      * 初始化
      */
     override fun initView(savedInstanceState: Bundle?) {
         super.initView(savedInstanceState)
-        //模拟数据
-//        for (index in 0..20) {
-//            list.add(ReportListBean(1))
-//        }
+        val parcelable = arguments?.getParcelable<ProjectProcessInfoBean.DetailedListBean>("bean")
+        if (parcelable?.showMaterials == 0) {
+            materials.visibility = View.GONE
+        }
+        if (parcelable?.showOperationGuide == 0) {
+            operationGuide.visibility = View.GONE
+        }
+        if (parcelable?.showSafetyRegulations == 0) {
+            safetyRegulations.visibility = View.GONE
+        }
         //设置adapter
         dataShow.apply {
             layoutManager = LinearLayoutManager(mContext)
             adapter = reportListAdapter
-            addItemDecoration(SimpleDecoration(mContext))
+//            addItemDecoration(SimpleDecoration(mContext))
         }
     }
 

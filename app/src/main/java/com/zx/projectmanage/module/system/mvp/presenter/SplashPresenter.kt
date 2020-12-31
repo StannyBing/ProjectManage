@@ -23,6 +23,7 @@ class SplashPresenter : SplashContract.Presenter() {
                 override fun _onNext(t: UserBean?) {
                     if (t != null && t.code == null) {
                         UserManager.setUser(t)
+                        mView.onAppLoginResult(t)
                     } else {
                         t?.msg?.let {
                             mView.showToast(it)

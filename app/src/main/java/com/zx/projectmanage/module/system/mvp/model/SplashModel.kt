@@ -21,5 +21,4 @@ class SplashModel : BaseModel(), SplashContract.Model {
 //            .compose(RxHelper.handleResult())
             .compose(RxSchedulers.io_main())
     }
-
 }
