@@ -40,6 +40,7 @@ class ConstructionDataAdapter(dataList: List<ConstructionDataBean>) : ZXMultiIte
             ConstructionDataBean.Select_Type -> {
                 helper.setText(R.id.tv_data_select_name, item.name)
                 helper.setText(R.id.tv_data_select_value, if (item.stringValue.isEmpty()) "请选择${item.name}" else item.stringValue)
+                helper.addOnClickListener(R.id.tv_data_select_value)
             }
             ConstructionDataBean.Location_Type -> {
                 helper.setText(R.id.tv_data_location_name, item.name)

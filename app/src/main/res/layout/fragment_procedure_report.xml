@@ -82,6 +82,7 @@
         stv:sBackgroundDrawableRes="@color/white" />
 
     <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tv_report_addEquip"
         android:layout_width="match_parent"
         android:layout_marginTop="5dp"
         android:layout_height="@dimen/item_height"

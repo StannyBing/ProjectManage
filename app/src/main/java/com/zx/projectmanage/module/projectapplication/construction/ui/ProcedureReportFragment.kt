@@ -75,6 +75,8 @@ class ProcedureReportFragment : BaseFragment<ProcedureReportPresenter, Procedure
      * View事件设置
      */
     override fun onViewListener() {
-
+        tv_report_addEquip.setOnClickListener {
+            ConstructionDataActivity.startAction(requireActivity(), false)
+        }
     }
 }

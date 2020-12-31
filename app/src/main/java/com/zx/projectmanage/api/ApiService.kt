@@ -13,6 +13,9 @@ import rx.Observable
 interface ApiService {
 
 
+    /**
+     * 用户登录
+     */
     @POST("auth/oauth/token")
     fun doAppLogin(@Body body: RequestBody): Observable<UserBean>
 
@@ -23,14 +26,16 @@ interface ApiService {
     fun getProjectStatus(): Observable<BaseRespose<Any>>
 
     /**
+     * 反向地理编码
+     */
+    @GET
+    fun geocoder(@Url url: String): Observable<BaiduGeocoderBean>
+
+    /**
      * 获取所有项目期次
      */
     @GET("/admin/dict/type/period")
     fun getProjectPeriod(): Observable<BaseRespose<MutableList<ProjectPeriodBean>>>
-
-
-    @GET
-    fun geocoder(@Url url: String): Observable<BaiduGeocoderBean>
 
     /**
      * 插叙项目列表
@@ -62,5 +67,18 @@ interface ApiService {
         @Path("processId") processId: String
     ): Observable<BaseRespose<ProjectProcessInfoBean>>
 
+    /**
+     * 获取工序步骤模板
+     */
+    @GET("/business/standard/page")
+    fun getStepStandard(@QueryMap map: Map<String, String>): Observable<BaseRespose<NormalList<StepStandardBean>>>
+
+    /**
+     * 查询模板详情
+     */
+    @GET("/business/standard/info/{id}")
+    fun getStepDetail(
+        @Path("id") id: String
+    ): Observable<BaseRespose<StepStandardBean>>
 
 }

@@ -4,7 +4,9 @@ import android.graphics.PointF
 import android.location.Location
 import com.frame.zxmvp.baserx.RxHelper
 import com.frame.zxmvp.baserx.RxSubscriber
+import com.gt.giscollect.base.NormalList
 import com.zx.projectmanage.module.projectapplication.construction.bean.BaiduGeocoderBean
+import com.zx.projectmanage.module.projectapplication.construction.bean.StepStandardBean
 import com.zx.projectmanage.module.projectapplication.construction.mvp.contract.ConstructionDataContract
 
 
@@ -28,6 +30,36 @@ class ConstructionDataPresenter : ConstructionDataContract.Presenter() {
                     mView.handleError(code, message)
                 }
 
+            })
+    }
+
+    override fun getStepStandard(map: HashMap<String, String>) {
+        mModel.stepStandardData(map)
+            .compose(RxHelper.bindToLifecycle(mView))
+            .subscribe(object : RxSubscriber<NormalList<StepStandardBean>>(mView) {
+                override fun _onNext(t: NormalList<StepStandardBean>?) {
+                    t?.records?.let { mView.onStepStandardResult(it) }
+                }
+
+                override fun _onError(code: Int, message: String?) {
+                    mView.handleError(code, message)
+                }
+            })
+    }
+
+    override fun getStepDetail(id: String) {
+        mModel.stepDetailData(id)
+            .compose(RxHelper.bindToLifecycle(mView))
+            .subscribe(object : RxSubscriber<StepStandardBean>(mView){
+                override fun _onNext(t: StepStandardBean?) {
+                    if (t != null) {
+                        mView.onStepDetailResult(t)
+                    }
+                }
+
+                override fun _onError(code: Int, message: String?) {
+                    mView.handleError(code, message)
+                }
             })
     }
 
