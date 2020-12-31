@@ -4,16 +4,19 @@ import android.Manifest
 import android.app.Activity
 import android.content.Intent
 import android.location.Location
+import android.os.Build
 import android.os.Bundle
 import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.inputmethod.EditorInfo
 import android.widget.Button
 import android.widget.EditText
+import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.zx.bui.ui.buidialog.BUIDialog
 import com.zx.projectmanage.R
+import com.zx.projectmanage.api.ApiConfigModule
 import com.zx.projectmanage.base.BaseActivity
 import com.zx.projectmanage.base.BottomSheetTool
 import com.zx.projectmanage.base.SimpleDecoration
@@ -80,17 +83,6 @@ class ConstructionDataActivity : BaseActivity<ConstructionDataPresenter, Constru
         dataList.add(ConstructionDataBean(ConstructionDataBean.Select_Type, "规范模板", isDivider = true))
         dataList.add(ConstructionDataBean(ConstructionDataBean.Location_Type, "上报位置", isDivider = true))
         dataList.add(ConstructionDataBean(ConstructionDataBean.Text_Type, "驳回原因", isDivider = true))
-        dataList.add(ConstructionDataBean(ConstructionDataBean.Step_Type, "****步骤", "请上传施工的最终效果及施工过程录像", stepInfos = arrayListOf<DataStepInfoBean>().apply {
-            add(DataStepInfoBean(thumbnail = "https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fn.sinaimg.cn%2Fsinakd20200323ac%2F233%2Fw640h393%2F20200323%2F0a1c-ireifzh8572883.jpg&refer=http%3A%2F%2Fn.sinaimg.cn&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=jpeg?sec=1611290788&t=716ab4f8829340e491eeaa262987beaa"))
-            add(DataStepInfoBean(thumbnail = "https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fn.sinaimg.cn%2Fsinakd20200323ac%2F233%2Fw640h393%2F20200323%2F0a1c-ireifzh8572883.jpg&refer=http%3A%2F%2Fn.sinaimg.cn&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=jpeg?sec=1611290788&t=716ab4f8829340e491eeaa262987beaa"))
-            add(DataStepInfoBean(thumbnail = "https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fn.sinaimg.cn%2Fsinakd20200323ac%2F233%2Fw640h393%2F20200323%2F0a1c-ireifzh8572883.jpg&refer=http%3A%2F%2Fn.sinaimg.cn&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=jpeg?sec=1611290788&t=716ab4f8829340e491eeaa262987beaa"))
-        }))
-        dataList.add(ConstructionDataBean(ConstructionDataBean.Step_Type, "****步骤", "请上传施工的最终效果及施工过程录像", stepInfos = arrayListOf<DataStepInfoBean>().apply {
-            add(DataStepInfoBean(thumbnail = "https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fn.sinaimg.cn%2Fsinakd20200323ac%2F233%2Fw640h393%2F20200323%2F0a1c-ireifzh8572883.jpg&refer=http%3A%2F%2Fn.sinaimg.cn&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=jpeg?sec=1611290788&t=716ab4f8829340e491eeaa262987beaa"))
-            add(DataStepInfoBean(thumbnail = "https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fn.sinaimg.cn%2Fsinakd20200323ac%2F233%2Fw640h393%2F20200323%2F0a1c-ireifzh8572883.jpg&refer=http%3A%2F%2Fn.sinaimg.cn&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=jpeg?sec=1611290788&t=716ab4f8829340e491eeaa262987beaa"))
-            add(DataStepInfoBean(thumbnail = "https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fn.sinaimg.cn%2Fsinakd20200323ac%2F233%2Fw640h393%2F20200323%2F0a1c-ireifzh8572883.jpg&refer=http%3A%2F%2Fn.sinaimg.cn&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=jpeg?sec=1611290788&t=716ab4f8829340e491eeaa262987beaa"))
-            add(DataStepInfoBean(thumbnail = "https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fn.sinaimg.cn%2Fsinakd20200323ac%2F233%2Fw640h393%2F20200323%2F0a1c-ireifzh8572883.jpg&refer=http%3A%2F%2Fn.sinaimg.cn&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=jpeg?sec=1611290788&t=716ab4f8829340e491eeaa262987beaa"))
-        }))
 
         rv_construction_data.apply {
             layoutManager = LinearLayoutManager(mContext)
@@ -231,8 +223,17 @@ class ConstructionDataActivity : BaseActivity<ConstructionDataPresenter, Constru
     /**
      * 模板详情
      */
+    @RequiresApi(Build.VERSION_CODES.N)
     override fun onStepDetailResult(stepDetail: StepStandardBean) {
         selectStepBean = stepDetail
+        dataList.removeIf { it.type == ConstructionDataBean.Step_Type }
+        stepDetail.standardSteps?.forEach {
+            dataList.add(ConstructionDataBean(ConstructionDataBean.Step_Type, it.stepName, it.standard, stepInfos = arrayListOf<DataStepInfoBean>().apply {
+//                add(DataStepInfoBean(ApiConfigModule.BASE_IP + "admin/sys-file/getFileById?id=" + it.standardId))
+                add(DataStepInfoBean(thumbnail = ApiConfigModule.BASE_IP + "admin/sys-file/getFileById?id=353732457519910912"))
+            }))
+        }
+        dataAdapter.notifyDataSetChanged()
     }
 
     /**

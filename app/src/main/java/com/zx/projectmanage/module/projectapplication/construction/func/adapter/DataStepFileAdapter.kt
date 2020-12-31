@@ -24,6 +24,8 @@ class DataStepFileAdapter(dataList: List<DataStepInfoBean>) : ZXQuickAdapter<Dat
             )
             .apply(RequestOptions.bitmapTransform(MultiTransformation(CenterCrop(), RoundedCorners(20))))
             .into(helper.getView(R.id.iv_data_step_image))
+        helper.setGone(R.id.tv_data_step_shadow, helper.adapterPosition == 0)
+        helper.setGone(R.id.iv_data_step_delete, helper.adapterPosition != 0)
         helper.addOnClickListener(R.id.iv_data_step_delete)
     }
 }

@@ -42,7 +42,7 @@ class ConstructionReportPresenter : ConstructionReportContract.Presenter() {
             .compose(RxHelper.bindToLifecycle(mView))
             .subscribe(object : RxSubscriber<Any>(mView) {
                 override fun _onNext(t: Any?) {
-                    mView.showToast(t.toString())
+//                    mView.showToast(t.toString())
 //                    mView.getProjectStatusResult(t)
                 }
 
