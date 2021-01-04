@@ -2,24 +2,20 @@ package com.zx.projectmanage.module.projectapplication.main.ui
 
 import android.app.Activity
 import android.os.Bundle
-import android.util.Log
 import androidx.recyclerview.widget.GridLayoutManager
 import com.bumptech.glide.Glide
-import com.bumptech.glide.load.resource.bitmap.RoundedCorners
-import com.bumptech.glide.request.RequestOptions
-import com.youth.banner.Banner
 import com.youth.banner.adapter.BannerImageAdapter
 import com.youth.banner.holder.BannerImageHolder
 import com.zx.projectmanage.R
 import com.zx.projectmanage.base.BaseFragment
-import com.zx.projectmanage.module.projectapplication.main.bean.ApplicationFuncBean
+import com.zx.projectmanage.module.projectapplication.approve.ui.ApproveReportActivity
 import com.zx.projectmanage.module.projectapplication.construction.ui.ConstructionReportActivity
+import com.zx.projectmanage.module.projectapplication.main.bean.ApplicationFuncBean
 import com.zx.projectmanage.module.projectapplication.main.func.adater.ApplicationFuncsAdapter
 import com.zx.projectmanage.module.projectapplication.main.mvp.contract.ApplicationMainContract
 import com.zx.projectmanage.module.projectapplication.main.mvp.model.ApplicationMainModel
 import com.zx.projectmanage.module.projectapplication.main.mvp.presenter.ApplicationMainPresenter
 import kotlinx.android.synthetic.main.fragment_application_main.*
-import java.lang.reflect.Field
 
 /**
  * Create By admin On 2017/7/11
@@ -106,6 +102,9 @@ class ApplicationMainFragment : BaseFragment<ApplicationMainPresenter, Applicati
             when (position) {
                 0 -> {
                     ConstructionReportActivity.startAction(mContext as Activity, false)
+                }
+                1 -> {
+                    ApproveReportActivity.startAction(mContext as Activity, false)
                 }
             }
 

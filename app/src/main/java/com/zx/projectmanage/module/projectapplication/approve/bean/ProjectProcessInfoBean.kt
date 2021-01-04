@@ -1,7 +1,5 @@
-package com.zx.projectmanage.module.projectapplication.construction.bean
+package com.zx.projectmanage.module.projectapplication.approve.bean
 
-import android.os.Parcel
-import android.os.Parcelable
 import java.io.Serializable
 
 /**

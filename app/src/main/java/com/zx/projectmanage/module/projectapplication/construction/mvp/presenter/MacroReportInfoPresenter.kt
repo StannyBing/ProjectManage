@@ -2,10 +2,8 @@ package com.zx.projectmanage.module.projectapplication.construction.mvp.presente
 
 import com.frame.zxmvp.baserx.RxHelper
 import com.frame.zxmvp.baserx.RxSubscriber
-import com.gt.giscollect.base.NormalList
-import com.zx.projectmanage.module.projectapplication.construction.bean.ProjectProcessInfoBean
+import com.zx.projectmanage.module.projectapplication.approve.bean.ProjectProcessInfoBean
 import com.zx.projectmanage.module.projectapplication.construction.mvp.contract.MacroReportInfoContract
-
 
 /**
  * Create By admin On 2017/7/11

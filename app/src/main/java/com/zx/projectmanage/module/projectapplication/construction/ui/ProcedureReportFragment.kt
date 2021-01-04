@@ -1,24 +1,23 @@
 package com.zx.projectmanage.module.projectapplication.construction.ui
 
 import android.app.Activity
+import android.content.DialogInterface
 import android.os.Bundle
 import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.gt.giscollect.base.NormalList
 import com.zx.projectmanage.R
+import com.zx.projectmanage.app.toJson
 import com.zx.projectmanage.base.BaseFragment
-import com.zx.projectmanage.base.SimpleDecoration
-import com.zx.projectmanage.module.projectapplication.construction.bean.ProjectProcessInfoBean
-import com.zx.projectmanage.module.projectapplication.construction.bean.ReportListBean
+import com.zx.projectmanage.base.UserManager
+import com.zx.projectmanage.module.projectapplication.approve.bean.DeviceListBean
+import com.zx.projectmanage.module.projectapplication.approve.bean.ProjectProcessInfoBean
 import com.zx.projectmanage.module.projectapplication.construction.func.adapter.ProcedureListAdapter
-import com.zx.projectmanage.module.projectapplication.construction.func.adapter.ReportListAdapter
 import com.zx.projectmanage.module.projectapplication.construction.mvp.contract.ProcedureReportContract
 import com.zx.projectmanage.module.projectapplication.construction.mvp.model.ProcedureReportModel
 import com.zx.projectmanage.module.projectapplication.construction.mvp.presenter.ProcedureReportPresenter
+import com.zx.zxutils.util.ZXDialogUtil
 import com.zx.zxutils.util.ZXToastUtil
-import kotlinx.android.synthetic.main.activity_construction_report.*
-import kotlinx.android.synthetic.main.activity_construction_report.head
-import kotlinx.android.synthetic.main.activity_construction_report.swipeRecyler
-import kotlinx.android.synthetic.main.activity_construction_report_child.*
 import kotlinx.android.synthetic.main.fragment_procedure_report.*
 
 /**
@@ -26,8 +25,11 @@ import kotlinx.android.synthetic.main.fragment_procedure_report.*
  * 功能：工序fragment
  */
 class ProcedureReportFragment : BaseFragment<ProcedureReportPresenter, ProcedureReportModel>(), ProcedureReportContract.View {
-    private var list: MutableList<ReportListBean> = arrayListOf<ReportListBean>()
+    private var list: MutableList<DeviceListBean> = arrayListOf<DeviceListBean>()
     private val reportListAdapter = ProcedureListAdapter(list)
+    var subProjectId = ""
+    var projectId = ""
+    var parcelable: ProjectProcessInfoBean.DetailedListBean? = null
 
     /**
      * layout配置
@@ -53,14 +55,17 @@ class ProcedureReportFragment : BaseFragment<ProcedureReportPresenter, Procedure
      */
     override fun initView(savedInstanceState: Bundle?) {
         super.initView(savedInstanceState)
-        val parcelable = arguments?.getSerializable("bean") as ProjectProcessInfoBean.DetailedListBean
-        if (parcelable.showMaterials == 0) {
+        parcelable = arguments?.getSerializable("bean") as ProjectProcessInfoBean.DetailedListBean
+        subProjectId = arguments?.getString("subProjectId").toString()
+        projectId = arguments?.getString("projectId").toString()
+
+        if (parcelable?.showMaterials == 0) {
             materials.visibility = View.GONE
         }
-        if (parcelable.showOperationGuide == 0) {
+        if (parcelable?.showOperationGuide == 0) {
             operationGuide.visibility = View.GONE
         }
-        if (parcelable.showSafetyRegulations == 0) {
+        if (parcelable?.showSafetyRegulations == 0) {
             safetyRegulations.visibility = View.GONE
         }
         //设置adapter
@@ -69,6 +74,12 @@ class ProcedureReportFragment : BaseFragment<ProcedureReportPresenter, Procedure
             adapter = reportListAdapter
 //            addItemDecoration(SimpleDecoration(mContext))
         }
+        mPresenter.getDeviceList(
+            hashMapOf(
+                "detailId" to parcelable?.processId.toString(),
+                "subProjectId" to subProjectId
+            )
+        )
     }
 
     /**
@@ -78,5 +89,65 @@ class ProcedureReportFragment : BaseFragment<ProcedureReportPresenter, Procedure
         tv_report_addEquip.setOnClickListener {
             ConstructionDataActivity.startAction(requireActivity(), false)
         }
+        materials.setOnSuperTextViewClickListener {
+            val materials = parcelable?.materials
+            if (materials != null) {
+                ZXToastUtil.showToast("没有相关资料")
+            } else {
+                DocumentActivity.startAction(mContext as Activity, false, materials)
+            }
+
+        }
+        operationGuide.setOnSuperTextViewClickListener {
+            if (parcelable?.operationGuide!!.isEmpty()) {
+                ZXToastUtil.showToast("没有相关资料")
+            } else {
+                DocumentActivity.startAction(mContext as Activity, false, parcelable?.operationGuide)
+            }
+
+        }
+        safetyRegulations.setOnSuperTextViewClickListener {
+            if (parcelable?.safetyRegulations!!.isEmpty()) {
+                ZXToastUtil.showToast("没有相关资料")
+            } else {
+                DocumentActivity.startAction(mContext as Activity, false, parcelable?.safetyRegulations!!)
+            }
+
+        }
+        btn_approve_submit.setOnClickListener {
+            var b = false
+            for (deviceListBean in list) {
+
+            }
+            if (b) {
+                //自动登录
+                mPresenter.postSubmit(
+                    hashMapOf(
+                        "detailedProId" to list[0].detailedProId,
+                        "projectId" to projectId,
+                        "subProecssId" to parcelable?.processId.toString()
+                    ).toJson()
+                )
+            } else {
+                ZXDialogUtil.showYesNoDialog(mContext, "提示", "您有设备未完成资料上传") { _, i ->
+                    ZXDialogUtil.dismissDialog()
+                }
+            }
+        }
     }
+
+
+    override fun getDeviceListResult(data: MutableList<DeviceListBean>?) {
+        if (data != null) {
+            list = data
+        }
+        reportListAdapter.setNewData(
+            data
+        )
+    }
+
+    override fun postSubmitResult(data: Any?) {
+
+    }
+
 }

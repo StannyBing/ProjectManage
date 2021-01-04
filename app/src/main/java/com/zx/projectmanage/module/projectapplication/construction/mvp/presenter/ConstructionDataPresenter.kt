@@ -1,12 +1,11 @@
 package com.zx.projectmanage.module.projectapplication.construction.mvp.presenter
 
-import android.graphics.PointF
 import android.location.Location
 import com.frame.zxmvp.baserx.RxHelper
 import com.frame.zxmvp.baserx.RxSubscriber
 import com.gt.giscollect.base.NormalList
-import com.zx.projectmanage.module.projectapplication.construction.bean.BaiduGeocoderBean
-import com.zx.projectmanage.module.projectapplication.construction.bean.StepStandardBean
+import com.zx.projectmanage.module.projectapplication.approve.bean.BaiduGeocoderBean
+import com.zx.projectmanage.module.projectapplication.approve.bean.StepStandardBean
 import com.zx.projectmanage.module.projectapplication.construction.mvp.contract.ConstructionDataContract
 
 

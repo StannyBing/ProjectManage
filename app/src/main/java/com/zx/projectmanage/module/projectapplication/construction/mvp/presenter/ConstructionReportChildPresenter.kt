@@ -5,9 +5,8 @@ import com.frame.zxmvp.baserx.RxHelper
 import com.frame.zxmvp.baserx.RxSubscriber
 import com.gt.giscollect.base.NormalList
 
-import com.zx.projectmanage.module.projectapplication.construction.bean.ReportSubListBean
+import com.zx.projectmanage.module.projectapplication.approve.bean.ReportSubListBean
 import com.zx.projectmanage.module.projectapplication.construction.mvp.contract.ConstructionReportChildContract
-import okhttp3.RequestBody
 
 
 /**

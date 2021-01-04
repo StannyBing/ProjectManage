@@ -5,5 +5,4 @@ data class NormalList<T>(
     var current: Int,
     var total: Int,
     var records: List<T>
-) {
-}
+)

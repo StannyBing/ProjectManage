@@ -5,10 +5,10 @@ import com.frame.zxmvp.baserx.RxHelper
 import com.frame.zxmvp.baserx.RxSchedulers
 import com.gt.giscollect.base.NormalList
 import com.zx.projectmanage.api.ApiService
-import com.zx.projectmanage.module.projectapplication.construction.bean.BaiduGeocoderBean
-import com.zx.projectmanage.module.projectapplication.construction.bean.StepStandardBean
-
+import com.zx.projectmanage.module.projectapplication.approve.bean.BaiduGeocoderBean
+import com.zx.projectmanage.module.projectapplication.approve.bean.StepStandardBean
 import com.zx.projectmanage.module.projectapplication.construction.mvp.contract.ConstructionDataContract
+
 import rx.Observable
 
 /**

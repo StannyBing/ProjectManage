@@ -1,6 +1,4 @@
-package com.zx.projectmanage.module.projectapplication.construction.bean
-
-import java.io.File
+package com.zx.projectmanage.module.projectapplication.approve.bean
 
 data class DataStepInfoBean(
     var path: String = "",

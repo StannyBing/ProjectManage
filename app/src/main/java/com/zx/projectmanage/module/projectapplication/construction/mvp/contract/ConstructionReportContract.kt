@@ -4,13 +4,8 @@ package com.zx.projectmanage.module.projectapplication.construction.mvp.contract
 import com.frame.zxmvp.base.BasePresenter
 import com.frame.zxmvp.base.IView
 import com.frame.zxmvp.base.IModel
-import com.frame.zxmvp.basebean.BaseRespose
-import com.gt.giscollect.base.NormalList
-import com.zx.projectmanage.module.main.bean.UserBean
-import com.zx.projectmanage.module.projectapplication.construction.bean.ProjectPeriodBean
-import com.zx.projectmanage.module.projectapplication.construction.bean.ProjectStatusBean
-import com.zx.projectmanage.module.projectapplication.construction.bean.ReportListBean
-import com.zx.projectmanage.module.projectapplication.construction.dto.ReportListDto
+import com.zx.projectmanage.module.projectapplication.approve.bean.ProjectPeriodBean
+import com.zx.projectmanage.module.projectapplication.approve.bean.ReportListBean
 import rx.Observable
 
 /**
@@ -32,8 +27,9 @@ interface ConstructionReportContract {
             keyword: String? = null,
             pageNo: Int? = 1,
             pageSize: Int? = 10,
-            projectStatus: Int? = null,
-            tenders: Int? = null
+            projectStatus: String? = null,
+            tenders: Int? = null,
+            buildPeriod: String? = null
         ): Observable<ReportListBean>
 
         fun getProjectStatus(): Observable<Any>
@@ -47,8 +43,9 @@ interface ConstructionReportContract {
             keyword: String? = null,
             pageNo: Int? = 1,
             pageSize: Int? = 10,
-            projectStatus: Int? = null,
-            tenders: Int? = null
+            projectStatus: String? = null,
+            tenders: Int? = null,
+            buildPeriod: String? = null
         )
 
         abstract fun getProjectStatus()

@@ -6,7 +6,6 @@ import android.content.Intent
 import android.location.Location
 import android.os.Build
 import android.os.Bundle
-import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.inputmethod.EditorInfo
 import android.widget.Button
@@ -14,29 +13,25 @@ import android.widget.EditText
 import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.zx.bui.ui.buidialog.BUIDialog
 import com.zx.projectmanage.R
 import com.zx.projectmanage.api.ApiConfigModule
 import com.zx.projectmanage.base.BaseActivity
 import com.zx.projectmanage.base.BottomSheetTool
 import com.zx.projectmanage.base.SimpleDecoration
 import com.zx.projectmanage.module.other.ui.CameraActivity
-import com.zx.projectmanage.module.projectapplication.construction.bean.BaiduGeocoderBean
-import com.zx.projectmanage.module.projectapplication.construction.bean.ConstructionDataBean
-import com.zx.projectmanage.module.projectapplication.construction.bean.DataStepInfoBean
-import com.zx.projectmanage.module.projectapplication.construction.bean.StepStandardBean
-import com.zx.projectmanage.module.projectapplication.construction.func.adapter.ConstructionDataAdapter
-import com.zx.projectmanage.module.projectapplication.construction.func.adapter.StepStandardAdapter
+import com.zx.projectmanage.module.projectapplication.approve.bean.BaiduGeocoderBean
+import com.zx.projectmanage.module.projectapplication.approve.bean.ConstructionDataBean
+import com.zx.projectmanage.module.projectapplication.approve.bean.DataStepInfoBean
+import com.zx.projectmanage.module.projectapplication.approve.bean.StepStandardBean
+import com.zx.projectmanage.module.projectapplication.approve.func.adapter.ConstructionDataAdapter
+import com.zx.projectmanage.module.projectapplication.approve.func.adapter.StepStandardAdapter
 
-import com.zx.projectmanage.module.projectapplication.construction.mvp.contract.ConstructionDataContract
-import com.zx.projectmanage.module.projectapplication.construction.mvp.model.ConstructionDataModel
-import com.zx.projectmanage.module.projectapplication.construction.mvp.presenter.ConstructionDataPresenter
-import com.zx.projectmanage.module.projectapplication.construction.func.listener.DataStepListener
-import com.zx.zxutils.util.ZXDialogUtil
+import com.zx.projectmanage.module.projectapplication.approve.mvp.contract.ConstructionDataContract
+import com.zx.projectmanage.module.projectapplication.approve.mvp.model.ConstructionDataModel
+import com.zx.projectmanage.module.projectapplication.approve.mvp.presenter.ConstructionDataPresenter
+import com.zx.projectmanage.module.projectapplication.approve.func.listener.DataStepListener
 import com.zx.zxutils.util.ZXLocationUtil
 import com.zx.zxutils.util.ZXSystemUtil
-import com.zx.zxutils.util.ZXTimeUtil
-import com.zx.zxutils.views.BottomSheet.ZXBottomSheet
 import kotlinx.android.synthetic.main.activity_construction_data.*
 
 
@@ -51,7 +46,7 @@ class ConstructionDataActivity : BaseActivity<ConstructionDataPresenter, Constru
          * 启动器
          */
         fun startAction(activity: Activity, isFinish: Boolean) {
-            val intent = Intent(activity, ConstructionDataActivity::class.java)
+            val intent = Intent(activity, ApproveDataActivity::class.java)
             activity.startActivity(intent)
             if (isFinish) activity.finish()
         }

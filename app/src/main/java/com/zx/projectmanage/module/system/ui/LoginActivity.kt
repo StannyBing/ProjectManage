@@ -3,21 +3,15 @@ package com.zx.projectmanage.module.system.ui
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
-import android.view.View
 import com.zx.projectmanage.R
 import com.zx.projectmanage.app.toJson
 import com.zx.projectmanage.base.BaseActivity
 import com.zx.projectmanage.base.UserManager
 import com.zx.projectmanage.module.main.bean.UserBean
 import com.zx.projectmanage.module.main.ui.MainActivity
-import com.zx.projectmanage.module.projectapplication.construction.ui.ConstructionDataActivity
-import com.zx.projectmanage.module.projectapplication.construction.ui.ConstructionReportActivity
 
-import com.zx.projectmanage.module.system.mvp.contract.LoginContract
 import com.zx.projectmanage.module.system.mvp.contract.SplashContract
-import com.zx.projectmanage.module.system.mvp.model.LoginModel
 import com.zx.projectmanage.module.system.mvp.model.SplashModel
-import com.zx.projectmanage.module.system.mvp.presenter.LoginPresenter
 import com.zx.projectmanage.module.system.mvp.presenter.SplashPresenter
 import com.zx.zxutils.views.ZXStatusBarCompat
 import kotlinx.android.synthetic.main.activity_login.*

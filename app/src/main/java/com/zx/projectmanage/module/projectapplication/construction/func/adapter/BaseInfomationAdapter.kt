@@ -1,28 +1,27 @@
 package com.zx.projectmanage.module.projectapplication.construction.func.adapter
 
-import android.app.Activity
-import android.os.Bundle
-import com.allen.library.SuperTextView
-import com.allen.library.SuperTextView.BOTTOM
 import com.zx.projectmanage.R
-import com.zx.projectmanage.module.projectapplication.construction.bean.InformationBean
-
-import com.zx.projectmanage.module.projectapplication.construction.bean.ReportListBean
-import com.zx.projectmanage.module.projectapplication.construction.ui.ConstructionReportChildActivity
+import com.zx.projectmanage.module.projectapplication.approve.bean.InformationListBean
 import com.zx.zxutils.other.QuickAdapter.ZXBaseHolder
-import com.zx.zxutils.other.QuickAdapter.ZXQuickAdapter
+import com.zx.zxutils.other.QuickAdapter.ZXMultiItemQuickAdapter
 
-class BaseInfomationAdapter(dataList: List<InformationBean>) : ZXQuickAdapter<InformationBean, ZXBaseHolder>(R.layout.item_report_list, dataList) {
-    override fun convert(helper: ZXBaseHolder, item: InformationBean) {
-        val superTextView = helper?.getView<SuperTextView>(R.id.super_tv)
-        if (item.type == 1) {
-            superTextView.setLeftString(item.titel)
-                .setLeftIcon(R.drawable.title_rangle)
-        } else {
-            superTextView.setLeftString(item.titel)
-                .setRightString(item.text)
+
+class BaseInfomationAdapter(dataList: List<InformationListBean>) : ZXMultiItemQuickAdapter<InformationListBean, ZXBaseHolder>(dataList) {
+    init {
+        addItemType(InformationListBean.Title_Type, R.layout.item_information)
+        addItemType(InformationListBean.Text_Type, R.layout.item_information_text)
+    }
+
+    override fun convert(helper: ZXBaseHolder, item: InformationListBean) {
+
+        when (item.type) {
+            InformationListBean.Title_Type -> {
+                helper.setText(R.id.title, item.titel)
+            }
+            InformationListBean.Text_Type -> {
+                helper.setText(R.id.title, item.titel)
+                helper.setText(R.id.text, item.text)
+            }
         }
-
-
     }
 }
