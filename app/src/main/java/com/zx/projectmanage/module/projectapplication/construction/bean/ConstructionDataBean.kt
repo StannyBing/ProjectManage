@@ -10,7 +10,8 @@ data class ConstructionDataBean(
     var longitude: Double? = null,
     var latitude: Double? = null,
     var stepInfos: ArrayList<DataStepInfoBean> = arrayListOf(),
-    var isDivider: Boolean = false
+    var isDivider: Boolean = false,
+    var standardBean: StepStandardBean? = null
 ) : MultiItemEntity {
 
     companion object {

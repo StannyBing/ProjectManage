@@ -4,10 +4,16 @@ import android.graphics.PointF
 import android.location.Location
 import com.frame.zxmvp.baserx.RxHelper
 import com.frame.zxmvp.baserx.RxSubscriber
+import com.frame.zxmvp.http.upload.UploadRequestBody
 import com.gt.giscollect.base.NormalList
-import com.zx.projectmanage.module.projectapplication.construction.bean.BaiduGeocoderBean
-import com.zx.projectmanage.module.projectapplication.construction.bean.StepStandardBean
+import com.zx.projectmanage.app.toJson
+import com.zx.projectmanage.module.projectapplication.construction.bean.*
 import com.zx.projectmanage.module.projectapplication.construction.mvp.contract.ConstructionDataContract
+import com.zx.zxutils.util.ZXDialogUtil
+import okhttp3.MediaType
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
+import java.io.File
 
 
 /**
@@ -50,7 +56,7 @@ class ConstructionDataPresenter : ConstructionDataContract.Presenter() {
     override fun getStepDetail(id: String) {
         mModel.stepDetailData(id)
             .compose(RxHelper.bindToLifecycle(mView))
-            .subscribe(object : RxSubscriber<StepStandardBean>(mView){
+            .subscribe(object : RxSubscriber<StepStandardBean>(mView) {
                 override fun _onNext(t: StepStandardBean?) {
                     if (t != null) {
                         mView.onStepDetailResult(t)
@@ -63,5 +69,94 @@ class ConstructionDataPresenter : ConstructionDataContract.Presenter() {
             })
     }
 
+    override fun saveDataInfo(dataList: List<ConstructionDataBean>) {
+        var uploadIndex = 0
+        val fileList = arrayListOf<File>()
+        val uploadIdsList = arrayListOf<String>()
+        dataList.forEach {
+            it.stepInfos.forEachIndexed { index, dataStepInfoBean ->
+                if (index > 0) {
+                    fileList.add(File(dataStepInfoBean.path))
+                }
+            }
+        }
+        mModel.uploadFileData(getUploadRequestBody(fileList, uploadIndex))
+            .compose(RxHelper.bindToLifecycle(mView))
+            .apply {
+                for (i in 0..(dataList.size - 2)) {
+                    flatMap {
+                        uploadIdsList.add(it.id)
+                        uploadIndex++
+                        mModel.uploadFileData(getUploadRequestBody(fileList, uploadIndex))
+                    }
+                }
+            }
+            .flatMap {
+                uploadIdsList.add(it.id)
+                if (uploadIndex < fileList.size - 1) {
+                    uploadIndex++
+                    return@flatMap mModel.uploadFileData(getUploadRequestBody(fileList, uploadIndex))
+                }
+                return@flatMap mModel.uploadFileData(getUploadRequestBody(fileList, uploadIndex))
+            }
+            .flatMap {
+                uploadIdsList.add(it.id)
+                val equipmentId = dataList.first { it.name == "设备ID" }.stringValue
+                val equipmentName = dataList.first { it.name == "设备名称" }.stringValue
+                val detailedId = ""
+                val subProjectId = ""
+                val standardId = dataList.first { it.name == "上报位置" }.standardBean?.id
+                val postAddr = dataList.first { it.name == "上报位置" }.stringValue
+                val latitude = dataList.first { it.name == "上报位置" }.latitude
+                val longitude = dataList.first { it.name == "上报位置" }.longitude
+                val postDetails = arrayListOf<HashMap<String, String>>().apply {
+                    var fileIndex = 0
+                    dataList.forEach {
+                        it.stepInfos.forEachIndexed { index, dataStepInfoBean ->
+                            if (index > 0) {
+                                add(
+                                    hashMapOf(
+                                        "attachment" to uploadIdsList[fileIndex],
+                                        "fileType" to if (dataStepInfoBean.type == DataStepInfoBean.Type.PICTURE) "0" else "1",
+                                        "stepId" to (it.standardBean?.id ?: "")
+                                    )
+                                )
+                                fileIndex++
+                            }
+                        }
+                    }
+                }
+                mModel.saveInfoData(
+                    hashMapOf(
+                        "equipmentId" to equipmentId,
+                        "equipmentName" to equipmentName,
+                        "standardId" to standardId,
+                        "postAddr" to postAddr,
+                        "latitude" to latitude,
+                        "longitude" to longitude,
+                        "postDetails" to postDetails
+                    ).toJson()
+                )
+            }
+            .subscribe(object : RxSubscriber<Any>(mView) {
+                override fun _onNext(t: Any?) {
+                    mView.onSaveResult()
+                }
+
+                override fun _onError(code: Int, message: String?) {
+                    mView.handleError(code, message)
+                }
+            })
+    }
+
+    private fun getUploadRequestBody(dataList: List<File>, index: Int): UploadRequestBody {
+        val builder = MultipartBody.Builder().setType(MultipartBody.FORM)
+        builder.addFormDataPart("path", "app")
+        builder.addFormDataPart("file", dataList[index].name, RequestBody.create(MediaType.parse("multipart/form-data"), dataList[index]))
+        return UploadRequestBody(builder.build(), UploadRequestBody.UploadListener
+        { progress, done ->
+            mView.showLoading("上传中...(${index + 1}/${dataList.size})", progress)
+        })
+    }
 
 }

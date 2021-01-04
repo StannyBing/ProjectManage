@@ -86,13 +86,13 @@ abstract class BaseActivity<T : BasePresenter<*, *>, E : BaseModel> : RxBaseActi
     }
 
     override fun handleError(code: Int, message: String) {
-        if (code == 20001 && this !is LoginActivity && this !is SplashActivity) {
-            showToast("登录超时，请重新登录")
-            UserManager.loginOut()
-            LoginActivity.startAction(this, true)
-        } else {
+//        if (code == 20001 && this !is LoginActivity && this !is SplashActivity) {
+//            showToast("登录超时，请重新登录")
+//            UserManager.loginOut()
+//            LoginActivity.startAction(this, true)
+//        } else {
             showToast(message)
-        }
+//        }
     }
 
     override fun initView(savedInstanceState: Bundle?) {

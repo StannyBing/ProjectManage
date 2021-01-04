@@ -81,4 +81,15 @@ interface ApiService {
         @Path("id") id: String
     ): Observable<BaseRespose<StepStandardBean>>
 
+    /**
+     * 上传文件
+     */
+    @POST("admin/sys-file/upload")
+    fun uploadFile(@Body body: RequestBody) : Observable<BaseRespose<FileUploadBean>>
+
+    /**
+     * 新增施工上报
+     */
+    @POST("business/app/buildpost/save")
+    fun saveDataInfo(@Body body: RequestBody) : Observable<BaseRespose<Any>>
 }

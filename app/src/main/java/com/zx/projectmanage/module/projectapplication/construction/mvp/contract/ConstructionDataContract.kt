@@ -6,8 +6,9 @@ import com.frame.zxmvp.base.BasePresenter
 import com.frame.zxmvp.base.IView
 import com.frame.zxmvp.base.IModel
 import com.gt.giscollect.base.NormalList
-import com.zx.projectmanage.module.projectapplication.construction.bean.BaiduGeocoderBean
-import com.zx.projectmanage.module.projectapplication.construction.bean.StepStandardBean
+import com.zx.projectmanage.module.projectapplication.construction.bean.*
+import okhttp3.RequestBody
+import retrofit2.http.Body
 import rx.Observable
 
 /**
@@ -19,27 +20,36 @@ interface ConstructionDataContract {
     interface View : IView {
         fun onGeocoderResult(location: Location, geocoderBean: BaiduGeocoderBean)
 
-        fun onStepStandardResult(stepStandardList : List<StepStandardBean>)
+        fun onStepStandardResult(stepStandardList: List<StepStandardBean>)
 
-        fun onStepDetailResult(stepDetail : StepStandardBean)
+        fun onStepDetailResult(stepDetail: StepStandardBean)
+
+        fun onSaveResult()
     }
 
     //Model层定义接口,外部只需关心Model返回的数据,无需关心内部细节,即是否使用缓存
     interface Model : IModel {
-        fun baiduGeocoderData(url : String) : Observable<BaiduGeocoderBean>
+        fun baiduGeocoderData(url: String): Observable<BaiduGeocoderBean>
 
-        fun stepStandardData(map: HashMap<String, String>) : Observable<NormalList<StepStandardBean>>
+        fun stepStandardData(map: HashMap<String, String>): Observable<NormalList<StepStandardBean>>
 
-        fun stepDetailData(id : String) : Observable<StepStandardBean>
+        fun stepDetailData(id: String): Observable<StepStandardBean>
+
+        fun uploadFileData(body: RequestBody): Observable<FileUploadBean>
+
+        fun saveInfoData(body: RequestBody): Observable<Any>
+
     }
 
     //方法
     abstract class Presenter : BasePresenter<View, Model>() {
-        abstract fun doGeocoder(location : Location)
+        abstract fun doGeocoder(location: Location)
 
         abstract fun getStepStandard(map: HashMap<String, String>)
 
-        abstract fun getStepDetail(id : String)
+        abstract fun getStepDetail(id: String)
+
+        abstract fun saveDataInfo(dataList: List<ConstructionDataBean>)
     }
 }
 

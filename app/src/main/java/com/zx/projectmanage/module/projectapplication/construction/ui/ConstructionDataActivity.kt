@@ -50,7 +50,7 @@ class ConstructionDataActivity : BaseActivity<ConstructionDataPresenter, Constru
         /**
          * 启动器
          */
-        fun startAction(activity: Activity, isFinish: Boolean) {
+        fun startAction(activity: Activity, isFinish: Boolean, detailedId : String, subProjectId : String) {
             val intent = Intent(activity, ConstructionDataActivity::class.java)
             activity.startActivity(intent)
             if (isFinish) activity.finish()
@@ -116,6 +116,10 @@ class ConstructionDataActivity : BaseActivity<ConstructionDataPresenter, Constru
                     }
                 }
                 R.id.iv_data_step_camera -> {//照片选择
+                    if (dataList[position].stepInfos.size > 9) {
+                        showToast("附件资料数量不能超过9个")
+                        return@setOnItemChildClickListener
+                    }
                     getPermission(arrayOf(Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.RECORD_AUDIO)) {
                         cameraPos = position
                         CameraActivity.startAction(this, false, requestCode = 0x001)
@@ -126,11 +130,38 @@ class ConstructionDataActivity : BaseActivity<ConstructionDataPresenter, Constru
                 }
             }
         }
+        //删除附件
         dataAdapter.setDataStepListener(object : DataStepListener {
             override fun onFileDelete(stepPos: Int, filePos: Int) {
                 dataList[stepPos].stepInfos.removeAt(filePos)
             }
         })
+        //保存
+        tv_construction_save.setOnClickListener {
+            dataList.filter {
+                it.type == ConstructionDataBean.Edit_Type
+            }.forEach {
+                if (it.stringValue.isEmpty()) {
+                    showToast("请完善输入")
+                    return@setOnClickListener
+                }
+            }
+            if (dataList.first { it.type == ConstructionDataBean.Select_Type }.stringValue.isEmpty()) {
+                showToast("请选择规范模板")
+                return@setOnClickListener
+            }
+            if (dataList.first { it.type == ConstructionDataBean.Location_Type }.latitude == null) {
+                showToast("请选择上报位置")
+                return@setOnClickListener
+            }
+            dataList.filter { it.type == ConstructionDataBean.Step_Type }.forEach {
+                if (it.stepInfos.size < 2) {
+                    showToast("请上传步骤文件")
+                    return@setOnClickListener
+                }
+            }
+            mPresenter.saveDataInfo(dataList)
+        }
     }
 
     /**
@@ -182,6 +213,11 @@ class ConstructionDataActivity : BaseActivity<ConstructionDataPresenter, Constru
                 ifEmpty {
                     return@run null
                 }
+                dataList.first { it.type == ConstructionDataBean.Select_Type }.apply {
+                    stringValue = first().name
+                    standardBean = first()
+                }
+
                 mPresenter.getStepDetail(first().id)
             }
             it.dismiss()
@@ -229,11 +265,15 @@ class ConstructionDataActivity : BaseActivity<ConstructionDataPresenter, Constru
         dataList.removeIf { it.type == ConstructionDataBean.Step_Type }
         stepDetail.standardSteps?.forEach {
             dataList.add(ConstructionDataBean(ConstructionDataBean.Step_Type, it.stepName, it.standard, stepInfos = arrayListOf<DataStepInfoBean>().apply {
-//                add(DataStepInfoBean(ApiConfigModule.BASE_IP + "admin/sys-file/getFileById?id=" + it.standardId))
+                //                add(DataStepInfoBean(ApiConfigModule.BASE_IP + "admin/sys-file/getFileById?id=" + it.standardId))
                 add(DataStepInfoBean(thumbnail = ApiConfigModule.BASE_IP + "admin/sys-file/getFileById?id=353732457519910912"))
             }))
         }
         dataAdapter.notifyDataSetChanged()
+    }
+
+    override fun onSaveResult() {
+        showToast("保存成功")
     }
 
     /**

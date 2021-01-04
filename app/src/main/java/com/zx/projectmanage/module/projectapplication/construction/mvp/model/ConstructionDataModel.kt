@@ -6,9 +6,11 @@ import com.frame.zxmvp.baserx.RxSchedulers
 import com.gt.giscollect.base.NormalList
 import com.zx.projectmanage.api.ApiService
 import com.zx.projectmanage.module.projectapplication.construction.bean.BaiduGeocoderBean
+import com.zx.projectmanage.module.projectapplication.construction.bean.FileUploadBean
 import com.zx.projectmanage.module.projectapplication.construction.bean.StepStandardBean
 
 import com.zx.projectmanage.module.projectapplication.construction.mvp.contract.ConstructionDataContract
+import okhttp3.RequestBody
 import rx.Observable
 
 /**
@@ -29,9 +31,23 @@ class ConstructionDataModel : BaseModel(), ConstructionDataContract.Model {
             .compose(RxSchedulers.io_main())
     }
 
-    override fun stepDetailData(id : String): Observable<StepStandardBean> {
+    override fun stepDetailData(id: String): Observable<StepStandardBean> {
         return mRepositoryManager.obtainRetrofitService(ApiService::class.java)
             .getStepDetail(id)
+            .compose(RxHelper.handleResult())
+            .compose(RxSchedulers.io_main())
+    }
+
+    override fun uploadFileData(body: RequestBody): Observable<FileUploadBean> {
+        return mRepositoryManager.obtainRetrofitService(ApiService::class.java)
+            .uploadFile(body)
+            .compose(RxHelper.handleResult())
+            .compose(RxSchedulers.io_main())
+    }
+
+    override fun saveInfoData(body: RequestBody): Observable<Any> {
+        return mRepositoryManager.obtainRetrofitService(ApiService::class.java)
+            .saveDataInfo(body)
             .compose(RxHelper.handleResult())
             .compose(RxSchedulers.io_main())
     }
