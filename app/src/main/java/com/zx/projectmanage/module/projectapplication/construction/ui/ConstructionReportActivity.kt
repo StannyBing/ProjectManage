@@ -14,16 +14,16 @@ import com.zhy.view.flowlayout.TagAdapter
 import com.zhy.view.flowlayout.TagFlowLayout
 import com.zx.projectmanage.R
 import com.zx.projectmanage.base.BaseActivity
-import com.zx.projectmanage.module.projectapplication.construction.bean.ProjectPeriodBean
-import com.zx.projectmanage.module.projectapplication.construction.bean.ProjectStatusBean
-import com.zx.projectmanage.module.projectapplication.construction.bean.ReportListBean
+
+import com.zx.projectmanage.module.projectapplication.approve.bean.ProjectPeriodBean
+import com.zx.projectmanage.module.projectapplication.approve.bean.ProjectStatusBean
+import com.zx.projectmanage.module.projectapplication.approve.bean.ReportListBean
 import com.zx.projectmanage.module.projectapplication.construction.func.adapter.ReportListAdapter
 import com.zx.projectmanage.module.projectapplication.construction.func.tool.hitSoft
 import com.zx.projectmanage.module.projectapplication.construction.func.tool.setHintKtx
 import com.zx.projectmanage.module.projectapplication.construction.mvp.contract.ConstructionReportContract
 import com.zx.projectmanage.module.projectapplication.construction.mvp.model.ConstructionReportModel
 import com.zx.projectmanage.module.projectapplication.construction.mvp.presenter.ConstructionReportPresenter
-import com.zx.zxutils.util.ZXToastUtil
 import kotlinx.android.synthetic.main.activity_construction_report.*
 import kotlinx.android.synthetic.main.dialog_filter_project.view.*
 
@@ -41,6 +41,9 @@ class ConstructionReportActivity : BaseActivity<ConstructionReportPresenter, Con
 
     //状态list
     private var mVals1: MutableList<ProjectStatusBean> = ArrayList()
+    var arrayPeriod = StringBuffer()
+    var arraystatus = StringBuffer()
+
     private var pageNo = 1
     private var pageSize = 10
     var isRefresh = true
@@ -127,7 +130,15 @@ class ConstructionReportActivity : BaseActivity<ConstructionReportPresenter, Con
             }
             inflate.bottomSheetOK.setOnClickListener {
                 //发起筛选请求
-                mPresenter.getPageProject()
+                if (arraystatus.isNotEmpty() && arrayPeriod.isNotEmpty()) {
+                    mPresenter.getPageProject(pageNo = 1, projectStatus = arraystatus.toString(), buildPeriod = arrayPeriod.toString())
+                } else if (arraystatus.isNotEmpty() && arrayPeriod.isEmpty()) {
+                    mPresenter.getPageProject(pageNo = 1, projectStatus = arraystatus.toString())
+                } else if (arraystatus.isEmpty() && arrayPeriod.isNotEmpty()) {
+                    mPresenter.getPageProject(pageNo = 1, buildPeriod = arrayPeriod.toString())
+                } else {
+                    mPresenter.getPageProject(pageNo = 1)
+                }
                 bottomSheetDialog.dismiss()
             }
             inflate?.let { it1 -> bottomSheetDialog.setContentView(it1) }
@@ -169,56 +180,74 @@ class ConstructionReportActivity : BaseActivity<ConstructionReportPresenter, Con
     /**
      * 设置Flow选项卡列表
      */
-    private fun setPeriodFlow(inflate: View, flag: Int) {
+    private fun setPeriodFlow(inflate: View, flag: Int) = if (flag == 1) {
+        val tagAdapter = object : TagAdapter<Any>(mVals as List<Any>?) {
+            override fun getView(parent: com.zhy.view.flowlayout.FlowLayout?, position: Int, t: Any?): View {
 
-        if (flag == 1) {
-            val tagAdapter = object : TagAdapter<Any>(mVals as List<Any>?) {
-                override fun getView(parent: com.zhy.view.flowlayout.FlowLayout?, position: Int, t: Any?): View {
+                val view = View.inflate(mContext, R.layout.flowlayout_textview_selected, null) as TextView
+                //设置展示的值
+                view.text = mVals[position].label
+                //动态设置标签宽度
+                view.width = 170
+                return view
+            }
+        }
+        if (arrayPeriod.toString().isNotEmpty()) {
+            arrayPeriod.delete(0, arrayPeriod.toString().length)
+        }
+        //预先设置选中
+        inflate.periodFlow.adapter = tagAdapter
+        inflate.periodFlow.setMaxSelectCount(9)
+        //为FlowLayout的标签设置选中监听事件
+        inflate.periodFlow.setOnSelectListener(object : TagFlowLayout.OnSelectListener {
+            override fun onSelected(selectPosSet: Set<Int>) {
 
-                    val view = View.inflate(mContext, R.layout.flowlayout_textview_selected, null) as TextView
-                    //设置展示的值
-                    view.text = mVals?.get(position)?.label
-                    //动态设置标签宽度
-                    view.width = 170
-                    return view
+                for (i in selectPosSet) {
+                    if (i == selectPosSet.size - 1) {
+                        arrayPeriod.append(mVals[i].dictId)
+                    } else {
+                        arrayPeriod.append(mVals[i].dictId)
+                        arrayPeriod.append(",")
+                    }
+                    arrayPeriod.toString()
                 }
             }
-            //预先设置选中
-            tagAdapter.setSelectedList(0)
-            inflate.periodFlow.adapter = tagAdapter
-            inflate.periodFlow.setMaxSelectCount(9)
-            //为FlowLayout的标签设置选中监听事件
-            inflate.periodFlow.setOnSelectListener(object : TagFlowLayout.OnSelectListener {
-                override fun onSelected(selectPosSet: Set<Int>) {
-                    //选中的index
-                    ZXToastUtil.showToast(selectPosSet.toString())
-                }
-            })
-        } else {
-            val tagAdapter = object : TagAdapter<Any>(mVals1 as List<Any>?) {
-                override fun getView(parent: com.zhy.view.flowlayout.FlowLayout?, position: Int, t: Any?): View {
+        })
+    } else {
+        val tagAdapter = object : TagAdapter<Any>(mVals1 as List<Any>?) {
+            override fun getView(parent: com.zhy.view.flowlayout.FlowLayout?, position: Int, t: Any?): View {
 
-                    val view = View.inflate(mContext, R.layout.flowlayout_textview_selected, null) as TextView
-                    //设置展示的值
-                    view.text = mVals1?.get(position)?.statusName
-                    //动态设置标签宽度
-                    view.width = 170
-                    return view
-                }
+                val view = View.inflate(mContext, R.layout.flowlayout_textview_selected, null) as TextView
+                //设置展示的值
+                view.text = mVals1[position].statusName
+                //动态设置标签宽度
+                view.width = 170
+                return view
             }
-            //预先设置选中
-            tagAdapter.setSelectedList(0)
-            inflate.statusFlow.adapter = tagAdapter
-            inflate.statusFlow.setMaxSelectCount(9)
-            //为FlowLayout的标签设置选中监听事件
-            inflate.statusFlow.setOnSelectListener(object : TagFlowLayout.OnSelectListener {
-                override fun onSelected(selectPosSet: Set<Int>) {
-                    //选中的index
-                    ZXToastUtil.showToast(selectPosSet.toString())
-                }
-            })
+        }
+        inflate.statusFlow.adapter = tagAdapter
+        inflate.statusFlow.setMaxSelectCount(9)
+        if (arraystatus.toString().isNotEmpty()) {
+            arraystatus.delete(0, arraystatus.toString().length )
         }
 
+        //为FlowLayout的标签设置选中监听事件
+        inflate.statusFlow.setOnSelectListener(object : TagFlowLayout.OnSelectListener {
+            override fun onSelected(selectPosSet: Set<Int>) {
+
+                for (i in selectPosSet) {
+                    if (i == selectPosSet.size - 1) {
+                        arraystatus.append(mVals1[i].statusId)
+                    } else {
+                        arraystatus.append(mVals1[i].statusId)
+                        arraystatus.append(",")
+                    }
+
+                }
+                arraystatus.toString()
+
+            }
+        })
     }
 
     /**

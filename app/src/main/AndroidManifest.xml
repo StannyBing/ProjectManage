@@ -27,16 +27,16 @@
         android:usesCleartextTraffic="true"
         tools:ignore="LockedOrientationActivity">
         <activity
+            android:name=".module.projectapplication.approve.ui.ApproveScoreActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".module.projectapplication.approve.ui.ProjectProgressActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".module.projectapplication.construction.ui.DocumentActivity"
+            android:screenOrientation="portrait" />
+        <activity
             android:name=".module.other.ui.CameraActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".module.projectapplication.construction.ui.ProjectBaseInfomationActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".module.projectapplication.construction.ui.MacroReportInfoActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".module.projectapplication.construction.ui.ConstructionReportChildActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".module.projectapplication.construction.ui.ConstructionDataActivity"
@@ -44,6 +44,30 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".module.projectapplication.construction.ui.ConstructionReportActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".module.projectapplication.construction.ui.ConstructionReportChildActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".module.projectapplication.construction.ui.MacroReportInfoActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".module.projectapplication.construction.ui.ProjectBaseInfomationActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".module.projectapplication.approve.ui.ProjectBaseInfomationActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".module.projectapplication.approve.ui.MacroApproveInfoActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".module.projectapplication.approve.ui.ApproveReportChildActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".module.projectapplication.construction.ui.ApproveDataActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".module.projectapplication.approve.ui.ApproveReportActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".module.main.ui.MainActivity"

@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:stv="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:stv="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical">
 
     <com.allen.library.SuperTextView
@@ -12,16 +12,15 @@
         android:layout_height="@dimen/toolbar_height"
         android:padding="5dp"
         stv:sBackgroundDrawableRes="@color/white"
-        stv:sCenterTextSize="20sp"
+        stv:sCenterTextSize="@dimen/text_biger_size"
         stv:sCenterTextString="施工上报"
         stv:sLeftIconHeight="@dimen/toolbar_back_width"
         stv:sLeftIconRes="@drawable/icon_toolbar_back"
-        stv:sLeftIconWidth="@dimen/toolbar_back_width"
-        stv:sRightIconRes="@drawable/application_icon2" />
+        stv:sLeftIconWidth="@dimen/toolbar_back_width" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/infomationData"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent" />
 
 </LinearLayout>

@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:stv="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <com.allen.library.SuperTextView
+        android:id="@+id/head"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/toolbar_height"
+        android:padding="5dp"
+        stv:sBackgroundDrawableRes="@color/white"
+        stv:sCenterTextSize="@dimen/text_big_size"
+        stv:sCenterTextString="考核评分"
+        stv:sLeftIconHeight="@dimen/toolbar_back_width"
+        stv:sLeftIconRes="@drawable/icon_toolbar_back"
+        stv:sLeftIconWidth="@dimen/toolbar_back_width" />
+
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/head"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white">
+
+                <TextView
+                    android:id="@+id/tv_data_edit_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/item_height"
+                    android:layout_marginLeft="20dp"
+                    android:gravity="center_vertical"
+                    android:text="综合评价"
+                    android:textSize="@dimen/text_normal_size" />
+
+                <EditText
+                    android:id="@+id/et_data_edit_value"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/item_height"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginRight="20dp"
+                    android:background="@null"
+                    android:maxLength="30"
+                    android:singleLine="true"
+                    android:text="123"
+                    android:textColor="@color/default_text_color"
+                    android:textColorHint="@color/gray_8f"
+                    android:textSize="@dimen/text_normal_size" />
+
+                <TextView
+                    android:id="@+id/tv_data_edit_info"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/item_height"
+                    android:layout_below="@id/tv_data_edit_name"
+                    android:layout_marginLeft="20dp"
+                    android:text="满足诗句xxxxxxxxxxxxxxxxx"
+                    android:textColor="@color/default_text_color"
+                    android:textSize="@dimen/text_normal_size" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white">
+
+                <TextView
+                    android:id="@+id/tv_data_remark"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/item_height"
+                    android:layout_marginLeft="20dp"
+                    android:gravity="center_vertical"
+                    android:text="备注"
+                    android:textSize="@dimen/text_normal_size" />
+
+                <EditText
+                    android:id="@+id/et_data_edit_remark"
+                    android:layout_width="200dp"
+                    android:layout_height="@dimen/item_height"
+                    android:layout_marginRight="20dp"
+                    android:background="@null"
+                    android:gravity="center_vertical|right"
+                    android:maxLength="30"
+                    android:singleLine="true"
+                    android:text="123"
+                    android:textColor="@color/default_text_color"
+                    android:textColorHint="@color/gray_8f"
+                    android:textSize="@dimen/text_normal_size" />
+            </RelativeLayout>
+        </LinearLayout>
+
+    </androidx.core.widget.NestedScrollView>
+</RelativeLayout>

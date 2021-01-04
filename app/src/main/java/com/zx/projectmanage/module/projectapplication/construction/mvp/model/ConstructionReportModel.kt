@@ -2,16 +2,13 @@ package com.zx.projectmanage.module.projectapplication.construction.mvp.model
 
 
 import com.frame.zxmvp.base.BaseModel
-import com.frame.zxmvp.basebean.BaseRespose
 import com.frame.zxmvp.baserx.RxHelper
 import com.frame.zxmvp.baserx.RxSchedulers
 import com.zx.projectmanage.api.ApiService
-import com.zx.projectmanage.module.projectapplication.construction.bean.ProjectPeriodBean
-import com.zx.projectmanage.module.projectapplication.construction.bean.ProjectStatusBean
+import com.zx.projectmanage.module.projectapplication.approve.bean.ProjectPeriodBean
 
 
-import com.zx.projectmanage.module.projectapplication.construction.bean.ReportListBean
-import com.zx.projectmanage.module.projectapplication.construction.dto.ReportListDto
+import com.zx.projectmanage.module.projectapplication.approve.bean.ReportListBean
 
 import com.zx.projectmanage.module.projectapplication.construction.mvp.contract.ConstructionReportContract
 
@@ -30,11 +27,12 @@ class ConstructionReportModel : BaseModel(), ConstructionReportContract.Model {
         keyword: String?,
         pageNo: Int?,
         pageSize: Int?,
-        projectStatus: Int?,
-        tenders: Int?
+        projectStatus: String?,
+        tenders: Int?,
+        buildPeriod: String?
     ): Observable<ReportListBean> {
         return mRepositoryManager.obtainRetrofitService(ApiService::class.java)
-            .getPageProject(districtCode, keyword, pageNo, pageSize, projectStatus, tenders)
+            .getPageProject(districtCode, keyword, pageNo, pageSize, projectStatus, tenders,buildPeriod)
             .compose(RxHelper.handleResult())
             .compose(RxSchedulers.io_main())
     }

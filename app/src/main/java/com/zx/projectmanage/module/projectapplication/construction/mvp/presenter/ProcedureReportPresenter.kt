@@ -1,6 +1,10 @@
 package com.zx.projectmanage.module.projectapplication.construction.mvp.presenter
 
+import com.frame.zxmvp.baserx.RxHelper
+import com.frame.zxmvp.baserx.RxSubscriber
+import com.zx.projectmanage.module.projectapplication.approve.bean.DeviceListBean
 import com.zx.projectmanage.module.projectapplication.construction.mvp.contract.ProcedureReportContract
+import okhttp3.RequestBody
 
 
 /**
@@ -8,6 +12,35 @@ import com.zx.projectmanage.module.projectapplication.construction.mvp.contract.
  * 功能：
  */
 class ProcedureReportPresenter : ProcedureReportContract.Presenter() {
+    override fun getDeviceList(map: Map<String, String>) {
+        mModel.getDeviceList(map)
+            .compose(RxHelper.bindToLifecycle(mView))
+            .subscribe(object : RxSubscriber<MutableList<DeviceListBean>>(mView) {
+                override fun _onNext(t: MutableList<DeviceListBean>?) {
+                    mView.getDeviceListResult(t)
+                }
 
+                override fun _onError(code: Int, message: String?) {
+                    mView.handleError(code, "请求失败，请检查网络后再试")
+                    mView.getDeviceListResult(null)
 
+                }
+            })
+    }
+
+    override fun postSubmit(body: RequestBody) {
+        mModel.postSubmit(body)
+            .compose(RxHelper.bindToLifecycle(mView))
+            .subscribe(object : RxSubscriber<Any>(mView) {
+                override fun _onNext(t: Any?) {
+                    mView.postSubmitResult(t)
+                }
+
+                override fun _onError(code: Int, message: String?) {
+                    mView.handleError(code, "请求失败，请检查网络后再试")
+                    mView.postSubmitResult(null)
+
+                }
+            })
+    }
 }

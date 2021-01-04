@@ -3,32 +3,34 @@ package com.zx.projectmanage.module.projectapplication.construction.ui
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
-import android.view.View
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.zx.projectmanage.R
 import com.zx.projectmanage.base.BaseActivity
-import com.zx.projectmanage.module.projectapplication.construction.bean.InformationBean
-import com.zx.projectmanage.module.projectapplication.construction.bean.ReportListBean
-import com.zx.projectmanage.module.projectapplication.construction.func.adapter.BaseInfomationAdapter
 
+import com.zx.projectmanage.module.projectapplication.approve.bean.InformationBean
+import com.zx.projectmanage.module.projectapplication.approve.bean.InformationListBean
+import com.zx.projectmanage.module.projectapplication.construction.func.adapter.BaseInfomationAdapter
 import com.zx.projectmanage.module.projectapplication.construction.mvp.contract.ProjectBaseInfomationContract
 import com.zx.projectmanage.module.projectapplication.construction.mvp.model.ProjectBaseInfomationModel
 import com.zx.projectmanage.module.projectapplication.construction.mvp.presenter.ProjectBaseInfomationPresenter
-
+import kotlinx.android.synthetic.main.activity_project_base_infomation.*
 
 /**
  * Create By admin On 2017/7/11
  * 功能：
  */
 class ProjectBaseInfomationActivity : BaseActivity<ProjectBaseInfomationPresenter, ProjectBaseInfomationModel>(), ProjectBaseInfomationContract.View {
-    private var list: MutableList<InformationBean> = arrayListOf<InformationBean>()
-    val adapter = BaseInfomationAdapter(list)
+    private var list: MutableList<InformationListBean> = arrayListOf<InformationListBean>()
+    val mAdapter = BaseInfomationAdapter(list)
+    var projectId = ""
 
     companion object {
         /**
          * 启动器
          */
-        fun startAction(activity: Activity, isFinish: Boolean) {
+        fun startAction(activity: Activity, isFinish: Boolean, projectId: String) {
             val intent = Intent(activity, ProjectBaseInfomationActivity::class.java)
+            intent.putExtra("projectId", projectId)
             activity.startActivity(intent)
             if (isFinish) activity.finish()
         }
@@ -46,18 +48,15 @@ class ProjectBaseInfomationActivity : BaseActivity<ProjectBaseInfomationPresente
      */
     override fun initView(savedInstanceState: Bundle?) {
         super.initView(savedInstanceState)
-        list.add(InformationBean("项目概况", "", 1))
-        list.add(InformationBean("项目编号", "qz12321321321", 2))
-        list.add(InformationBean("项目名称", "唐家沱施工", 2))
-        list.add(InformationBean("项目标段", "第一段", 2))
-        list.add(InformationBean("建设期次", "1", 2))
-        list.add(InformationBean("备案号", "2020091112", 2))
-        list.add(InformationBean("项目配置", "", 1))
-        list.add(InformationBean("工序方案", "qz12321321321", 2))
-        list.add(InformationBean("竣工时间", "2020-1-1", 2))
-        list.add(InformationBean("项目状态", "未竣工", 2))
-        list.add(InformationBean("总质评分", "99", 2))
+        projectId = intent.getStringExtra("projectId").toString()
+        //设置adapter
+        infomationData.apply {
+            layoutManager = LinearLayoutManager(mContext)
+            adapter = mAdapter
+//            addItemDecoration(SimpleDecoration(mContext))
+        }
 
+        mPresenter.getProjectInformation(projectId)
     }
 
     /**
@@ -65,6 +64,46 @@ class ProjectBaseInfomationActivity : BaseActivity<ProjectBaseInfomationPresente
      */
     override fun onViewListener() {
 
+    }
+
+    override fun getDataInformationResult(data: InformationBean?) {
+
+        list.add(InformationListBean("项目概况", "", 1))
+        list.add(InformationListBean("项目编号", data?.projectNumber, 2))
+        list.add(InformationListBean("项目名称", data?.projectName, 2))
+        list.add(InformationListBean("项目标段", data?.tenders, 2))
+        list.add(InformationListBean("建设期次", data?.recordNo, 2))
+        list.add(InformationListBean("备案号", data?.recordNo, 2))
+        list.add(InformationListBean("项目配置", "", 1))
+        list.add(InformationListBean("工序方案", "qz12321321321", 2))
+        list.add(InformationListBean("竣工时间", "2020-1-1", 2))
+        list.add(InformationListBean("项目状态", "", 2))
+        list.add(InformationListBean("总质评分", data?.score.toString(), 2))
+        list.add(InformationListBean("监理", "", 1))
+        list.add(InformationListBean("单位名称", "远方科技", 2))
+        list.add(InformationListBean("资质", "优等", 2))
+        list.add(InformationListBean("单位负责人", "xx", 2))
+        list.add(InformationListBean("联系方式", "", 2))
+        list.add(InformationListBean("监督员", "", 2))
+        list.add(InformationListBean("设计", "", 1))
+        list.add(InformationListBean("单位名称", "远方科技", 2))
+        list.add(InformationListBean("资质", "优等", 2))
+        list.add(InformationListBean("单位负责人", "xx", 2))
+        list.add(InformationListBean("联系方式", "", 2))
+        list.add(InformationListBean("监督员", "", 2))
+        list.add(InformationListBean("施工", "", 1))
+        list.add(InformationListBean("单位名称", "远方科技", 2))
+        list.add(InformationListBean("资质", "优等", 2))
+        list.add(InformationListBean("单位负责人", "xx", 2))
+        list.add(InformationListBean("联系方式", "", 2))
+        list.add(InformationListBean("监督员", "", 2))
+        list.add(InformationListBean("其他", "", 1))
+        list.add(InformationListBean("工程概况", "远方科技", 2))
+        list.add(InformationListBean("资质", "优等", 2))
+        list.add(InformationListBean("单位负责人", "xx", 2))
+        list.add(InformationListBean("工程措施", "", 2))
+        list.add(InformationListBean("备注", "", 2))
+        mAdapter.setNewData(list)
     }
 
 }

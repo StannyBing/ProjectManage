@@ -4,12 +4,10 @@ import android.app.Activity
 import androidx.annotation.Nullable
 import com.allen.library.SuperTextView
 import com.zx.projectmanage.R
-import com.zx.projectmanage.module.projectapplication.construction.bean.ReportSubListBean
-import com.zx.projectmanage.module.projectapplication.construction.ui.ConstructionReportChildActivity
-import com.zx.projectmanage.module.projectapplication.construction.ui.MacroReportInfoActivity
+import com.zx.projectmanage.module.projectapplication.approve.bean.ReportSubListBean
+import com.zx.projectmanage.module.projectapplication.approve.ui.MacroApproveInfoActivity
 import com.zx.zxutils.other.QuickAdapter.ZXBaseHolder
 import com.zx.zxutils.other.QuickAdapter.ZXQuickAdapter
-import com.zx.zxutils.other.ZXRecyclerAdapter.ZXRecyclerQuickAdapter
 
 class ReportChildListAdapter(@Nullable data: List<ReportSubListBean>?) : ZXQuickAdapter<ReportSubListBean?, ZXBaseHolder?>(R.layout.item_report_list, data) {
 
@@ -22,7 +20,10 @@ class ReportChildListAdapter(@Nullable data: List<ReportSubListBean>?) : ZXQuick
 
         superTextView.setOnSuperTextViewClickListener {
             item?.let {
-                MacroReportInfoActivity.startAction(mContext as Activity, false, item?.getProcessId().toString())
+                MacroApproveInfoActivity.startAction(
+                    mContext as Activity, false,
+                    item?.getProcessId().toString(), item?.getProjectId().toString(), item?.getSubProjectId().toString()
+                )
             }
         }
     }

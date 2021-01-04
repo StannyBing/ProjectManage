@@ -1,6 +1,5 @@
-package com.zx.projectmanage.module.projectapplication.construction.bean
+package com.zx.projectmanage.module.projectapplication.approve.bean
 
-import android.graphics.PointF
 import com.zx.zxutils.other.QuickAdapter.entity.MultiItemEntity
 
 data class ConstructionDataBean(

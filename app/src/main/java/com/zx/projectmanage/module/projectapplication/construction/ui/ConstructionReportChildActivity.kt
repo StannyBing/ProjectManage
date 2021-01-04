@@ -13,18 +13,18 @@ import com.zhy.view.flowlayout.FlowLayout
 import com.zhy.view.flowlayout.TagAdapter
 import com.zhy.view.flowlayout.TagFlowLayout
 import com.zx.projectmanage.R
-import com.zx.projectmanage.app.toJson
 import com.zx.projectmanage.base.BaseActivity
-import com.zx.projectmanage.module.projectapplication.construction.bean.ReportSubListBean
+import com.zx.projectmanage.module.projectapplication.approve.ui.ApproveReportChildActivity
+import com.zx.projectmanage.module.projectapplication.approve.bean.ReportSubListBean
 import com.zx.projectmanage.module.projectapplication.construction.func.adapter.ReportChildListAdapter
 import com.zx.projectmanage.module.projectapplication.construction.func.tool.setHintKtx
 import com.zx.projectmanage.module.projectapplication.construction.mvp.contract.ConstructionReportChildContract
 import com.zx.projectmanage.module.projectapplication.construction.mvp.model.ConstructionReportChildModel
 import com.zx.projectmanage.module.projectapplication.construction.mvp.presenter.ConstructionReportChildPresenter
 import com.zx.zxutils.util.ZXToastUtil
-import kotlinx.android.synthetic.main.activity_construction_report.*
+import kotlinx.android.synthetic.main.activity_construction_report.refresh
+import kotlinx.android.synthetic.main.activity_construction_report_child.*
 import kotlinx.android.synthetic.main.activity_construction_report_child.head
-import kotlinx.android.synthetic.main.activity_construction_report_child.searchText
 import kotlinx.android.synthetic.main.activity_construction_report_child.swipeRecyler
 import kotlinx.android.synthetic.main.dialog_filter_project.view.*
 
@@ -44,14 +44,6 @@ class ConstructionReportChildActivity : BaseActivity<ConstructionReportChildPres
     lateinit var projectId: String
 
     companion object {
-        /**
-         * 启动器
-         */
-        fun startAction(activity: Activity, isFinish: Boolean) {
-            val intent = Intent(activity, ConstructionReportChildActivity::class.java)
-            activity.startActivity(intent)
-            if (isFinish) activity.finish()
-        }
 
         /**
          * 启动器
