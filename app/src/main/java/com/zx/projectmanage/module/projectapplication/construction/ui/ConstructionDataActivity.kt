@@ -27,6 +27,7 @@ import com.zx.projectmanage.module.projectapplication.construction.func.listener
 import com.zx.projectmanage.module.projectapplication.construction.mvp.contract.ConstructionDataContract
 import com.zx.projectmanage.module.projectapplication.construction.mvp.model.ConstructionDataModel
 import com.zx.projectmanage.module.projectapplication.construction.mvp.presenter.ConstructionDataPresenter
+import com.zx.zxutils.util.ZXDialogUtil
 import com.zx.zxutils.util.ZXLocationUtil
 import com.zx.zxutils.util.ZXSystemUtil
 import kotlinx.android.synthetic.main.activity_construction_data.*
@@ -90,11 +91,11 @@ class ConstructionDataActivity : BaseActivity<ConstructionDataPresenter, Constru
             intent.getSerializableExtra("deviceListBean") as DeviceListBean?
         }
 
-        dataList.add(ConstructionDataBean(ConstructionDataBean.Edit_Type, "设备ID"))
-        dataList.add(ConstructionDataBean(ConstructionDataBean.Edit_Type, "设备名称"))
+        dataList.add(ConstructionDataBean(ConstructionDataBean.Edit_Type, "设备ID", stringValue = deviceBean?.equipmentId ?: ""))
+        dataList.add(ConstructionDataBean(ConstructionDataBean.Edit_Type, "设备名称", stringValue = deviceBean?.equipmentName ?: ""))
         dataList.add(ConstructionDataBean(ConstructionDataBean.Select_Type, "规范模板", isDivider = true))
-        dataList.add(ConstructionDataBean(ConstructionDataBean.Location_Type, "上报位置", isDivider = true))
-        dataList.add(ConstructionDataBean(ConstructionDataBean.Text_Type, "驳回原因", isDivider = true))
+        dataList.add(ConstructionDataBean(ConstructionDataBean.Location_Type, "上报位置", isDivider = true, stringValue = deviceBean?.postAddr ?: ""))
+        dataList.add(ConstructionDataBean(ConstructionDataBean.Text_Type, "驳回原因", isDivider = true, stringValue = deviceBean?.remarks ?: ""))
 
         rv_construction_data.apply {
             layoutManager = LinearLayoutManager(mContext)
@@ -154,29 +155,31 @@ class ConstructionDataActivity : BaseActivity<ConstructionDataPresenter, Constru
         })
         //保存
         btn_construction_save.setOnClickListener {
-            dataList.filter {
-                it.type == ConstructionDataBean.Edit_Type
-            }.forEach {
-                if (it.stringValue.isEmpty()) {
-                    showToast("请完善输入")
-                    return@setOnClickListener
+            ZXDialogUtil.showYesNoDialog(mContext, "提示", "是否保存设备信息？") { dialog, which ->
+                dataList.filter {
+                    it.type == ConstructionDataBean.Edit_Type
+                }.forEach {
+                    if (it.stringValue.isEmpty()) {
+                        showToast("请完善输入")
+                        return@showYesNoDialog
+                    }
                 }
-            }
-            if (dataList.first { it.type == ConstructionDataBean.Select_Type }.stringValue.isEmpty()) {
-                showToast("请选择规范模板")
-                return@setOnClickListener
-            }
-            if (dataList.first { it.type == ConstructionDataBean.Location_Type }.latitude == null) {
-                showToast("请选择上报位置")
-                return@setOnClickListener
-            }
-            dataList.filter { it.type == ConstructionDataBean.Step_Type }.forEach {
-                if (it.stepInfos.size < 2) {
-                    showToast("请上传步骤文件")
-                    return@setOnClickListener
+                if (dataList.first { it.type == ConstructionDataBean.Select_Type }.stringValue.isEmpty()) {
+                    showToast("请选择规范模板")
+                    return@showYesNoDialog
                 }
+                if (dataList.first { it.type == ConstructionDataBean.Location_Type }.latitude == null) {
+                    showToast("请选择上报位置")
+                    return@showYesNoDialog
+                }
+                dataList.filter { it.type == ConstructionDataBean.Step_Type }.forEach {
+                    if (it.stepInfos.size < 2) {
+                        showToast("请上传步骤文件")
+                        return@showYesNoDialog
+                    }
+                }
+                mPresenter.saveDataInfo(dataList, deviceBean)
             }
-            mPresenter.saveDataInfo(dataList, deviceBean)
         }
     }
 
@@ -287,7 +290,12 @@ class ConstructionDataActivity : BaseActivity<ConstructionDataPresenter, Constru
                     it.standard,
                     stepInfos = arrayListOf<DataStepInfoBean>().apply {
                         //                add(DataStepInfoBean(ApiConfigModule.BASE_IP + "admin/sys-file/getFileById?id=" + it.standardId))
-                        add(DataStepInfoBean(thumbnail = ApiConfigModule.BASE_IP + "admin/sys-file/getFileById?id=353732457519910912"))
+                        add(
+                            DataStepInfoBean(
+                                path = ApiConfigModule.BASE_IP + "admin/sys-file/getFileById?id=353732457519910912",
+                                thumbnail = ApiConfigModule.BASE_IP + "admin/sys-file/getFileById?id=353732457519910912"
+                            )
+                        )
                     },
                     standardBean = stepDetail
                 )

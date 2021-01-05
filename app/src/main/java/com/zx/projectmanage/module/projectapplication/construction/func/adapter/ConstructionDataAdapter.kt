@@ -1,11 +1,13 @@
 package com.zx.projectmanage.module.projectapplication.construction.func.adapter
 
+import android.app.Activity
 import android.text.Editable
 import android.text.TextWatcher
 import android.widget.EditText
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.zx.projectmanage.R
+import com.zx.projectmanage.module.other.ui.CameraPreviewActivity
 import com.zx.projectmanage.module.projectapplication.construction.bean.ConstructionDataBean
 import com.zx.projectmanage.module.projectapplication.construction.func.listener.DataStepListener
 import com.zx.projectmanage.module.projectapplication.construction.func.tool.InScrollGridLayoutManager
@@ -76,6 +78,11 @@ class ConstructionDataAdapter(dataList: List<ConstructionDataBean>) : ZXMultiIte
                                     notifyDataSetChanged()
                                 }
                             }
+                        }
+                        setOnItemClickListener { adapter, view, position ->
+//                            if (position > 0) {
+                                CameraPreviewActivity.startAction(mContext as Activity, false, "", item.stepInfos[position].path)
+//                            }
                         }
                     }
                 }

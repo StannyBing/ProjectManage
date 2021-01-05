@@ -33,7 +33,7 @@ class CameraPreviewActivity : BaseActivity<CameraPreviewPresenter, CameraPreview
         /**
          * 启动器
          */
-        fun startAction(activity: Activity, isFinish: Boolean, name: String, path: String) {
+        fun startAction(activity: Activity, isFinish: Boolean, name: String, path: String, type : Int) {
             val intent = Intent(activity, CameraPreviewActivity::class.java)
             intent.putExtra("name", name)
             intent.putExtra("path", path)
