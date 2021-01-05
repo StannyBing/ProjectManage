@@ -1,6 +1,7 @@
 package com.zx.projectmanage.module.projectapplication.construction.ui
 
 import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -138,7 +139,7 @@ class ProcedureReportFragment : BaseFragment<ProcedureReportPresenter, Procedure
             var b = 0
             for (deviceListBean in list) {
                 val toInt = deviceListBean.status?.toInt()
-                if (toInt == 0) {
+                if (toInt == 1) {
                     b++
                 }
             }
@@ -162,6 +163,7 @@ class ProcedureReportFragment : BaseFragment<ProcedureReportPresenter, Procedure
 
     override fun getDeviceListResult(data: MutableList<DeviceListBean>?) {
         if (data != null) {
+            list.clear()
             list = data
         }
         reportListAdapter.setNewData(
@@ -170,7 +172,19 @@ class ProcedureReportFragment : BaseFragment<ProcedureReportPresenter, Procedure
     }
 
     override fun postSubmitResult(data: Any?) {
+        ZXToastUtil.showToast(data.toString())
+    }
 
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == 0x01 && resultCode == 0x01) {
+            mPresenter.getDeviceList(
+                hashMapOf(
+                    "detailId" to parcelable?.id.toString(),
+                    "subProjectId" to subProjectId
+                )
+            )
+        }
     }
 
 }

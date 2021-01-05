@@ -64,6 +64,7 @@ class ProjectBaseInfomationActivity : BaseActivity<ProjectBaseInfomationPresente
      */
     override fun onViewListener() {
 
+        head.setLeftImageViewClickListener { finish() }
     }
 
     override fun getDataInformationResult(data: InformationBean?) {
