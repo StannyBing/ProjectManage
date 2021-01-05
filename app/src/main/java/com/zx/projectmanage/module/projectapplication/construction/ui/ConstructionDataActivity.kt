@@ -19,10 +19,7 @@ import com.zx.projectmanage.base.BaseActivity
 import com.zx.projectmanage.base.BottomSheetTool
 import com.zx.projectmanage.base.SimpleDecoration
 import com.zx.projectmanage.module.other.ui.CameraActivity
-import com.zx.projectmanage.module.projectapplication.construction.bean.BaiduGeocoderBean
-import com.zx.projectmanage.module.projectapplication.construction.bean.ConstructionDataBean
-import com.zx.projectmanage.module.projectapplication.construction.bean.DataStepInfoBean
-import com.zx.projectmanage.module.projectapplication.construction.bean.StepStandardBean
+import com.zx.projectmanage.module.projectapplication.construction.bean.*
 import com.zx.projectmanage.module.projectapplication.construction.func.adapter.ConstructionDataAdapter
 import com.zx.projectmanage.module.projectapplication.construction.func.adapter.StepStandardAdapter
 import com.zx.projectmanage.module.projectapplication.construction.func.listener.DataStepListener
@@ -45,7 +42,13 @@ class ConstructionDataActivity : BaseActivity<ConstructionDataPresenter, Constru
         /**
          * 启动器
          */
-        fun startAction(activity: Activity, isFinish: Boolean, detailedId : String = "", subProjectId : String = "") {
+        fun startAction(
+            activity: Activity,
+            isFinish: Boolean,
+            detailedId: String = "",
+            subProjectId: String = "",
+            deviceListBean: DeviceListBean? = null
+        ) {
             val intent = Intent(activity, ConstructionDataActivity::class.java)
             activity.startActivity(intent)
             if (isFinish) activity.finish()

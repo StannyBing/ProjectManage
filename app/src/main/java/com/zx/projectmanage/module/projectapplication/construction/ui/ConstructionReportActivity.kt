@@ -15,9 +15,9 @@ import com.zhy.view.flowlayout.TagFlowLayout
 import com.zx.projectmanage.R
 import com.zx.projectmanage.base.BaseActivity
 
-import com.zx.projectmanage.module.projectapplication.approve.bean.ProjectPeriodBean
-import com.zx.projectmanage.module.projectapplication.approve.bean.ProjectStatusBean
-import com.zx.projectmanage.module.projectapplication.approve.bean.ReportListBean
+import com.zx.projectmanage.module.projectapplication.construction.bean.ProjectPeriodBean
+import com.zx.projectmanage.module.projectapplication.construction.bean.ProjectStatusBean
+import com.zx.projectmanage.module.projectapplication.construction.bean.ReportListBean
 import com.zx.projectmanage.module.projectapplication.construction.func.adapter.ReportListAdapter
 import com.zx.projectmanage.module.projectapplication.construction.func.tool.hitSoft
 import com.zx.projectmanage.module.projectapplication.construction.func.tool.setHintKtx
@@ -34,7 +34,7 @@ import kotlinx.android.synthetic.main.dialog_filter_project.view.*
  */
 class ConstructionReportActivity : BaseActivity<ConstructionReportPresenter, ConstructionReportModel>(), ConstructionReportContract.View {
     private var list: MutableList<ReportListBean.RecordsBean> = arrayListOf<ReportListBean.RecordsBean>()
-    private val reportListAdapter = ReportListAdapter(list)
+    private lateinit var reportListAdapter: ReportListAdapter
 
     //期次list
     private var mVals: MutableList<ProjectPeriodBean> = ArrayList()
@@ -47,13 +47,15 @@ class ConstructionReportActivity : BaseActivity<ConstructionReportPresenter, Con
     private var pageNo = 1
     private var pageSize = 10
     var isRefresh = true
+    var type = 0
 
     companion object {
         /**
          * 启动器
          */
-        fun startAction(activity: Activity, isFinish: Boolean) {
+        fun startAction(activity: Activity, isFinish: Boolean, type: Int) {
             val intent = Intent(activity, ConstructionReportActivity::class.java)
+            intent.putExtra("type", type)
             activity.startActivity(intent)
             if (isFinish) activity.finish()
         }
@@ -70,6 +72,8 @@ class ConstructionReportActivity : BaseActivity<ConstructionReportPresenter, Con
      * 初始化
      */
     override fun initView(savedInstanceState: Bundle?) {
+        type = intent.getIntExtra("type", 0)
+        reportListAdapter = ReportListAdapter(list, type)
         super.initView(savedInstanceState)
         searchText.setHintKtx(13, "请输入项目名称")
         //设置adapter
@@ -80,7 +84,7 @@ class ConstructionReportActivity : BaseActivity<ConstructionReportPresenter, Con
 //            addItemDecoration(SimpleDecoration(mContext))
             reportListAdapter.setEmptyView(R.layout.item_empty, swipeRecyler)
         }
-        mPresenter.getPageProject()
+        mPresenter.getPageProject(type = type)
         mPresenter.getProjectStatus()
         mPresenter.getProjectPeriod()
 
@@ -92,7 +96,7 @@ class ConstructionReportActivity : BaseActivity<ConstructionReportPresenter, Con
     fun refresh() {
         isRefresh = true
         pageNo = 1
-        mPresenter.getPageProject()
+        mPresenter.getPageProject(type = type)
     }
 
     //设置数据到适配器
@@ -131,13 +135,13 @@ class ConstructionReportActivity : BaseActivity<ConstructionReportPresenter, Con
             inflate.bottomSheetOK.setOnClickListener {
                 //发起筛选请求
                 if (arraystatus.isNotEmpty() && arrayPeriod.isNotEmpty()) {
-                    mPresenter.getPageProject(pageNo = 1, projectStatus = arraystatus.toString(), buildPeriod = arrayPeriod.toString())
+                    mPresenter.getPageProject(pageNo = 1, projectStatus = arraystatus.toString(), buildPeriod = arrayPeriod.toString(), type = type)
                 } else if (arraystatus.isNotEmpty() && arrayPeriod.isEmpty()) {
-                    mPresenter.getPageProject(pageNo = 1, projectStatus = arraystatus.toString())
+                    mPresenter.getPageProject(pageNo = 1, projectStatus = arraystatus.toString(), type = type)
                 } else if (arraystatus.isEmpty() && arrayPeriod.isNotEmpty()) {
-                    mPresenter.getPageProject(pageNo = 1, buildPeriod = arrayPeriod.toString())
+                    mPresenter.getPageProject(pageNo = 1, buildPeriod = arrayPeriod.toString(), type = type)
                 } else {
-                    mPresenter.getPageProject(pageNo = 1)
+                    mPresenter.getPageProject(pageNo = 1, type = type)
                 }
                 bottomSheetDialog.dismiss()
             }
@@ -156,7 +160,7 @@ class ConstructionReportActivity : BaseActivity<ConstructionReportPresenter, Con
                 //点击搜索的时候隐藏软键盘
                 searchText.hitSoft()
                 // 网络请求数据
-                mPresenter.getPageProject(pageSize = 50, keyword = v.text.toString().trim())
+                mPresenter.getPageProject(pageSize = 50, keyword = v.text.toString().trim(), type = type)
                 return@OnEditorActionListener true
             }
             false
@@ -164,7 +168,7 @@ class ConstructionReportActivity : BaseActivity<ConstructionReportPresenter, Con
         //搜索图标点击监听
         searchImg.setOnClickListener {
             // 网络请求数据
-            mPresenter.getPageProject(pageSize = 50, keyword = searchText.text.toString().trim())
+            mPresenter.getPageProject(pageSize = 50, keyword = searchText.text.toString().trim(), type = type)
         }
         //刷新列表
         refresh.setOnRefreshListener {
@@ -173,7 +177,7 @@ class ConstructionReportActivity : BaseActivity<ConstructionReportPresenter, Con
         }
         reportListAdapter.setOnLoadMoreListener({
             isRefresh = false
-            mPresenter.getPageProject(pageNo = pageNo)
+            mPresenter.getPageProject(pageNo = pageNo, type = type)
         }, swipeRecyler)
     }
 
@@ -228,7 +232,7 @@ class ConstructionReportActivity : BaseActivity<ConstructionReportPresenter, Con
         inflate.statusFlow.adapter = tagAdapter
         inflate.statusFlow.setMaxSelectCount(9)
         if (arraystatus.toString().isNotEmpty()) {
-            arraystatus.delete(0, arraystatus.toString().length )
+            arraystatus.delete(0, arraystatus.toString().length)
         }
 
         //为FlowLayout的标签设置选中监听事件

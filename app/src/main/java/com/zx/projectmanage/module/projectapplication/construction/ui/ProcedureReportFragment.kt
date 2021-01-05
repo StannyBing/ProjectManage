@@ -1,17 +1,14 @@
 package com.zx.projectmanage.module.projectapplication.construction.ui
 
 import android.app.Activity
-import android.content.DialogInterface
 import android.os.Bundle
 import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.gt.giscollect.base.NormalList
 import com.zx.projectmanage.R
 import com.zx.projectmanage.app.toJson
 import com.zx.projectmanage.base.BaseFragment
-import com.zx.projectmanage.base.UserManager
-import com.zx.projectmanage.module.projectapplication.approve.bean.DeviceListBean
-import com.zx.projectmanage.module.projectapplication.approve.bean.ProjectProcessInfoBean
+import com.zx.projectmanage.module.projectapplication.construction.bean.DeviceListBean
+import com.zx.projectmanage.module.projectapplication.construction.bean.ProjectProcessInfoBean
 import com.zx.projectmanage.module.projectapplication.construction.func.adapter.ProcedureListAdapter
 import com.zx.projectmanage.module.projectapplication.construction.mvp.contract.ProcedureReportContract
 import com.zx.projectmanage.module.projectapplication.construction.mvp.model.ProcedureReportModel
@@ -29,6 +26,10 @@ class ProcedureReportFragment : BaseFragment<ProcedureReportPresenter, Procedure
     private val reportListAdapter = ProcedureListAdapter(list)
     var subProjectId = ""
     var projectId = ""
+
+    //工序模版id
+    var assessmentId = ""
+    var type = 0
     var parcelable: ProjectProcessInfoBean.DetailedListBean? = null
 
     /**
@@ -58,6 +59,7 @@ class ProcedureReportFragment : BaseFragment<ProcedureReportPresenter, Procedure
         parcelable = arguments?.getSerializable("bean") as ProjectProcessInfoBean.DetailedListBean
         subProjectId = arguments?.getString("subProjectId").toString()
         projectId = arguments?.getString("projectId").toString()
+        type = arguments?.getInt("type", 0)!!
 
         if (parcelable?.showMaterials == 0) {
             materials.visibility = View.GONE
@@ -87,7 +89,11 @@ class ProcedureReportFragment : BaseFragment<ProcedureReportPresenter, Procedure
      */
     override fun onViewListener() {
         tv_report_addEquip.setOnClickListener {
-            ConstructionDataActivity.startAction(requireActivity(), false)
+            ConstructionDataActivity.startAction(requireActivity(), false, parcelable?.id.toString(), subProjectId)
+        }
+        reportListAdapter.setOnItemChildClickListener { adapter, view, position ->
+            val deviceListBean = adapter.data as DeviceListBean
+            ConstructionDataActivity.startAction(requireActivity(), false, parcelable?.id.toString(), subProjectId, deviceListBean)
         }
         materials.setOnSuperTextViewClickListener {
             val materials = parcelable?.materials
@@ -125,7 +131,7 @@ class ProcedureReportFragment : BaseFragment<ProcedureReportPresenter, Procedure
                     hashMapOf(
                         "detailedProId" to list[0].detailedProId,
                         "projectId" to projectId,
-                        "subProecssId" to parcelable?.processId.toString()
+                        "subProecssId" to parcelable?.id.toString()
                     ).toJson()
                 )
             } else {

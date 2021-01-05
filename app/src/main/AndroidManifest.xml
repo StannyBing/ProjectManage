@@ -27,10 +27,10 @@
         android:usesCleartextTraffic="true"
         tools:ignore="LockedOrientationActivity">
         <activity
-            android:name=".module.projectapplication.approve.ui.ApproveScoreActivity"
+            android:name=".module.projectapplication.construction.ui.ApproveScoreActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".module.projectapplication.approve.ui.ProjectProgressActivity"
+            android:name=".module.projectapplication.construction.ui.ProjectProgressActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".module.projectapplication.construction.ui.DocumentActivity"

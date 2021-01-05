@@ -4,7 +4,7 @@ import com.frame.zxmvp.base.BasePresenter
 import com.frame.zxmvp.base.IView
 import com.frame.zxmvp.base.IModel
 import com.gt.giscollect.base.NormalList
-import com.zx.projectmanage.module.projectapplication.approve.bean.ReportSubListBean
+import com.zx.projectmanage.module.projectapplication.construction.bean.ReportSubListBean
 import rx.Observable
 
 /**
@@ -21,12 +21,13 @@ interface ConstructionReportChildContract {
     interface Model : IModel {
         fun getPageSubProject(
             map: Map<String, String>
+            , type: Int
         ): Observable<NormalList<ReportSubListBean>>
     }
 
     //方法
     abstract class Presenter : BasePresenter<View, Model>() {
-        abstract fun getPageSubProject(map: Map<String, String>)
+        abstract fun getPageSubProject(map: Map<String, String>, type: Int)
     }
 }
 

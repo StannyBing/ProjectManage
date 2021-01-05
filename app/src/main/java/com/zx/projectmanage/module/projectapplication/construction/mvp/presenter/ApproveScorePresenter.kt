@@ -1,9 +1,9 @@
-package com.zx.projectmanage.module.projectapplication.approve.mvp.presenter
+package com.zx.projectmanage.module.projectapplication.construction.mvp.presenter
 
 import com.frame.zxmvp.baserx.RxHelper
 import com.frame.zxmvp.baserx.RxSubscriber
-import com.zx.projectmanage.module.projectapplication.approve.bean.ScoreTemplateBean
-import com.zx.projectmanage.module.projectapplication.approve.mvp.contract.ApproveScoreContract
+import com.zx.projectmanage.module.projectapplication.construction.bean.ScoreTemplateBean
+import com.zx.projectmanage.module.projectapplication.construction.mvp.contract.ApproveScoreContract
 
 
 /**

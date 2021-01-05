@@ -2,7 +2,7 @@ package com.zx.projectmanage.module.projectapplication.construction.mvp.presente
 
 import com.frame.zxmvp.baserx.RxHelper
 import com.frame.zxmvp.baserx.RxSubscriber
-import com.zx.projectmanage.module.projectapplication.approve.bean.InformationBean
+import com.zx.projectmanage.module.projectapplication.construction.bean.InformationBean
 import com.zx.projectmanage.module.projectapplication.construction.mvp.contract.ProjectBaseInfomationContract
 
 

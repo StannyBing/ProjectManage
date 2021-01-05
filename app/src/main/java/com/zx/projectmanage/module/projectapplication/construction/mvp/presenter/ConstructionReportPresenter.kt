@@ -2,9 +2,8 @@ package com.zx.projectmanage.module.projectapplication.construction.mvp.presente
 
 import com.frame.zxmvp.baserx.RxHelper
 import com.frame.zxmvp.baserx.RxSubscriber
-import com.zx.projectmanage.module.projectapplication.approve.bean.ProjectPeriodBean
-import com.zx.projectmanage.module.projectapplication.approve.bean.ReportListBean
-import com.zx.projectmanage.module.projectapplication.approve.mvp.contract.ApproveReportContract
+import com.zx.projectmanage.module.projectapplication.construction.bean.ProjectPeriodBean
+import com.zx.projectmanage.module.projectapplication.construction.bean.ReportListBean
 import com.zx.projectmanage.module.projectapplication.construction.mvp.contract.ConstructionReportContract
 
 
@@ -20,9 +19,10 @@ class ConstructionReportPresenter : ConstructionReportContract.Presenter() {
         pageSize: Int?,
         projectStatus: String?,
         tenders: Int?,
-        buildPeriod: String?
+        buildPeriod: String?,
+        type:Int
     ) {
-        mModel.getPageProject(districtCode, keyword, pageNo, pageSize, projectStatus, tenders, buildPeriod)
+        mModel.getPageProject(districtCode, keyword, pageNo, pageSize, projectStatus, tenders, buildPeriod,type)
             .compose(RxHelper.bindToLifecycle(mView))
             .subscribe(object : RxSubscriber<ReportListBean>(mView) {
                 override fun _onNext(t: ReportListBean?) {

@@ -1,16 +1,15 @@
-package com.zx.projectmanage.module.projectapplication.approve.ui
+package com.zx.projectmanage.module.projectapplication.construction.ui
 
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
-import android.view.View
 import com.zx.projectmanage.R
 import com.zx.projectmanage.base.BaseActivity
-import com.zx.projectmanage.module.projectapplication.approve.bean.ScoreTemplateBean
+import com.zx.projectmanage.module.projectapplication.construction.bean.ScoreTemplateBean
 
-import com.zx.projectmanage.module.projectapplication.approve.mvp.contract.ApproveScoreContract
-import com.zx.projectmanage.module.projectapplication.approve.mvp.model.ApproveScoreModel
-import com.zx.projectmanage.module.projectapplication.approve.mvp.presenter.ApproveScorePresenter
+import com.zx.projectmanage.module.projectapplication.construction.mvp.contract.ApproveScoreContract
+import com.zx.projectmanage.module.projectapplication.construction.mvp.model.ApproveScoreModel
+import com.zx.projectmanage.module.projectapplication.construction.mvp.presenter.ApproveScorePresenter
 
 
 /**

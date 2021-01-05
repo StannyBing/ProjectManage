@@ -14,8 +14,7 @@ import com.zhy.view.flowlayout.TagAdapter
 import com.zhy.view.flowlayout.TagFlowLayout
 import com.zx.projectmanage.R
 import com.zx.projectmanage.base.BaseActivity
-import com.zx.projectmanage.module.projectapplication.approve.ui.ApproveReportChildActivity
-import com.zx.projectmanage.module.projectapplication.approve.bean.ReportSubListBean
+import com.zx.projectmanage.module.projectapplication.construction.bean.ReportSubListBean
 import com.zx.projectmanage.module.projectapplication.construction.func.adapter.ReportChildListAdapter
 import com.zx.projectmanage.module.projectapplication.construction.func.tool.setHintKtx
 import com.zx.projectmanage.module.projectapplication.construction.mvp.contract.ConstructionReportChildContract
@@ -35,23 +34,26 @@ import kotlinx.android.synthetic.main.dialog_filter_project.view.*
  */
 class ConstructionReportChildActivity : BaseActivity<ConstructionReportChildPresenter, ConstructionReportChildModel>(), ConstructionReportChildContract.View {
     private var list: MutableList<ReportSubListBean> = arrayListOf<ReportSubListBean>()
-    private val reportListAdapter = ReportChildListAdapter(list)
+    private lateinit var reportListAdapter: ReportChildListAdapter
     private var mVals = listOf<String>("1", "2", "3")
     private var mVals1 = listOf<String>("已完成", "未通过", "进行中")
     private var pageNo = 1
     private var pageSize = 10
     var isRefresh = true
     lateinit var projectId: String
+    var type: Int = 0
 
     companion object {
 
         /**
          * 启动器
          */
-        fun startAction(activity: Activity, isFinish: Boolean, projectId: String, projectName: String) {
+        fun startAction(activity: Activity, isFinish: Boolean, projectId: String, projectName: String, assessmentId: String, type: Int) {
             val intent = Intent(activity, ConstructionReportChildActivity::class.java)
             intent.putExtra("projectName", projectName)
             intent.putExtra("projectId", projectId)
+            intent.putExtra("assessmentId", assessmentId)
+            intent.putExtra("type", type)
             activity.startActivity(intent)
             if (isFinish) activity.finish()
         }
@@ -68,6 +70,8 @@ class ConstructionReportChildActivity : BaseActivity<ConstructionReportChildPres
      * 初始化
      */
     override fun initView(savedInstanceState: Bundle?) {
+        type = intent.getIntExtra("type", 0)
+        reportListAdapter = ReportChildListAdapter(list, type)
         super.initView(savedInstanceState)
         projectId = intent.getStringExtra("projectId").toString()
         head.setCenterString(intent.getStringExtra("projectName").toString())
@@ -88,7 +92,8 @@ class ConstructionReportChildActivity : BaseActivity<ConstructionReportChildPres
         mPresenter.getPageSubProject(
             hashMapOf(
                 "projectId" to projectId
-            )
+            ),
+            type
         )
     }
 
@@ -99,7 +104,8 @@ class ConstructionReportChildActivity : BaseActivity<ConstructionReportChildPres
             hashMapOf(
                 "projectId" to projectId,
                 "pageNo" to pageNo.toString()
-            )
+            ),
+            type
         )
     }
 
@@ -158,6 +164,20 @@ class ConstructionReportChildActivity : BaseActivity<ConstructionReportChildPres
         }
         reportListAdapter.setOnLoadMoreListener({ loadMore() }, swipeRecyler)
 
+        reportListAdapter.setOnItemClickListener { adapter, view, position ->
+            var item = adapter.data as ReportSubListBean
+            item?.let {
+                MacroReportInfoActivity.startAction(
+                    mContext as Activity,
+                    false,
+                    item.getProcessId().toString(),
+                    item.getProjectId().toString(),
+                    item.getSubProjectId().toString(),
+                    type,
+                    intent.getStringExtra("assessmentId").toString()
+                )
+            }
+        }
     }
 
     /**

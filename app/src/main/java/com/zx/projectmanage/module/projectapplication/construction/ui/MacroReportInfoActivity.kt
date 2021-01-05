@@ -7,7 +7,7 @@ import androidx.core.content.ContextCompat
 import com.google.android.material.tabs.TabLayout
 import com.zx.projectmanage.R
 import com.zx.projectmanage.base.BaseActivity
-import com.zx.projectmanage.module.projectapplication.approve.bean.ProjectProcessInfoBean
+import com.zx.projectmanage.module.projectapplication.construction.bean.ProjectProcessInfoBean
 import com.zx.projectmanage.module.projectapplication.construction.mvp.contract.MacroReportInfoContract
 import com.zx.projectmanage.module.projectapplication.construction.mvp.model.MacroReportInfoModel
 import com.zx.projectmanage.module.projectapplication.construction.mvp.presenter.MacroReportInfoPresenter
@@ -24,7 +24,9 @@ class MacroReportInfoActivity : BaseActivity<MacroReportInfoPresenter, MacroRepo
     lateinit var listProcedure: MutableList<String>
     var processId = ""
     var projectId = ""
-    var subProject = ""
+    var subProjectId = ""
+    var assessmentId = ""
+    var type = 0
 
     /**
      * layout配置
@@ -37,11 +39,21 @@ class MacroReportInfoActivity : BaseActivity<MacroReportInfoPresenter, MacroRepo
         /**
          * 启动器
          */
-        fun startAction(activity: Activity, isFinish: Boolean, processId: String, projectId: String, subProject: String) {
+        fun startAction(
+            activity: Activity,
+            isFinish: Boolean,
+            processId: String,
+            projectId: String,
+            subProject: String,
+            type: Int,
+            assessmentId: String
+        ) {
             val intent = Intent(activity, MacroReportInfoActivity::class.java)
             intent.putExtra("processId", processId)
             intent.putExtra("projectId", projectId)
             intent.putExtra("subProject", subProject)
+            intent.putExtra("type", type)
+            intent.putExtra("assessmentId", assessmentId)
             activity.startActivity(intent)
             if (isFinish) activity.finish()
         }
@@ -55,7 +67,7 @@ class MacroReportInfoActivity : BaseActivity<MacroReportInfoPresenter, MacroRepo
         super.initView(savedInstanceState)
         processId = intent.getStringExtra("processId").toString()
         projectId = intent.getStringExtra("projectId").toString()
-        subProject = intent.getStringExtra("subProject").toString()
+        subProjectId = intent.getStringExtra("subProject").toString()
         mPresenter.getProcessInfo(processId)
     }
 
@@ -71,8 +83,10 @@ class MacroReportInfoActivity : BaseActivity<MacroReportInfoPresenter, MacroRepo
             for (s in detailedList) {
                 val bundle = Bundle()
                 bundle.putSerializable("bean", s)
-                bundle.putString("subProjectId", subProject)
+                bundle.putString("subProjectId", subProjectId)
                 bundle.putString("projectId", projectId)
+                bundle.putString("assessmentId", assessmentId)
+                bundle.putInt("type", type)
                 tvp_macro_report_layout.addTab(ProcedureReportFragment.newInstance(bundle), s?.subProcessName)
             }
         }

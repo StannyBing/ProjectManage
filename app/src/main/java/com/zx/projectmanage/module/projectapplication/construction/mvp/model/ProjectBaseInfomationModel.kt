@@ -4,7 +4,7 @@ import com.frame.zxmvp.base.BaseModel
 import com.frame.zxmvp.baserx.RxHelper
 import com.frame.zxmvp.baserx.RxSchedulers
 import com.zx.projectmanage.api.ApiService
-import com.zx.projectmanage.module.projectapplication.approve.bean.InformationBean
+import com.zx.projectmanage.module.projectapplication.construction.bean.InformationBean
 import com.zx.projectmanage.module.projectapplication.construction.mvp.contract.ProjectBaseInfomationContract
 
 import rx.Observable

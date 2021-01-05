@@ -1,10 +1,9 @@
-package com.zx.projectmanage.module.projectapplication.approve.mvp.presenter
+package com.zx.projectmanage.module.projectapplication.construction.mvp.presenter
 
 import com.frame.zxmvp.baserx.RxHelper
 import com.frame.zxmvp.baserx.RxSubscriber
-import com.zx.projectmanage.module.projectapplication.approve.bean.InformationBean
-import com.zx.projectmanage.module.projectapplication.approve.bean.ProcessProgressBean
-import com.zx.projectmanage.module.projectapplication.approve.mvp.contract.ProjectProgressContract
+import com.zx.projectmanage.module.projectapplication.construction.bean.ProcessProgressBean
+import com.zx.projectmanage.module.projectapplication.construction.mvp.contract.ProjectProgressContract
 
 
 /**

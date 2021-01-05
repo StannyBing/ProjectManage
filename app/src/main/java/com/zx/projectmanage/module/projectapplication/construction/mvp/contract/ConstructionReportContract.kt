@@ -4,8 +4,8 @@ package com.zx.projectmanage.module.projectapplication.construction.mvp.contract
 import com.frame.zxmvp.base.BasePresenter
 import com.frame.zxmvp.base.IView
 import com.frame.zxmvp.base.IModel
-import com.zx.projectmanage.module.projectapplication.approve.bean.ProjectPeriodBean
-import com.zx.projectmanage.module.projectapplication.approve.bean.ReportListBean
+import com.zx.projectmanage.module.projectapplication.construction.bean.ProjectPeriodBean
+import com.zx.projectmanage.module.projectapplication.construction.bean.ReportListBean
 import rx.Observable
 
 /**
@@ -29,7 +29,8 @@ interface ConstructionReportContract {
             pageSize: Int? = 10,
             projectStatus: String? = null,
             tenders: Int? = null,
-            buildPeriod: String? = null
+            buildPeriod: String? = null,
+            type:Int
         ): Observable<ReportListBean>
 
         fun getProjectStatus(): Observable<Any>
@@ -45,7 +46,8 @@ interface ConstructionReportContract {
             pageSize: Int? = 10,
             projectStatus: String? = null,
             tenders: Int? = null,
-            buildPeriod: String? = null
+            buildPeriod: String? = null,
+            type: Int
         )
 
         abstract fun getProjectStatus()

@@ -3,9 +3,8 @@ package com.zx.projectmanage.module.projectapplication.construction.mvp.model
 import com.frame.zxmvp.base.BaseModel
 import com.frame.zxmvp.baserx.RxHelper
 import com.frame.zxmvp.baserx.RxSchedulers
-import com.gt.giscollect.base.NormalList
 import com.zx.projectmanage.api.ApiService
-import com.zx.projectmanage.module.projectapplication.approve.bean.DeviceListBean
+import com.zx.projectmanage.module.projectapplication.construction.bean.DeviceListBean
 import com.zx.projectmanage.module.projectapplication.construction.mvp.contract.ProcedureReportContract
 import okhttp3.RequestBody
 import rx.Observable

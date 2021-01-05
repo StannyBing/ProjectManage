@@ -1,6 +1,4 @@
-package com.zx.projectmanage.module.projectapplication.approve.bean
-
-import com.google.gson.annotations.SerializedName
+package com.zx.projectmanage.module.projectapplication.construction.bean
 
 /**
 Date:2020/12/31

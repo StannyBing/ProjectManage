@@ -7,8 +7,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.zx.projectmanage.R
 import com.zx.projectmanage.base.BaseActivity
 
-import com.zx.projectmanage.module.projectapplication.approve.bean.InformationBean
-import com.zx.projectmanage.module.projectapplication.approve.bean.InformationListBean
+import com.zx.projectmanage.module.projectapplication.construction.bean.InformationBean
+import com.zx.projectmanage.module.projectapplication.construction.bean.InformationListBean
 import com.zx.projectmanage.module.projectapplication.construction.func.adapter.BaseInfomationAdapter
 import com.zx.projectmanage.module.projectapplication.construction.mvp.contract.ProjectBaseInfomationContract
 import com.zx.projectmanage.module.projectapplication.construction.mvp.model.ProjectBaseInfomationModel

@@ -3,7 +3,7 @@ package com.zx.projectmanage.module.projectapplication.construction.mvp.contract
 import com.frame.zxmvp.base.BasePresenter
 import com.frame.zxmvp.base.IView
 import com.frame.zxmvp.base.IModel
-import com.zx.projectmanage.module.projectapplication.approve.bean.ProjectProcessInfoBean
+import com.zx.projectmanage.module.projectapplication.construction.bean.ProjectProcessInfoBean
 import rx.Observable
 
 /**

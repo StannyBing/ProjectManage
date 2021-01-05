@@ -5,7 +5,7 @@ import com.frame.zxmvp.baserx.RxHelper
 import com.frame.zxmvp.baserx.RxSchedulers
 import com.gt.giscollect.base.NormalList
 import com.zx.projectmanage.api.ApiService
-import com.zx.projectmanage.module.projectapplication.approve.bean.ReportSubListBean
+import com.zx.projectmanage.module.projectapplication.construction.bean.ReportSubListBean
 import com.zx.projectmanage.module.projectapplication.construction.mvp.contract.ConstructionReportChildContract
 import rx.Observable
 
@@ -14,11 +14,18 @@ import rx.Observable
  * 功能：
  */
 class ConstructionReportChildModel : BaseModel(), ConstructionReportChildContract.Model {
-    override fun getPageSubProject(map: Map<String,String>): Observable<NormalList<ReportSubListBean>> {
-        return mRepositoryManager.obtainRetrofitService(ApiService::class.java)
-            .getPageSubProject(map)
-            .compose(RxHelper.handleResult())
-            .compose(RxSchedulers.io_main())
+    override fun getPageSubProject(map: Map<String, String>, type: Int): Observable<NormalList<ReportSubListBean>> {
+        return if (type == 0) {
+            mRepositoryManager.obtainRetrofitService(ApiService::class.java)
+                .getPageSubProject(map)
+                .compose(RxHelper.handleResult())
+                .compose(RxSchedulers.io_main())
+        } else {
+            mRepositoryManager.obtainRetrofitService(ApiService::class.java)
+                .getApproveSubProject(map)
+                .compose(RxHelper.handleResult())
+                .compose(RxSchedulers.io_main())
+        }
     }
 
 }

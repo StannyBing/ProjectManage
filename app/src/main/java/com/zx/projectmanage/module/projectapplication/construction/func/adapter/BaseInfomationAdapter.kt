@@ -1,7 +1,7 @@
 package com.zx.projectmanage.module.projectapplication.construction.func.adapter
 
 import com.zx.projectmanage.R
-import com.zx.projectmanage.module.projectapplication.approve.bean.InformationListBean
+import com.zx.projectmanage.module.projectapplication.construction.bean.InformationListBean
 import com.zx.zxutils.other.QuickAdapter.ZXBaseHolder
 import com.zx.zxutils.other.QuickAdapter.ZXMultiItemQuickAdapter
 

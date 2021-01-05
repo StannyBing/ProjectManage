@@ -1,4 +1,6 @@
-package com.zx.projectmanage.module.projectapplication.approve.bean
+package com.zx.projectmanage.module.projectapplication.construction.bean
+
+import java.io.Serializable
 
 /**
 Date:2020/12/29
@@ -6,7 +8,7 @@ Time:3:49 PM
 author:qingsong
  */
 
-class DeviceListBean {
+class DeviceListBean : Serializable {
     /**
      * createTime : 2020-12-31T09:18:33.308Z
      * createUser : string
@@ -43,7 +45,7 @@ class DeviceListBean {
     var postDetails: List<PostDetailsBean?>? = null
 
 
-    class PostDetailsBean {
+    class PostDetailsBean : Serializable {
         /**
          * attachment : string
          * createTime : 2020-12-31T09:18:33.308Z

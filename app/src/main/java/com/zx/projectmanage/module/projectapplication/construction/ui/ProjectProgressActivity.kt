@@ -1,16 +1,15 @@
-package com.zx.projectmanage.module.projectapplication.approve.ui
+package com.zx.projectmanage.module.projectapplication.construction.ui
 
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
-import android.view.View
 import com.zx.projectmanage.R
 import com.zx.projectmanage.base.BaseActivity
-import com.zx.projectmanage.module.projectapplication.approve.bean.ProcessProgressBean
+import com.zx.projectmanage.module.projectapplication.construction.bean.ProcessProgressBean
 
-import com.zx.projectmanage.module.projectapplication.approve.mvp.contract.ProjectProgressContract
-import com.zx.projectmanage.module.projectapplication.approve.mvp.model.ProjectProgressModel
-import com.zx.projectmanage.module.projectapplication.approve.mvp.presenter.ProjectProgressPresenter
+import com.zx.projectmanage.module.projectapplication.construction.mvp.contract.ProjectProgressContract
+import com.zx.projectmanage.module.projectapplication.construction.mvp.model.ProjectProgressModel
+import com.zx.projectmanage.module.projectapplication.construction.mvp.presenter.ProjectProgressPresenter
 
 
 /**

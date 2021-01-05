@@ -1,13 +1,13 @@
-package com.zx.projectmanage.module.projectapplication.approve.mvp.model
+package com.zx.projectmanage.module.projectapplication.construction.mvp.model
 
 
 import com.frame.zxmvp.base.BaseModel
 import com.frame.zxmvp.baserx.RxHelper
 import com.frame.zxmvp.baserx.RxSchedulers
 import com.zx.projectmanage.api.ApiService
-import com.zx.projectmanage.module.projectapplication.approve.bean.ScoreTemplateBean
+import com.zx.projectmanage.module.projectapplication.construction.bean.ScoreTemplateBean
 
-import com.zx.projectmanage.module.projectapplication.approve.mvp.contract.ApproveScoreContract
+import com.zx.projectmanage.module.projectapplication.construction.mvp.contract.ApproveScoreContract
 import rx.Observable
 
 /**

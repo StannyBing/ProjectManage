@@ -5,7 +5,7 @@ import com.frame.zxmvp.baserx.RxHelper
 import com.frame.zxmvp.baserx.RxSubscriber
 import com.gt.giscollect.base.NormalList
 
-import com.zx.projectmanage.module.projectapplication.approve.bean.ReportSubListBean
+import com.zx.projectmanage.module.projectapplication.construction.bean.ReportSubListBean
 import com.zx.projectmanage.module.projectapplication.construction.mvp.contract.ConstructionReportChildContract
 
 
@@ -16,8 +16,8 @@ import com.zx.projectmanage.module.projectapplication.construction.mvp.contract.
 class ConstructionReportChildPresenter : ConstructionReportChildContract.Presenter() {
 
 
-    override fun getPageSubProject(map: Map<String, String>) {
-        mModel.getPageSubProject(map)
+    override fun getPageSubProject(map: Map<String, String>, type: Int) {
+        mModel.getPageSubProject(map,type)
             .compose(RxHelper.bindToLifecycle(mView))
             .subscribe(object : RxSubscriber<NormalList<ReportSubListBean>>(mView) {
                 override fun _onNext(t: NormalList<ReportSubListBean>?) {

@@ -8,7 +8,6 @@ import com.youth.banner.adapter.BannerImageAdapter
 import com.youth.banner.holder.BannerImageHolder
 import com.zx.projectmanage.R
 import com.zx.projectmanage.base.BaseFragment
-import com.zx.projectmanage.module.projectapplication.approve.ui.ApproveReportActivity
 import com.zx.projectmanage.module.projectapplication.construction.ui.ConstructionReportActivity
 import com.zx.projectmanage.module.projectapplication.main.bean.ApplicationFuncBean
 import com.zx.projectmanage.module.projectapplication.main.func.adater.ApplicationFuncsAdapter
@@ -101,10 +100,10 @@ class ApplicationMainFragment : BaseFragment<ApplicationMainPresenter, Applicati
         funcAdapter.setOnItemClickListener { adapter, view, position ->
             when (position) {
                 0 -> {
-                    ConstructionReportActivity.startAction(mContext as Activity, false)
+                    ConstructionReportActivity.startAction(mContext as Activity, false,0)
                 }
                 1 -> {
-                    ApproveReportActivity.startAction(mContext as Activity, false)
+                    ConstructionReportActivity.startAction(mContext as Activity, false,1)
                 }
             }
 
