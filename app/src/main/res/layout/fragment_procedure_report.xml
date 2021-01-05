@@ -109,7 +109,7 @@
     <Button
         android:id="@+id/btn_approve_submit"
         android:layout_width="match_parent"
-
+        android:textColor="@color/white"
         android:layout_height="@dimen/normal_button_height"
         android:layout_alignParentBottom="true"
         android:layout_marginLeft="15dp"
