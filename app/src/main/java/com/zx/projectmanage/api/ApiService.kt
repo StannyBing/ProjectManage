@@ -4,7 +4,6 @@ package com.zx.projectmanage.api
 import com.frame.zxmvp.basebean.BaseRespose
 import com.gt.giscollect.base.NormalList
 import com.zx.projectmanage.module.main.bean.UserBean
-import com.zx.projectmanage.module.projectapplication.approve.bean.*
 import com.zx.projectmanage.module.projectapplication.construction.bean.BaiduGeocoderBean
 import com.zx.projectmanage.module.projectapplication.construction.bean.FileInfoBean
 import com.zx.projectmanage.module.projectapplication.construction.bean.FileUploadBean
