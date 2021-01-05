@@ -8,7 +8,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
-import com.gt.giscollect.base.NormalList
+import com.zx.projectmanage.base.NormalList
 import com.zhy.view.flowlayout.FlowLayout
 import com.zhy.view.flowlayout.TagAdapter
 import com.zhy.view.flowlayout.TagFlowLayout
@@ -87,7 +87,7 @@ class ConstructionReportChildActivity : BaseActivity<ConstructionReportChildPres
     /**
      * 刷新
      */
-    fun refresh(searchText: String? = null) {
+    private fun refresh(searchText: String? = null) {
         pageNo = 1
         mPresenter.getPageSubProject(
             hashMapOf(
@@ -113,12 +113,12 @@ class ConstructionReportChildActivity : BaseActivity<ConstructionReportChildPres
     //设置数据到适配器
     private fun setData(data: List<ReportSubListBean>) {
         pageNo++
-        val size = data?.size ?: 0
+        val size = data.size ?: 0
         if (isRefresh) {
             reportListAdapter.setNewData(data as List<ReportSubListBean?>?)
         } else {
             if (size > 0) {
-                reportListAdapter.addData(data!!)
+                reportListAdapter.addData(data)
             }
         }
         if (size < pageSize) {
@@ -165,17 +165,31 @@ class ConstructionReportChildActivity : BaseActivity<ConstructionReportChildPres
         reportListAdapter.setOnLoadMoreListener({ loadMore() }, swipeRecyler)
 
         reportListAdapter.setOnItemClickListener { adapter, view, position ->
-            var item = adapter.data[position] as ReportSubListBean
+            val item = adapter.data[position] as ReportSubListBean
             item.let {
                 MacroReportInfoActivity.startAction(
                     mContext as Activity,
                     false,
-                    item.getProcessId().toString(),
-                    item.getProjectId().toString(),
-                    item.getSubProjectId().toString(),
+                    item.processId.toString(),
+                    item.projectId.toString(),
+                    item.subProjectId.toString(),
                     type,
                     intent.getStringExtra("assessmentId").toString()
                 )
+            }
+
+            if (type == 1) {
+                item.let {
+                    ApproveProcessActivity.startAction(
+                        mContext as Activity,
+                        false,
+                        item.processId.toString(),
+                        item.projectId.toString(),
+                        item.subProjectId.toString(),
+                        type,
+                        intent.getStringExtra("assessmentId").toString()
+                    )
+                }
             }
         }
     }

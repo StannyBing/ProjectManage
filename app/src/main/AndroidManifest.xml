@@ -27,6 +27,9 @@
         android:usesCleartextTraffic="true"
         tools:ignore="LockedOrientationActivity">
         <activity
+            android:name=".module.projectapplication.construction.ui.ApproveProcessActivity"
+            android:screenOrientation="portrait" />
+        <activity
             android:name=".module.projectapplication.construction.ui.ApproveScoreActivity"
             android:screenOrientation="portrait" />
         <activity
@@ -40,8 +43,8 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".module.projectapplication.construction.ui.ConstructionDataActivity"
-            android:windowSoftInputMode="adjustPan|stateHidden"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan|stateHidden" />
         <activity
             android:name=".module.projectapplication.construction.ui.ConstructionReportActivity"
             android:screenOrientation="portrait" />
@@ -53,21 +56,6 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".module.projectapplication.construction.ui.ProjectBaseInfomationActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".module.projectapplication.approve.ui.ProjectBaseInfomationActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".module.projectapplication.approve.ui.MacroApproveInfoActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".module.projectapplication.approve.ui.ApproveReportChildActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".module.projectapplication.construction.ui.ApproveDataActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".module.projectapplication.approve.ui.ApproveReportActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".module.other.ui.CameraPreviewActivity"

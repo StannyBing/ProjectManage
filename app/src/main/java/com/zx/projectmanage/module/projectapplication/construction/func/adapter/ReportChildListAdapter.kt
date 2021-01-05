@@ -18,8 +18,8 @@ class ReportChildListAdapter(@Nullable data: List<ReportSubListBean>?, type: Int
 
     override fun convert(helper: ZXBaseHolder, item: ReportSubListBean?) {
         val superTextView = helper?.getView<SuperTextView>(R.id.super_tv)
-        superTextView.setLeftTopString("项目名称：${item?.getSubProjectName()}")
-            .setLeftBottomString("项目位置：${item?.getAddress()}")
-            .setRightString(item?.getStatusDesc())
+        superTextView.setLeftTopString("项目名称：${item?.subProjectName}")
+            .setLeftBottomString("项目位置：${item?.address}")
+            .setRightString(item?.statusDesc)
     }
 }

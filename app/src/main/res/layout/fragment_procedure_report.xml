@@ -5,115 +5,121 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <LinearLayout
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="75dp">
 
-
-        <com.allen.library.SuperTextView
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="@dimen/item_height"
-            android:paddingStart="20dp"
-            stv:sBackgroundDrawableRes="@color/white"
-            stv:sLeftTextColor="@color/default_text_color"
-            stv:sLeftTextString="工序均分"
-            stv:sRightTextString="90" />
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
-        <com.allen.library.SuperTextView
-            android:id="@+id/process_progress"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/item_height"
-            android:paddingStart="20dp"
-            stv:sBackgroundDrawableRes="@color/white"
-            stv:sLeftTextColor="@color/default_text_color"
-            stv:sLeftTextString="工序进度"
-            stv:sRightIconRes="@drawable/icon_next" />
 
-        <com.allen.library.SuperTextView
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/item_height"
-            stv:sBackgroundDrawableRes="@color/white"
-            stv:sLeftIconHeight="17dp"
-            stv:sLeftIconRes="@drawable/title_rangle"
-            stv:sLeftIconWidth="5dp"
-            stv:sLeftTextColor="@color/default_text_color"
-            stv:sLeftTextString="说明" />
+            <com.allen.library.SuperTextView
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/item_height"
+                android:paddingStart="20dp"
+                stv:sBackgroundDrawableRes="@color/white"
+                stv:sLeftTextColor="@color/default_text_color"
+                stv:sLeftTextString="工序均分"
+                stv:sRightTextString="90" />
 
-        <com.allen.library.SuperTextView
-            android:id="@+id/operationGuide"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/item_height"
-            android:paddingStart="20dp"
-            stv:sBackgroundDrawableRes="@color/white"
-            stv:sLeftTextColor="@color/default_text_color"
-            stv:sLeftTextString="操作指南"
-            stv:sRightIconRes="@drawable/icon_next" />
+            <com.allen.library.SuperTextView
+                android:id="@+id/process_progress"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/item_height"
+                android:paddingStart="20dp"
+                stv:sBackgroundDrawableRes="@color/white"
+                stv:sLeftTextColor="@color/default_text_color"
+                stv:sLeftTextString="工序进度"
+                stv:sRightIconRes="@drawable/icon_next" />
 
-        <com.allen.library.SuperTextView
-            android:id="@+id/safetyRegulations"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/item_height"
-            android:paddingStart="20dp"
-            stv:sBackgroundDrawableRes="@color/white"
-            stv:sLeftTextColor="@color/default_text_color"
-            stv:sLeftTextString="安全规范"
-            stv:sRightIconRes="@drawable/icon_next" />
+            <com.allen.library.SuperTextView
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/item_height"
+                stv:sBackgroundDrawableRes="@color/white"
+                stv:sLeftIconHeight="17dp"
+                stv:sLeftIconRes="@drawable/title_rangle"
+                stv:sLeftIconWidth="5dp"
+                stv:sLeftTextColor="@color/default_text_color"
+                stv:sLeftTextString="说明" />
 
-        <com.allen.library.SuperTextView
-            android:id="@+id/materials"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/item_height"
-            android:paddingStart="20dp"
-            stv:sBackgroundDrawableRes="@color/white"
-            stv:sLeftTextColor="@color/default_text_color"
-            stv:sLeftTextString="物料清单"
-            stv:sRightIconRes="@drawable/icon_next" />
+            <com.allen.library.SuperTextView
+                android:id="@+id/operationGuide"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/item_height"
+                android:paddingStart="20dp"
+                stv:sBackgroundDrawableRes="@color/white"
+                stv:sLeftTextColor="@color/default_text_color"
+                stv:sLeftTextString="操作指南"
+                stv:sRightIconRes="@drawable/icon_next" />
 
-        <com.allen.library.SuperTextView
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/item_height"
-            stv:sBackgroundDrawableRes="@color/white"
-            stv:sLeftIconHeight="17dp"
-            stv:sLeftIconRes="@drawable/title_rangle"
-            stv:sLeftIconWidth="5dp"
-            stv:sLeftTextColor="@color/default_text_color"
-            stv:sLeftTextString="上传资料" />
+            <com.allen.library.SuperTextView
+                android:id="@+id/safetyRegulations"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/item_height"
+                android:paddingStart="20dp"
+                stv:sBackgroundDrawableRes="@color/white"
+                stv:sLeftTextColor="@color/default_text_color"
+                stv:sLeftTextString="安全规范"
+                stv:sRightIconRes="@drawable/icon_next" />
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/dataShow"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            stv:sBackgroundDrawableRes="@color/white" />
+            <com.allen.library.SuperTextView
+                android:id="@+id/materials"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/item_height"
+                android:paddingStart="20dp"
+                stv:sBackgroundDrawableRes="@color/white"
+                stv:sLeftTextColor="@color/default_text_color"
+                stv:sLeftTextString="物料清单"
+                stv:sRightIconRes="@drawable/icon_next" />
 
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/tv_report_addEquip"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/item_height"
-            android:layout_marginTop="5dp"
-            android:gravity="center"
-            android:text="添加设备"
-            android:textColor="@color/colorAccent"
-            android:textSize="@dimen/text_normal_size" />
+            <com.allen.library.SuperTextView
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/item_height"
+                stv:sBackgroundDrawableRes="@color/white"
+                stv:sLeftIconHeight="17dp"
+                stv:sLeftIconRes="@drawable/title_rangle"
+                stv:sLeftIconWidth="5dp"
+                stv:sLeftTextColor="@color/default_text_color"
+                stv:sLeftTextString="上传资料" />
 
-    </LinearLayout>
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/dataShow"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white" />
 
-    <LinearLayout
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_report_addEquip"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/item_height"
+                android:layout_marginTop="5dp"
+                android:gravity="center"
+                android:text="添加设备"
+                android:textColor="@color/colorAccent"
+                android:textSize="@dimen/text_normal_size" />
+
+        </LinearLayout>
+
+    </androidx.core.widget.NestedScrollView>
+
+
+    <Button
+        android:id="@+id/btn_approve_submit"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/item_height"
+
+        android:layout_height="@dimen/normal_button_height"
         android:layout_alignParentBottom="true"
-        android:layout_marginStart="15dp"
+        android:layout_marginLeft="15dp"
         android:layout_marginTop="15dp"
-        android:layout_marginEnd="15dp"
-        android:layout_marginBottom="5dp">
+        android:layout_marginRight="15dp"
+        android:layout_marginBottom="10dp"
+        android:layout_weight="1"
+        android:background="@drawable/shape_btn_bg"
+        android:text="提交审核"
+        android:textSize="@dimen/text_normal_size" />
 
-        <Button
-            android:id="@+id/btn_approve_submit"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/normal_button_height"
-            android:background="@drawable/shape_btn_bg"
-            android:text="提交审核"
-            android:textSize="@dimen/text_normal_size" />
-    </LinearLayout>
 </RelativeLayout>
 
