@@ -47,7 +47,8 @@ class ConstructionDataActivity : BaseActivity<ConstructionDataPresenter, Constru
             isFinish: Boolean,
             detailedId: String = "",
             subProjectId: String = "",
-            deviceListBean: DeviceListBean? = null
+            deviceListBean: DeviceListBean? = null,
+            type: Int
         ) {
             val intent = Intent(activity, ConstructionDataActivity::class.java)
             activity.startActivity(intent)

@@ -59,7 +59,11 @@ class ProcedureReportFragment : BaseFragment<ProcedureReportPresenter, Procedure
         parcelable = arguments?.getSerializable("bean") as ProjectProcessInfoBean.DetailedListBean
         subProjectId = arguments?.getString("subProjectId").toString()
         projectId = arguments?.getString("projectId").toString()
+        assessmentId = arguments?.getString("assessmentId").toString()
         type = arguments?.getInt("type", 0)!!
+        if (type == 1) {
+            btn_approve_submit.text = "审核评分"
+        }
 
         if (parcelable?.showMaterials == 0) {
             materials.visibility = View.GONE
@@ -89,11 +93,14 @@ class ProcedureReportFragment : BaseFragment<ProcedureReportPresenter, Procedure
      */
     override fun onViewListener() {
         tv_report_addEquip.setOnClickListener {
-            ConstructionDataActivity.startAction(requireActivity(), false, parcelable?.id.toString(), subProjectId)
+            ConstructionDataActivity.startAction(requireActivity(), false, parcelable?.id.toString(), subProjectId, null, type)
+        }
+        process_progress.setOnSuperTextViewClickListener {
+            ProjectProgressActivity.startAction(activity as Activity, false, list[0].detailedProId)
         }
         reportListAdapter.setOnItemChildClickListener { adapter, view, position ->
             val deviceListBean = adapter.data as DeviceListBean
-            ConstructionDataActivity.startAction(requireActivity(), false, parcelable?.id.toString(), subProjectId, deviceListBean)
+            ConstructionDataActivity.startAction(requireActivity(), false, parcelable?.id.toString(), subProjectId, deviceListBean, type)
         }
         materials.setOnSuperTextViewClickListener {
             val materials = parcelable?.materials
@@ -121,10 +128,10 @@ class ProcedureReportFragment : BaseFragment<ProcedureReportPresenter, Procedure
 
         }
         btn_approve_submit.setOnClickListener {
-            var b = false
-            for (deviceListBean in list) {
-
+            if (type == 1) {
+                ApproveScoreActivity.startAction(activity as Activity, false, assessmentId)
             }
+            var b = false
             if (b) {
                 //自动登录
                 mPresenter.postSubmit(

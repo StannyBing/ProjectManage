@@ -14,17 +14,19 @@ import com.zx.projectmanage.module.projectapplication.construction.mvp.presenter
 
 /**
  * Create By admin On 2017/7/11
- * 功能：
+ * 功能：工序进度
  */
 class ProjectProgressActivity : BaseActivity<ProjectProgressPresenter, ProjectProgressModel>(), ProjectProgressContract.View {
+
+    var detailedProId = ""
 
     companion object {
         /**
          * 启动器
          */
-        fun startAction(activity: Activity, isFinish: Boolean,detailedProId:String) {
+        fun startAction(activity: Activity, isFinish: Boolean, detailedProId: String?) {
             val intent = Intent(activity, ProjectProgressActivity::class.java)
-            intent.putExtra("detailedProId",detailedProId)
+            intent.putExtra("detailedProId", detailedProId)
             activity.startActivity(intent)
             if (isFinish) activity.finish()
         }
@@ -41,7 +43,9 @@ class ProjectProgressActivity : BaseActivity<ProjectProgressPresenter, ProjectPr
      * 初始化
      */
     override fun initView(savedInstanceState: Bundle?) {
+        detailedProId = intent.getStringExtra("detailedProId").toString()
         super.initView(savedInstanceState)
+        mPresenter.getProcessProgress(detailedProId)
     }
 
     /**

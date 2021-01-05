@@ -21,6 +21,7 @@
             stv:sRightTextString="90" />
 
         <com.allen.library.SuperTextView
+            android:id="@+id/process_progress"
             android:layout_width="match_parent"
             android:layout_height="@dimen/item_height"
             android:paddingStart="20dp"
