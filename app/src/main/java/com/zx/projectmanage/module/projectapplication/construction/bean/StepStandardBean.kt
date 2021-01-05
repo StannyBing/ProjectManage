@@ -1,4 +1,4 @@
-package com.zx.projectmanage.module.projectapplication.approve.bean
+package com.zx.projectmanage.module.projectapplication.construction.bean
 
 data class StepStandardBean(
     val comment: String,

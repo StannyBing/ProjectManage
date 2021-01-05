@@ -70,6 +70,9 @@
             android:name=".module.projectapplication.approve.ui.ApproveReportActivity"
             android:screenOrientation="portrait" />
         <activity
+            android:name=".module.other.ui.CameraPreviewActivity"
+            android:screenOrientation="portrait" />
+        <activity
             android:name=".module.main.ui.MainActivity"
             android:screenOrientation="portrait" />
         <activity

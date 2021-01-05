@@ -1,4 +1,4 @@
-package com.zx.projectmanage.module.projectapplication.approve.bean;
+package com.zx.projectmanage.module.projectapplication.construction.bean;
 
 /**
  * Date:2021/1/4

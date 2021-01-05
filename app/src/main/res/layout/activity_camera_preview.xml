@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:stv="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical">
+
+    <com.allen.library.SuperTextView
+        android:id="@+id/stv_preview_file"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/toolbar_height"
+        android:padding="5dp"
+        stv:sBackgroundDrawableRes="@color/white"
+        stv:sCenterTextSize="@dimen/text_big_size"
+        stv:sCenterTextString="文件查看"
+        stv:sLeftIconHeight="@dimen/toolbar_back_width"
+        stv:sLeftIconRes="@drawable/icon_toolbar_back"
+        stv:sLeftIconWidth="@dimen/toolbar_back_width" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <com.zx.zxutils.views.ZXPhotoView
+            android:id="@+id/pv_preview_image"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+        <com.zx.projectmanage.module.other.func.tool.httpsvideoview.HttpsVideoView
+            android:id="@+id/vv_preview_video"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="gone" />
+    </RelativeLayout>
+
+</LinearLayout>

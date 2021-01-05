@@ -1,5 +1,7 @@
-package com.zx.projectmanage.module.projectapplication.approve.bean
+package com.zx.projectmanage.module.projectapplication.construction.bean
 
+import com.zx.projectmanage.module.projectapplication.construction.bean.DataStepInfoBean
+import com.zx.projectmanage.module.projectapplication.construction.bean.StepStandardBean
 import com.zx.zxutils.other.QuickAdapter.entity.MultiItemEntity
 
 data class ConstructionDataBean(

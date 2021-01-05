@@ -6,8 +6,8 @@ import com.frame.zxmvp.baserx.RxSchedulers
 import com.gt.giscollect.base.NormalList
 import com.zx.projectmanage.api.ApiService
 import com.zx.projectmanage.module.projectapplication.construction.bean.BaiduGeocoderBean
-import com.zx.projectmanage.module.projectapplication.construction.bean.FileUploadBean
 import com.zx.projectmanage.module.projectapplication.construction.bean.StepStandardBean
+import com.zx.projectmanage.module.projectapplication.construction.bean.FileUploadBean
 
 import com.zx.projectmanage.module.projectapplication.construction.mvp.contract.ConstructionDataContract
 import okhttp3.RequestBody

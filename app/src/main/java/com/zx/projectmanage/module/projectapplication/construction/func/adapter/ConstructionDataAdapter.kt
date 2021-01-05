@@ -4,9 +4,8 @@ import android.widget.EditText
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.zx.projectmanage.R
-import com.zx.projectmanage.module.projectapplication.approve.bean.ConstructionDataBean
-import com.zx.projectmanage.module.projectapplication.approve.func.adapter.DataStepFileAdapter
-import com.zx.projectmanage.module.projectapplication.approve.func.listener.DataStepListener
+import com.zx.projectmanage.module.projectapplication.construction.bean.ConstructionDataBean
+import com.zx.projectmanage.module.projectapplication.construction.func.listener.DataStepListener
 import com.zx.projectmanage.module.projectapplication.construction.func.tool.InScrollGridLayoutManager
 import com.zx.zxutils.other.QuickAdapter.ZXBaseHolder
 import com.zx.zxutils.other.QuickAdapter.ZXMultiItemQuickAdapter

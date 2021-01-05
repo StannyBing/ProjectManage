@@ -7,7 +7,7 @@ import com.bumptech.glide.Glide
 import com.zx.projectmanage.R
 import com.zx.projectmanage.api.ApiConfigModule
 import com.zx.projectmanage.base.BaseActivity
-import com.zx.projectmanage.module.projectapplication.approve.bean.FileInfoBean
+import com.zx.projectmanage.module.projectapplication.construction.bean.FileInfoBean
 import com.zx.projectmanage.module.projectapplication.construction.mvp.contract.DocumentContract
 import com.zx.projectmanage.module.projectapplication.construction.mvp.model.DocumentModel
 import com.zx.projectmanage.module.projectapplication.construction.mvp.presenter.DocumentPresenter

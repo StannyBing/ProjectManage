@@ -6,7 +6,6 @@ import android.content.Intent
 import android.location.Location
 import android.os.Build
 import android.os.Bundle
-import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.inputmethod.EditorInfo
 import android.widget.Button
@@ -14,7 +13,6 @@ import android.widget.EditText
 import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.zx.bui.ui.buidialog.BUIDialog
 import com.zx.projectmanage.R
 import com.zx.projectmanage.api.ApiConfigModule
 import com.zx.projectmanage.base.BaseActivity
@@ -27,16 +25,13 @@ import com.zx.projectmanage.module.projectapplication.construction.bean.DataStep
 import com.zx.projectmanage.module.projectapplication.construction.bean.StepStandardBean
 import com.zx.projectmanage.module.projectapplication.construction.func.adapter.ConstructionDataAdapter
 import com.zx.projectmanage.module.projectapplication.construction.func.adapter.StepStandardAdapter
+import com.zx.projectmanage.module.projectapplication.construction.func.listener.DataStepListener
 
 import com.zx.projectmanage.module.projectapplication.construction.mvp.contract.ConstructionDataContract
 import com.zx.projectmanage.module.projectapplication.construction.mvp.model.ConstructionDataModel
 import com.zx.projectmanage.module.projectapplication.construction.mvp.presenter.ConstructionDataPresenter
-import com.zx.projectmanage.module.projectapplication.construction.func.listener.DataStepListener
-import com.zx.zxutils.util.ZXDialogUtil
 import com.zx.zxutils.util.ZXLocationUtil
 import com.zx.zxutils.util.ZXSystemUtil
-import com.zx.zxutils.util.ZXTimeUtil
-import com.zx.zxutils.views.BottomSheet.ZXBottomSheet
 import kotlinx.android.synthetic.main.activity_construction_data.*
 
 
@@ -50,7 +45,7 @@ class ConstructionDataActivity : BaseActivity<ConstructionDataPresenter, Constru
         /**
          * 启动器
          */
-        fun startAction(activity: Activity, isFinish: Boolean, detailedId : String, subProjectId : String) {
+        fun startAction(activity: Activity, isFinish: Boolean, detailedId : String = "", subProjectId : String = "") {
             val intent = Intent(activity, ConstructionDataActivity::class.java)
             activity.startActivity(intent)
             if (isFinish) activity.finish()
@@ -78,11 +73,39 @@ class ConstructionDataActivity : BaseActivity<ConstructionDataPresenter, Constru
      * 初始化
      */
     override fun initView(savedInstanceState: Bundle?) {
-        dataList.add(ConstructionDataBean(ConstructionDataBean.Edit_Type, "设备ID"))
-        dataList.add(ConstructionDataBean(ConstructionDataBean.Edit_Type, "设备名称"))
-        dataList.add(ConstructionDataBean(ConstructionDataBean.Select_Type, "规范模板", isDivider = true))
-        dataList.add(ConstructionDataBean(ConstructionDataBean.Location_Type, "上报位置", isDivider = true))
-        dataList.add(ConstructionDataBean(ConstructionDataBean.Text_Type, "驳回原因", isDivider = true))
+        dataList.add(
+            ConstructionDataBean(
+                ConstructionDataBean.Edit_Type,
+                "设备ID"
+            )
+        )
+        dataList.add(
+            ConstructionDataBean(
+                ConstructionDataBean.Edit_Type,
+                "设备名称"
+            )
+        )
+        dataList.add(
+            ConstructionDataBean(
+                ConstructionDataBean.Select_Type,
+                "规范模板",
+                isDivider = true
+            )
+        )
+        dataList.add(
+            ConstructionDataBean(
+                ConstructionDataBean.Location_Type,
+                "上报位置",
+                isDivider = true
+            )
+        )
+        dataList.add(
+            ConstructionDataBean(
+                ConstructionDataBean.Text_Type,
+                "驳回原因",
+                isDivider = true
+            )
+        )
 
         rv_construction_data.apply {
             layoutManager = LinearLayoutManager(mContext)
@@ -137,7 +160,7 @@ class ConstructionDataActivity : BaseActivity<ConstructionDataPresenter, Constru
             }
         })
         //保存
-        tv_construction_save.setOnClickListener {
+        btn_construction_save.setOnClickListener {
             dataList.filter {
                 it.type == ConstructionDataBean.Edit_Type
             }.forEach {
@@ -264,10 +287,16 @@ class ConstructionDataActivity : BaseActivity<ConstructionDataPresenter, Constru
         selectStepBean = stepDetail
         dataList.removeIf { it.type == ConstructionDataBean.Step_Type }
         stepDetail.standardSteps?.forEach {
-            dataList.add(ConstructionDataBean(ConstructionDataBean.Step_Type, it.stepName, it.standard, stepInfos = arrayListOf<DataStepInfoBean>().apply {
-                //                add(DataStepInfoBean(ApiConfigModule.BASE_IP + "admin/sys-file/getFileById?id=" + it.standardId))
-                add(DataStepInfoBean(thumbnail = ApiConfigModule.BASE_IP + "admin/sys-file/getFileById?id=353732457519910912"))
-            }))
+            dataList.add(
+                ConstructionDataBean(
+                    ConstructionDataBean.Step_Type,
+                    it.stepName,
+                    it.standard,
+                    stepInfos = arrayListOf<DataStepInfoBean>().apply {
+                        //                add(DataStepInfoBean(ApiConfigModule.BASE_IP + "admin/sys-file/getFileById?id=" + it.standardId))
+                        add(DataStepInfoBean(thumbnail = ApiConfigModule.BASE_IP + "admin/sys-file/getFileById?id=353732457519910912"))
+                    })
+            )
         }
         dataAdapter.notifyDataSetChanged()
     }

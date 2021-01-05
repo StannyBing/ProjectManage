@@ -5,8 +5,8 @@ import com.frame.zxmvp.base.BasePresenter
 import com.frame.zxmvp.base.IView
 import com.frame.zxmvp.base.IModel
 import com.gt.giscollect.base.NormalList
-import com.zx.projectmanage.module.projectapplication.approve.bean.BaiduGeocoderBean
-import com.zx.projectmanage.module.projectapplication.approve.bean.StepStandardBean
+import com.zx.projectmanage.module.projectapplication.construction.bean.BaiduGeocoderBean
+import com.zx.projectmanage.module.projectapplication.construction.bean.StepStandardBean
 import rx.Observable
 
 /**

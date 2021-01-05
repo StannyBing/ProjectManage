@@ -2,7 +2,6 @@ package com.zx.projectmanage.module.projectapplication.approve.func.adapter
 
 import com.allen.library.SuperTextView
 import com.zx.projectmanage.R
-import com.zx.projectmanage.module.projectapplication.approve.bean.ConstructionDataBean
 import com.zx.projectmanage.module.projectapplication.approve.bean.InformationBean
 
 import com.zx.zxutils.other.QuickAdapter.ZXBaseHolder

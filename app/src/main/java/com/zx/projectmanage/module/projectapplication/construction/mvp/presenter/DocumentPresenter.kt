@@ -9,8 +9,7 @@ import com.frame.zxmvp.http.download.listener.DownloadOnNextListener
 import com.frame.zxmvp.http.download.manager.HttpDownManager
 import com.zx.projectmanage.api.ApiConfigModule
 import com.zx.projectmanage.app.ConstStrings
-import com.zx.projectmanage.module.projectapplication.approve.bean.FileInfoBean
-import com.zx.projectmanage.module.projectapplication.approve.bean.ProjectProcessInfoBean
+import com.zx.projectmanage.module.projectapplication.construction.bean.FileInfoBean
 import com.zx.projectmanage.module.projectapplication.construction.mvp.contract.DocumentContract
 import com.zx.zxutils.util.ZXFileUtil
 import java.io.File

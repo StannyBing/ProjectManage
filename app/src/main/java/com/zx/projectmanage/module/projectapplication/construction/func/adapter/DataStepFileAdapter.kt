@@ -6,7 +6,7 @@ import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.bumptech.glide.request.RequestOptions
 import com.zx.projectmanage.R
-import com.zx.projectmanage.module.projectapplication.approve.bean.DataStepInfoBean
+import com.zx.projectmanage.module.projectapplication.construction.bean.DataStepInfoBean
 import com.zx.zxutils.other.QuickAdapter.ZXBaseHolder
 import com.zx.zxutils.other.QuickAdapter.ZXQuickAdapter
 import java.io.File

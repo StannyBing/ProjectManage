@@ -23,7 +23,7 @@ class ReportChildListAdapter(@Nullable data: List<ReportSubListBean>?) : ZXQuick
                 MacroApproveInfoActivity.startAction(
                     mContext as Activity, false,
                     item?.getProcessId().toString(), item?.getProjectId().toString(), item?.getSubProjectId().toString()
-                )
+                , "")
             }
         }
     }
