@@ -3,16 +3,21 @@ package com.zx.projectmanage.module.projectapplication.construction.ui
 import android.app.Activity
 import android.content.DialogInterface
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
+import android.widget.EditText
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.zx.projectmanage.R
+import com.zx.projectmanage.api.ApiConfigModule
 import com.zx.projectmanage.app.toJson2
 import com.zx.projectmanage.base.BaseActivity
 import com.zx.projectmanage.base.SimpleDecoration
+import com.zx.projectmanage.module.projectapplication.construction.bean.DataStepInfoBean
 import com.zx.projectmanage.module.projectapplication.construction.bean.DeviceInfoBean
 import com.zx.projectmanage.module.projectapplication.construction.bean.DeviceListBean
+import com.zx.projectmanage.module.projectapplication.construction.bean.StepStandardBean
 import com.zx.projectmanage.module.projectapplication.construction.func.adapter.DeviceInfoAdapter
 
 import com.zx.projectmanage.module.projectapplication.construction.mvp.contract.DeviceAuditContract
@@ -64,14 +69,7 @@ class DeviceAuditActivity : BaseActivity<DeviceAuditPresenter, DeviceAuditModel>
     override fun initView(savedInstanceState: Bundle?) {
         deviceBean = intent.getSerializableExtra("deviceListBean") as DeviceListBean
 
-        dataList.add(DeviceInfoBean(DeviceInfoBean.Text_Type, "设备ID", stringValue = deviceBean?.equipmentId ?: ""))
-        dataList.add(DeviceInfoBean(DeviceInfoBean.Text_Type, "设备名称", stringValue = deviceBean?.equipmentName ?: ""))
-        dataList.add(DeviceInfoBean(DeviceInfoBean.Text_Type, "规范模板", isDivider = true))
-        dataList.add(DeviceInfoBean(DeviceInfoBean.Text_Type, "施工负责人", stringValue = deviceBean?.equipmentId ?: ""))
-        dataList.add(DeviceInfoBean(DeviceInfoBean.Text_Type, "上报人员", stringValue = deviceBean?.equipmentName ?: ""))
-        dataList.add(DeviceInfoBean(DeviceInfoBean.Text_Type, "上报位置", stringValue = deviceBean?.postAddr ?: ""))
-        dataList.add(DeviceInfoBean(DeviceInfoBean.Text_Type, "上报时间", isDivider = true, stringValue = deviceBean?.equipmentName ?: ""))
-        dataList.add(DeviceInfoBean(DeviceInfoBean.Text_Type, "驳回原因", isDivider = true, stringValue = deviceBean?.remarks ?: ""))
+        mPresenter.getDeviceDetail(deviceBean?.standardProId ?: "")
 
         rv_deviceaudit_data.apply {
             layoutManager = LinearLayoutManager(mContext)
@@ -96,13 +94,14 @@ class DeviceAuditActivity : BaseActivity<DeviceAuditPresenter, DeviceAuditModel>
         //驳回
         btn_deviceaudit_reject.setOnClickListener {
             val view = LayoutInflater.from(mContext).inflate(R.layout.layout_device_audit, null, false)
+            val etFeedBack = view.findViewById<EditText>(R.id.et_device_audit_feedback)
             ZXDialogUtil.showCustomViewDialog(mContext, "审批意见", view) { dialog: DialogInterface?, which: Int ->
                 mPresenter.doReject(
                     hashMapOf(
-                        "auditReason" to "",
-                        "detailedProId" to "",
-                        "standardProId" to "",
-                        "submitNumber" to ""
+                        "auditReason" to etFeedBack.text.toString(),
+                        "detailedProId" to deviceBean?.detailedProId,
+                        "standardProId" to deviceBean?.standardProId,
+                        "submitNumber" to deviceBean?.submitNumber
                     ).toJson2()
                 )
             }
@@ -113,9 +112,9 @@ class DeviceAuditActivity : BaseActivity<DeviceAuditPresenter, DeviceAuditModel>
                 mPresenter.doPass(
                     hashMapOf(
                         "auditReason" to "",
-                        "detailedProId" to "",
-                        "standardProId" to "",
-                        "submitNumber" to ""
+                        "detailedProId" to deviceBean?.detailedProId,
+                        "standardProId" to deviceBean?.standardProId,
+                        "submitNumber" to deviceBean?.submitNumber
                     ).toJson2()
                 )
             }
@@ -133,5 +132,73 @@ class DeviceAuditActivity : BaseActivity<DeviceAuditPresenter, DeviceAuditModel>
         setResult(0x01)
         finish()
     }
+
+    override fun onDeviceDetailResult(deviceListBean: DeviceListBean) {
+        val standardProId = deviceBean?.standardProId
+        val standardId = deviceBean?.standardId
+        this.deviceBean = deviceListBean
+        deviceBean?.standardProId = standardProId
+        dataList.clear()
+        dataList.add(DeviceInfoBean(DeviceInfoBean.Text_Type, "设备ID", stringValue = deviceBean?.equipmentId ?: ""))
+        dataList.add(DeviceInfoBean(DeviceInfoBean.Text_Type, "设备名称", stringValue = deviceBean?.equipmentName ?: ""))
+        dataList.add(DeviceInfoBean(DeviceInfoBean.Text_Type, "规范模板", isDivider = true))
+        dataList.add(DeviceInfoBean(DeviceInfoBean.Text_Type, "施工负责人", stringValue = deviceBean?.equipmentId ?: ""))
+        dataList.add(DeviceInfoBean(DeviceInfoBean.Text_Type, "上报人员", stringValue = deviceBean?.equipmentName ?: ""))
+        dataList.add(DeviceInfoBean(DeviceInfoBean.Text_Type, "上报位置", stringValue = deviceBean?.postAddr ?: ""))
+        dataList.add(DeviceInfoBean(DeviceInfoBean.Text_Type, "上报时间", isDivider = true, stringValue = deviceBean?.equipmentName ?: ""))
+//        dataList.add(DeviceInfoBean(DeviceInfoBean.Text_Type, "驳回原因", isDivider = true, stringValue = deviceBean?.remarks ?: ""))
+
+        mPresenter.getStepDetail(standardId ?: "")
+
+        dataAdapter.notifyDataSetChanged()
+    }
+
+    /**
+     * 模板详情
+     */
+    override fun onStepDetailResult(stepDetail: StepStandardBean) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            dataList.removeIf { it.type == DeviceInfoBean.Step_Type }
+        } else {
+            var i = 0
+            while (i < dataList.size) {
+                // 判断集合中元素是否和bbb相等.
+                if (dataList[i].type == DeviceInfoBean.Step_Type) {
+                    dataList.removeAt(i)
+                    i-- // 重点 - 一定要注意写!
+                }
+                i++
+            }
+        }
+        stepDetail.standardSteps?.forEach {
+            dataList.add(
+                DeviceInfoBean(
+                    DeviceInfoBean.Step_Type,
+                    it.stepName,
+                    it.standard,
+                    stepInfos = arrayListOf<DataStepInfoBean>().apply {
+                        add(DataStepInfoBean(ApiConfigModule.BASE_IP + "admin/sys-file/getFileById?id=" + it.standardId))
+                        if (it.standardId == deviceBean?.standardId) {
+                            deviceBean?.postDetails?.forEach { post ->
+                                if (it.stepId == post?.stepId) {
+                                    add(DataStepInfoBean(ApiConfigModule.BASE_IP + "admin/sys-file/getFileById?id=" + post.attachment))
+                                }
+                            }
+                        }
+//                        add(
+//                            DataStepInfoBean(
+//                                path = ApiConfigModule.BASE_IP + "admin/sys-file/getFileById?id=353732457519910912",
+//                                thumbnail = ApiConfigModule.BASE_IP + "admin/sys-file/getFileById?id=353732457519910912"
+//                            )
+//                        )
+                    },
+                    standardBean = stepDetail,
+                    stepInfoBean = it
+                )
+            )
+        }
+        dataAdapter.notifyDataSetChanged()
+    }
+
 
 }

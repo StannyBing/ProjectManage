@@ -4,6 +4,8 @@ import com.frame.zxmvp.base.BaseModel
 import com.frame.zxmvp.baserx.RxHelper
 import com.frame.zxmvp.baserx.RxSchedulers
 import com.zx.projectmanage.api.ApiService
+import com.zx.projectmanage.module.projectapplication.construction.bean.DeviceListBean
+import com.zx.projectmanage.module.projectapplication.construction.bean.StepStandardBean
 
 import com.zx.projectmanage.module.projectapplication.construction.mvp.contract.DeviceAuditContract
 import okhttp3.RequestBody
@@ -24,6 +26,21 @@ class DeviceAuditModel : BaseModel(), DeviceAuditContract.Model {
     override fun passData(body: RequestBody): Observable<Any> {
         return mRepositoryManager.obtainRetrofitService(ApiService::class.java)
             .doDevicePass(body)
+            .compose(RxHelper.handleResult())
+            .compose(RxSchedulers.io_main())
+    }
+
+    override fun deviceDetailData(id: String): Observable<DeviceListBean> {
+        return mRepositoryManager.obtainRetrofitService(ApiService::class.java)
+            .getDeviceDetail(id)
+            .compose(RxHelper.handleResult())
+            .compose(RxSchedulers.io_main())
+    }
+
+
+    override fun stepDetailData(id: String): Observable<StepStandardBean> {
+        return mRepositoryManager.obtainRetrofitService(ApiService::class.java)
+            .getStepDetail(id)
             .compose(RxHelper.handleResult())
             .compose(RxSchedulers.io_main())
     }

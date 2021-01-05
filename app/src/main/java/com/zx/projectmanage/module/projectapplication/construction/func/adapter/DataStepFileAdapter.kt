@@ -14,15 +14,27 @@ import java.io.File
 
 class DataStepFileAdapter(dataList: List<DataStepInfoBean>) : ZXQuickAdapter<DataStepInfoBean, ZXBaseHolder>(R.layout.item_data_step_file, dataList) {
     override fun convert(helper: ZXBaseHolder, item: DataStepInfoBean) {
+        val url = if (item.thumbnail.isEmpty()) {
+            item.path
+        } else {
+            item.thumbnail
+        }
         Glide.with(mContext)
             .load(
-                if (item.thumbnail.startsWith("http")) {
-                    item.thumbnail
+                if (url.startsWith("http")) {
+                    url
                 } else {
-                    File(item.thumbnail)
+                    File(url)
                 }
             )
-            .apply(RequestOptions.bitmapTransform(MultiTransformation(CenterCrop(), RoundedCorners(20))))
+            .apply(
+                RequestOptions.bitmapTransform(
+                    MultiTransformation(
+                        CenterCrop(),
+                        RoundedCorners(20)
+                    )
+                )
+            )
             .into(helper.getView(R.id.iv_data_step_image))
         helper.setGone(R.id.tv_data_step_shadow, helper.adapterPosition == 0)
         helper.setGone(R.id.iv_data_step_delete, helper.adapterPosition != 0)

@@ -3,6 +3,8 @@ package com.zx.projectmanage.module.projectapplication.construction.mvp.contract
 import com.frame.zxmvp.base.BasePresenter
 import com.frame.zxmvp.base.IView
 import com.frame.zxmvp.base.IModel
+import com.zx.projectmanage.module.projectapplication.construction.bean.DeviceListBean
+import com.zx.projectmanage.module.projectapplication.construction.bean.StepStandardBean
 import okhttp3.RequestBody
 import rx.Observable
 
@@ -16,6 +18,10 @@ interface DeviceAuditContract {
         fun onRejectResult()
 
         fun onPassResult()
+
+        fun onStepDetailResult(stepDetail: StepStandardBean)
+
+        fun onDeviceDetailResult(deviceListBean: DeviceListBean)
     }
 
     //Model层定义接口,外部只需关心Model返回的数据,无需关心内部细节,即是否使用缓存
@@ -23,6 +29,10 @@ interface DeviceAuditContract {
         fun rejectData(body: RequestBody) : Observable<Any>
 
         fun passData(body: RequestBody) : Observable<Any>
+
+        fun stepDetailData(id: String): Observable<StepStandardBean>
+
+        fun deviceDetailData(id : String) : Observable<DeviceListBean>
     }
 
     //方法
@@ -30,6 +40,10 @@ interface DeviceAuditContract {
         abstract fun doReject(body: RequestBody)
 
         abstract fun doPass(body: RequestBody)
+
+        abstract fun getStepDetail(id: String)
+
+        abstract fun getDeviceDetail(id: String)
     }
 }
 

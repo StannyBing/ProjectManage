@@ -12,7 +12,8 @@ data class DeviceInfoBean(
     var latitude: Double? = null,
     var stepInfos: ArrayList<DataStepInfoBean> = arrayListOf(),
     var isDivider: Boolean = false,
-    var standardBean: StepStandardBean? = null
+    var standardBean: StepStandardBean? = null,
+    var stepInfoBean: StepStandardBean.StepInfo? = null
 ) : MultiItemEntity {
 
     companion object {

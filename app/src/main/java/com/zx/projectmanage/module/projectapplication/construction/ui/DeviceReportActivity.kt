@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.zx.projectmanage.R
 import com.zx.projectmanage.api.ApiConfigModule
+import com.zx.projectmanage.app.toJson2
 import com.zx.projectmanage.base.BaseActivity
 import com.zx.projectmanage.base.BottomSheetTool
 import com.zx.projectmanage.base.SimpleDecoration
@@ -96,7 +97,9 @@ class DeviceReportActivity : BaseActivity<DeviceReportPresenter, DeviceReportMod
         dataList.add(DeviceInfoBean(DeviceInfoBean.Location_Type, "上报位置", isDivider = true, stringValue = deviceBean?.postAddr ?: ""))
 //        dataList.add(DeviceInfoBean(DeviceInfoBean.Text_Type, "驳回原因", isDivider = true, stringValue = deviceBean?.remarks ?: ""))
 
-//        deviceBean
+        deviceBean?.standardId?.apply {
+            mPresenter.getStepDetail(this)
+        }
 
         rv_devicereport_data.apply {
             layoutManager = LinearLayoutManager(mContext)
@@ -154,6 +157,12 @@ class DeviceReportActivity : BaseActivity<DeviceReportPresenter, DeviceReportMod
                 dataList[pos].stringValue = info
             }
         })
+        //删除
+        btn_devicereport_delete.setOnClickListener {
+            ZXDialogUtil.showYesNoDialog(mContext, "提示", "是否删除该设备？") { dialog, which ->
+                mPresenter.deleteDevice(deviceBean?.id ?: "")
+            }
+        }
         //保存
         btn_devicereport_save.setOnClickListener {
             ZXDialogUtil.showYesNoDialog(mContext, "提示", "是否保存设备信息？") { dialog, which ->
@@ -301,8 +310,14 @@ class DeviceReportActivity : BaseActivity<DeviceReportPresenter, DeviceReportMod
                     it.stepName,
                     it.standard,
                     stepInfos = arrayListOf<DataStepInfoBean>().apply {
-                        ZXLogUtil.loge(ApiConfigModule.BASE_IP + "admin/sys-file/getFileById?id=" + it.standardId)
                         add(DataStepInfoBean(ApiConfigModule.BASE_IP + "admin/sys-file/getFileById?id=" + it.standardId))
+                        if (it.standardId == deviceBean?.standardId) {
+                            deviceBean?.postDetails?.forEach { post ->
+                                if (it.stepId == post?.stepId) {
+                                    add(DataStepInfoBean(ApiConfigModule.BASE_IP + "admin/sys-file/getFileById?id=" + post.attachment))
+                                }
+                            }
+                        }
 //                        add(
 //                            DataStepInfoBean(
 //                                path = ApiConfigModule.BASE_IP + "admin/sys-file/getFileById?id=353732457519910912",
@@ -310,11 +325,18 @@ class DeviceReportActivity : BaseActivity<DeviceReportPresenter, DeviceReportMod
 //                            )
 //                        )
                     },
-                    standardBean = stepDetail
+                    standardBean = stepDetail,
+                    stepInfoBean = it
                 )
             )
         }
         dataAdapter.notifyDataSetChanged()
+    }
+
+    override fun onDeviceDeleteResult() {
+        showToast("删除成功")
+        setResult(0x01)
+        finish()
     }
 
     override fun onSaveResult() {

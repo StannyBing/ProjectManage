@@ -202,4 +202,16 @@ interface ApiService {
      */
     @POST("business/report/app/auditPass")
     fun doDevicePass(@Body body: RequestBody): Observable<BaseRespose<Any>>
+
+    /**
+     * 删除设备
+     */
+    @DELETE("business/app/buildpost/delete")
+    fun deleteDevice(@Query("ids") ids : String): Observable<BaseRespose<Any>>
+
+    /**
+     * 设备详情
+     */
+    @GET("business/report/app/equipmentDetail/{id}")
+    fun getDeviceDetail(@Path("id") id: String) : Observable<BaseRespose<DeviceListBean>>
 }

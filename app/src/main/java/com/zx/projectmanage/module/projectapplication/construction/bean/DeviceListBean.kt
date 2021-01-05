@@ -46,6 +46,7 @@ class DeviceListBean : Serializable {
     var auditStatus: String? = null
     var auditStatusDesc: String? = null
     var standardProId: String? = null
+    var submitNumber: String? = null
     var statusDesc: String? = null
     var postDetails: List<PostDetailsBean?>? = null
 

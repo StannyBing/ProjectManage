@@ -25,6 +25,8 @@ interface DeviceReportContract {
 
         fun onStepDetailResult(stepDetail: StepStandardBean)
 
+        fun onDeviceDeleteResult()
+
         fun onSaveResult()
     }
 
@@ -40,6 +42,7 @@ interface DeviceReportContract {
 
         fun saveInfoData(body: RequestBody): Observable<Any>
 
+        fun deviceDeleteData(id: String) : Observable<Any>
     }
 
     //方法
@@ -54,6 +57,8 @@ interface DeviceReportContract {
             dataList: List<DeviceInfoBean>,
             deviceBean: DeviceListBean?
         )
+
+        abstract fun deleteDevice(id: String)
     }
 }
 

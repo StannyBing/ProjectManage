@@ -72,12 +72,12 @@ class DeviceReportPresenter : DeviceReportContract.Presenter() {
         deviceBean: DeviceListBean?
     ) {
         var uploadIndex = 0
-        val fileList = arrayListOf<File>()
-        val uploadIdsList = arrayListOf<String>()
-        dataList.forEach {
+        val fileList = arrayListOf<Pair<File, String>>()
+        val uploadIdsList = arrayListOf<Pair<String, String>>()
+        dataList.filter { it.type == DeviceInfoBean.Step_Type }.forEach {
             it.stepInfos.forEachIndexed { index, dataStepInfoBean ->
                 if (index > 0) {
-                    fileList.add(File(dataStepInfoBean.path))
+                    fileList.add(File(dataStepInfoBean.path) to (it.stepInfoBean?.stepId ?: ""))
                 }
             }
         }
@@ -86,14 +86,14 @@ class DeviceReportPresenter : DeviceReportContract.Presenter() {
             .apply {
                 for (i in 0..(dataList.size - 2)) {
                     flatMap {
-                        uploadIdsList.add(it.id)
+                        uploadIdsList.add(it.id to fileList[uploadIndex].second)
                         uploadIndex++
                         mModel.uploadFileData(getUploadRequestBody(fileList, uploadIndex))
                     }
                 }
             }
             .flatMap {
-                uploadIdsList.add(it.id)
+                uploadIdsList.add(it.id to fileList[uploadIndex].second)
                 if (uploadIndex < fileList.size - 1) {
                     uploadIndex++
                     return@flatMap mModel.uploadFileData(getUploadRequestBody(fileList, uploadIndex))
@@ -101,7 +101,7 @@ class DeviceReportPresenter : DeviceReportContract.Presenter() {
                 return@flatMap mModel.uploadFileData(getUploadRequestBody(fileList, uploadIndex))
             }
             .flatMap {
-                uploadIdsList.add(it.id)
+                uploadIdsList.add(it.id to fileList[uploadIndex].second)
                 val equipmentId = dataList.first { it.name == "设备ID" }.stringValue
                 val equipmentName = dataList.first { it.name == "设备名称" }.stringValue
                 val detailedId = deviceBean?.detailedId
@@ -117,9 +117,9 @@ class DeviceReportPresenter : DeviceReportContract.Presenter() {
                             if (index > 0) {
                                 add(
                                     hashMapOf(
-                                        "attachment" to uploadIdsList[fileIndex],
+                                        "attachment" to uploadIdsList[fileIndex].first,
                                         "fileType" to if (dataStepInfoBean.type == DataStepInfoBean.Type.PICTURE) "0" else "1",
-                                        "stepId" to (it.standardBean?.id ?: "")
+                                        "stepId" to uploadIdsList[fileIndex].second
                                     )
                                 )
                                 fileIndex++
@@ -152,10 +152,24 @@ class DeviceReportPresenter : DeviceReportContract.Presenter() {
             })
     }
 
-    private fun getUploadRequestBody(dataList: List<File>, index: Int): UploadRequestBody {
+    override fun deleteDevice(id: String) {
+        mModel.deviceDeleteData(id)
+            .compose(RxHelper.bindToLifecycle(mView))
+            .subscribe(object : RxSubscriber<Any>(mView) {
+                override fun _onNext(t: Any?) {
+                    mView.onDeviceDeleteResult()
+                }
+
+                override fun _onError(code: Int, message: String?) {
+                    mView.handleError(code, message)
+                }
+            })
+    }
+
+    private fun getUploadRequestBody(dataList: List<Pair<File, String>>, index: Int): UploadRequestBody {
         val builder = MultipartBody.Builder().setType(MultipartBody.FORM)
         builder.addFormDataPart("path", "app")
-        builder.addFormDataPart("file", dataList[index].name, RequestBody.create(MediaType.parse("multipart/form-data"), dataList[index]))
+        builder.addFormDataPart("file", dataList[index].first.name, RequestBody.create(MediaType.parse("multipart/form-data"), dataList[index].first))
         return UploadRequestBody(builder.build(), UploadRequestBody.UploadListener
         { progress, done ->
             mView.showLoading("上传中...(${index + 1}/${dataList.size})", progress)
