@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.zx.projectmanage.R
 import com.zx.projectmanage.module.other.ui.CameraPreviewActivity
 import com.zx.projectmanage.module.projectapplication.construction.bean.ConstructionDataBean
+import com.zx.projectmanage.module.projectapplication.construction.bean.DataStepInfoBean
 import com.zx.projectmanage.module.projectapplication.construction.func.listener.DataStepListener
 import com.zx.projectmanage.module.projectapplication.construction.func.tool.InScrollGridLayoutManager
 import com.zx.zxutils.other.QuickAdapter.ZXBaseHolder
@@ -80,9 +81,12 @@ class ConstructionDataAdapter(dataList: List<ConstructionDataBean>) : ZXMultiIte
                             }
                         }
                         setOnItemClickListener { adapter, view, position ->
-//                            if (position > 0) {
-                                CameraPreviewActivity.startAction(mContext as Activity, false, "", item.stepInfos[position].path)
-//                            }
+                            CameraPreviewActivity.startAction(
+                                mContext as Activity, false, "", item.stepInfos[position].path, when (item.stepInfos[position].type) {
+                                    DataStepInfoBean.Type.PICTURE -> 0
+                                    DataStepInfoBean.Type.VIDEO -> 1
+                                }
+                            )
                         }
                     }
                 }

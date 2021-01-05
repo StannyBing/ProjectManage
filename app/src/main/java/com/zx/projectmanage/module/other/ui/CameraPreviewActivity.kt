@@ -33,10 +33,11 @@ class CameraPreviewActivity : BaseActivity<CameraPreviewPresenter, CameraPreview
         /**
          * 启动器
          */
-        fun startAction(activity: Activity, isFinish: Boolean, name: String, path: String, type : Int) {
+        fun startAction(activity: Activity, isFinish: Boolean, name: String, path: String, type: Int = 0) {
             val intent = Intent(activity, CameraPreviewActivity::class.java)
             intent.putExtra("name", name)
             intent.putExtra("path", path)
+            intent.putExtra("type", type)
             activity.startActivity(intent)
             if (isFinish) activity.finish()
         }
@@ -56,6 +57,7 @@ class CameraPreviewActivity : BaseActivity<CameraPreviewPresenter, CameraPreview
         super.initView(savedInstanceState)
         val name = intent.getStringExtra("name")
         val path = intent.getStringExtra("path")
+        val type = intent.getIntExtra("type", 0)
         ZXLogUtil.loge("加载文件:$path")
         getPermission(
             arrayOf(
@@ -67,7 +69,7 @@ class CameraPreviewActivity : BaseActivity<CameraPreviewPresenter, CameraPreview
                 showToast("文件不存在")
                 return@getPermission
             }
-            if (path.endsWith("jpg") || path.endsWith("png")) {
+            if (type == 0 || path.endsWith("jpg") || path.endsWith("png")) {
                 pv_preview_image.visibility = View.VISIBLE
                 vv_preview_video.visibility = View.GONE
 
