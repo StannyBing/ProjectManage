@@ -4,10 +4,14 @@ import android.app.Activity
 import android.os.Bundle
 import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.gson.Gson
 import com.zx.projectmanage.R
+import com.zx.projectmanage.app.toJson2
 import com.zx.projectmanage.base.BaseFragment
 import com.zx.projectmanage.module.projectapplication.construction.bean.ApproveProcessInfoBean
 import com.zx.projectmanage.module.projectapplication.construction.bean.DeviceListBean
+import com.zx.projectmanage.module.projectapplication.construction.dto.PostAuditDto
+import com.zx.projectmanage.module.projectapplication.construction.func.adapter.ApproveListAdapter
 import com.zx.projectmanage.module.projectapplication.construction.func.adapter.ProcedureListAdapter
 import com.zx.projectmanage.module.projectapplication.construction.mvp.contract.ApproveSubProcessContract
 import com.zx.projectmanage.module.projectapplication.construction.mvp.model.ApproveSubProcessModel
@@ -21,7 +25,7 @@ import kotlinx.android.synthetic.main.fragment_approve_sub_process.*
  */
 class ApproveSubProcessFragment : BaseFragment<ApproveSubProcessPresenter, ApproveSubProcessModel>(), ApproveSubProcessContract.View {
     private var list: MutableList<DeviceListBean> = arrayListOf<DeviceListBean>()
-    private val reportListAdapter = ProcedureListAdapter(list)
+    private val reportListAdapter = ApproveListAdapter(list)
     var subProjectId = ""
     var projectId = ""
 
@@ -126,14 +130,36 @@ class ApproveSubProcessFragment : BaseFragment<ApproveSubProcessPresenter, Appro
             )
         }
         btn_audit_reject.setOnClickListener {
+            val dto = PostAuditDto()
+            dto.projectId = projectId
+            dto.subProjectId = subProjectId
+            var listVos: MutableList<PostAuditDto.ReportEquipmentVosBean> = ArrayList()
+            list.forEach {
+                val reportEquipmentVosBean = PostAuditDto.ReportEquipmentVosBean()
+                reportEquipmentVosBean.auditStatus = it.auditStatus
+                reportEquipmentVosBean.detailedProId = it.detailedProId
+                reportEquipmentVosBean.equipmentName = it.equipmentName
+                reportEquipmentVosBean.standardId = it.standardId
+                reportEquipmentVosBean.standardProId = it.standardProId
+                listVos.add(reportEquipmentVosBean)
+            }
 
+            dto.reportEquipmentVos = listVos
+            mPresenter.postAuditProcess(dto)
         }
     }
 
 
     override fun getDeviceListResult(data: MutableList<DeviceListBean>?) {
+        if (data != null) {
+            list = data
+        }
         reportListAdapter.setNewData(
             data
         )
+    }
+
+    override fun auditProcessResult(data: Any?) {
+
     }
 }

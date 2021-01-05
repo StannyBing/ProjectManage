@@ -9,6 +9,7 @@ import com.zx.projectmanage.module.projectapplication.construction.bean.FileInfo
 import com.zx.projectmanage.module.projectapplication.construction.bean.FileUploadBean
 import com.zx.projectmanage.module.projectapplication.construction.bean.StepStandardBean
 import com.zx.projectmanage.module.projectapplication.construction.bean.*
+import com.zx.projectmanage.module.projectapplication.construction.dto.PostAuditDto
 import okhttp3.RequestBody
 import retrofit2.http.*
 import rx.Observable
@@ -179,6 +180,10 @@ interface ApiService {
      */
     @POST("admin/sys-file/upload")
     fun uploadFile(@Body body: RequestBody): Observable<BaseRespose<FileUploadBean>>
+
+
+    @POST("/business/report/app/auditProcess")
+    fun auditProcess(@Body body: PostAuditDto): Observable<BaseRespose<Any>>
 
     /**
      * 新增施工上报

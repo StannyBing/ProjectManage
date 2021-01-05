@@ -19,87 +19,16 @@ class ReportListBean {
      * searchCount : true
      * pages : 1
      */
-    private var total = 0
-    private var size = 0
-    private var current = 0
-    private var optimizeCountSql = false
-    private var hitCount = false
-    private var searchCount = false
-    private var pages = 0
-    private var records: List<RecordsBean?>? = null
-    private var orders: List<*>? = null
+     var total = 0
+     var size = 0
+     var current = 0
+     var optimizeCountSql = false
+     var hitCount = false
+     var searchCount = false
+     var pages = 0
+     var records: List<RecordsBean?>? = null
+     var orders: List<*>? = null
 
-    fun getTotal(): Int {
-        return total
-    }
-
-    fun setTotal(total: Int) {
-        this.total = total
-    }
-
-    fun getSize(): Int {
-        return size
-    }
-
-    fun setSize(size: Int) {
-        this.size = size
-    }
-
-    fun getCurrent(): Int {
-        return current
-    }
-
-    fun setCurrent(current: Int) {
-        this.current = current
-    }
-
-    fun isOptimizeCountSql(): Boolean {
-        return optimizeCountSql
-    }
-
-    fun setOptimizeCountSql(optimizeCountSql: Boolean) {
-        this.optimizeCountSql = optimizeCountSql
-    }
-
-    fun isHitCount(): Boolean {
-        return hitCount
-    }
-
-    fun setHitCount(hitCount: Boolean) {
-        this.hitCount = hitCount
-    }
-
-    fun isSearchCount(): Boolean {
-        return searchCount
-    }
-
-    fun setSearchCount(searchCount: Boolean) {
-        this.searchCount = searchCount
-    }
-
-    fun getPages(): Int {
-        return pages
-    }
-
-    fun setPages(pages: Int) {
-        this.pages = pages
-    }
-
-    fun getRecords(): List<RecordsBean?>? {
-        return records
-    }
-
-    fun setRecords(records: List<RecordsBean?>?) {
-        this.records = records
-    }
-
-    fun getOrders(): List<*>? {
-        return orders
-    }
-
-    fun setOrders(orders: List<*>?) {
-        this.orders = orders
-    }
 
     class RecordsBean {
         /**
@@ -157,7 +86,8 @@ class ReportListBean {
         var delFlag: String? = null
         var finalJudgmen: String? = null
         var subProjectCount = 0
-        var projectDesc: String? = null
+        var desc: String? = null
+        var statusDesc: String? = null
 
     }
 }

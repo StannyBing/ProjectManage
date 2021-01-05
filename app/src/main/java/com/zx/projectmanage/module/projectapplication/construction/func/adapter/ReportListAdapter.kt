@@ -19,16 +19,17 @@ class ReportListAdapter(dataList: List<ReportListBean.RecordsBean>, type: Int) :
     override fun convert(helper: ZXBaseHolder, item: ReportListBean.RecordsBean?) {
         val superTextView = helper.getView<SuperTextView>(R.id.super_tv)
         superTextView.setLeftTopString("项目名称：${item?.projectName}")
-            .setLeftBottomString("项目状态：${item?.projectDesc}")
+            .setLeftBottomString("项目状态：${item?.statusDesc}")
 
 
         if (type == 0) {
             superTextView.setRightString("上报")
-            if (item?.projectDesc == "已竣工") {
+            if (item?.desc == "已竣工") {
                 superTextView.setRightString("详情")
             }
         } else {
             superTextView.setRightString("审批")
+
         }
 
 

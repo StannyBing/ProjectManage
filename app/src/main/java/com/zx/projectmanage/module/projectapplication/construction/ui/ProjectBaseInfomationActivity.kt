@@ -21,7 +21,7 @@ import kotlinx.android.synthetic.main.activity_project_base_infomation.*
  */
 class ProjectBaseInfomationActivity : BaseActivity<ProjectBaseInfomationPresenter, ProjectBaseInfomationModel>(), ProjectBaseInfomationContract.View {
     private var list: MutableList<InformationListBean> = arrayListOf<InformationListBean>()
-    val mAdapter = BaseInfomationAdapter(list)
+    private val mAdapter = BaseInfomationAdapter(list)
     var projectId = ""
 
     companion object {

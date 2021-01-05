@@ -74,6 +74,9 @@ class ConstructionReportActivity : BaseActivity<ConstructionReportPresenter, Con
     override fun initView(savedInstanceState: Bundle?) {
         type = intent.getIntExtra("type", 0)
         reportListAdapter = ReportListAdapter(list, type)
+        if (type == 1) {
+            head.setCenterString("施工审核")
+        }
         super.initView(savedInstanceState)
         searchText.setHintKtx(13, "请输入项目名称")
         //设置adapter
@@ -267,7 +270,7 @@ class ConstructionReportActivity : BaseActivity<ConstructionReportPresenter, Con
     }
 
     override fun getDataResult(baseRespose: ReportListBean?) {
-        setData(baseRespose?.getRecords() as MutableList<ReportListBean.RecordsBean>?)
+        setData(baseRespose?.records as MutableList<ReportListBean.RecordsBean>?)
 
     }
 
