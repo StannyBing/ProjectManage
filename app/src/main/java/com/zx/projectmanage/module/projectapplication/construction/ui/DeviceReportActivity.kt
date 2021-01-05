@@ -10,7 +10,6 @@ import android.view.LayoutInflater
 import android.view.inputmethod.EditorInfo
 import android.widget.Button
 import android.widget.EditText
-import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.zx.projectmanage.R
@@ -23,12 +22,12 @@ import com.zx.projectmanage.module.projectapplication.construction.bean.*
 import com.zx.projectmanage.module.projectapplication.construction.func.adapter.DeviceInfoAdapter
 import com.zx.projectmanage.module.projectapplication.construction.func.adapter.StepStandardAdapter
 import com.zx.projectmanage.module.projectapplication.construction.func.listener.DataStepListener
-
 import com.zx.projectmanage.module.projectapplication.construction.mvp.contract.DeviceReportContract
 import com.zx.projectmanage.module.projectapplication.construction.mvp.model.DeviceReportModel
 import com.zx.projectmanage.module.projectapplication.construction.mvp.presenter.DeviceReportPresenter
 import com.zx.zxutils.util.ZXDialogUtil
 import com.zx.zxutils.util.ZXLocationUtil
+import com.zx.zxutils.util.ZXLogUtil
 import com.zx.zxutils.util.ZXSystemUtil
 import kotlinx.android.synthetic.main.activity_device_report.*
 
@@ -95,7 +94,9 @@ class DeviceReportActivity : BaseActivity<DeviceReportPresenter, DeviceReportMod
         dataList.add(DeviceInfoBean(DeviceInfoBean.Edit_Type, "设备名称", stringValue = deviceBean?.equipmentName ?: ""))
         dataList.add(DeviceInfoBean(DeviceInfoBean.Select_Type, "规范模板", isDivider = true))
         dataList.add(DeviceInfoBean(DeviceInfoBean.Location_Type, "上报位置", isDivider = true, stringValue = deviceBean?.postAddr ?: ""))
-        dataList.add(DeviceInfoBean(DeviceInfoBean.Text_Type, "驳回原因", isDivider = true, stringValue = deviceBean?.remarks ?: ""))
+//        dataList.add(DeviceInfoBean(DeviceInfoBean.Text_Type, "驳回原因", isDivider = true, stringValue = deviceBean?.remarks ?: ""))
+
+//        deviceBean
 
         rv_devicereport_data.apply {
             layoutManager = LinearLayoutManager(mContext)
@@ -278,10 +279,21 @@ class DeviceReportActivity : BaseActivity<DeviceReportPresenter, DeviceReportMod
     /**
      * 模板详情
      */
-    @RequiresApi(Build.VERSION_CODES.N)
     override fun onStepDetailResult(stepDetail: StepStandardBean) {
         selectStepBean = stepDetail
-        dataList.removeIf { it.type == DeviceInfoBean.Step_Type }
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            dataList.removeIf { it.type == DeviceInfoBean.Step_Type }
+        } else {
+            var i = 0
+            while (i < dataList.size) {
+                // 判断集合中元素是否和bbb相等.
+                if (dataList[i].type == DeviceInfoBean.Step_Type) {
+                    dataList.removeAt(i)
+                    i-- // 重点 - 一定要注意写!
+                }
+                i++
+            }
+        }
         stepDetail.standardSteps?.forEach {
             dataList.add(
                 DeviceInfoBean(
@@ -289,13 +301,14 @@ class DeviceReportActivity : BaseActivity<DeviceReportPresenter, DeviceReportMod
                     it.stepName,
                     it.standard,
                     stepInfos = arrayListOf<DataStepInfoBean>().apply {
-                        //                add(DataStepInfoBean(ApiConfigModule.BASE_IP + "admin/sys-file/getFileById?id=" + it.standardId))
-                        add(
-                            DataStepInfoBean(
-                                path = ApiConfigModule.BASE_IP + "admin/sys-file/getFileById?id=353732457519910912",
-                                thumbnail = ApiConfigModule.BASE_IP + "admin/sys-file/getFileById?id=353732457519910912"
-                            )
-                        )
+                        ZXLogUtil.loge(ApiConfigModule.BASE_IP + "admin/sys-file/getFileById?id=" + it.standardId)
+                        add(DataStepInfoBean(ApiConfigModule.BASE_IP + "admin/sys-file/getFileById?id=" + it.standardId))
+//                        add(
+//                            DataStepInfoBean(
+//                                path = ApiConfigModule.BASE_IP + "admin/sys-file/getFileById?id=353732457519910912",
+//                                thumbnail = ApiConfigModule.BASE_IP + "admin/sys-file/getFileById?id=353732457519910912"
+//                            )
+//                        )
                     },
                     standardBean = stepDetail
                 )
