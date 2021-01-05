@@ -165,8 +165,8 @@ class ConstructionReportChildActivity : BaseActivity<ConstructionReportChildPres
         reportListAdapter.setOnLoadMoreListener({ loadMore() }, swipeRecyler)
 
         reportListAdapter.setOnItemClickListener { adapter, view, position ->
-            var item = adapter.data as ReportSubListBean
-            item?.let {
+            var item = adapter.data[position] as ReportSubListBean
+            item.let {
                 MacroReportInfoActivity.startAction(
                     mContext as Activity,
                     false,

@@ -99,15 +99,15 @@ class ProcedureReportFragment : BaseFragment<ProcedureReportPresenter, Procedure
             ProjectProgressActivity.startAction(activity as Activity, false, list[0].detailedProId)
         }
         reportListAdapter.setOnItemChildClickListener { adapter, view, position ->
-            val deviceListBean = adapter.data as DeviceListBean
+            val deviceListBean = adapter.data[position] as DeviceListBean
             ConstructionDataActivity.startAction(requireActivity(), false, parcelable?.id.toString(), subProjectId, deviceListBean, type)
         }
         materials.setOnSuperTextViewClickListener {
-            val materials = parcelable?.materials
-            if (materials != null) {
+            val material = parcelable?.materials
+            if (material != null) {
                 ZXToastUtil.showToast("没有相关资料")
             } else {
-                DocumentActivity.startAction(mContext as Activity, false, materials)
+                DocumentActivity.startAction(mContext as Activity, false, material)
             }
 
         }
