@@ -25,7 +25,6 @@ class MacroReportInfoActivity : BaseActivity<MacroReportInfoPresenter, MacroRepo
     var processId = ""
     var projectId = ""
     var subProjectId = ""
-    var assessmentId = ""
     var type = 0
 
     /**
@@ -45,15 +44,13 @@ class MacroReportInfoActivity : BaseActivity<MacroReportInfoPresenter, MacroRepo
             processId: String,
             projectId: String,
             subProject: String,
-            type: Int,
-            assessmentId: String
+            type: Int
         ) {
             val intent = Intent(activity, MacroReportInfoActivity::class.java)
             intent.putExtra("processId", processId)
             intent.putExtra("projectId", projectId)
             intent.putExtra("subProject", subProject)
             intent.putExtra("type", type)
-            intent.putExtra("assessmentId", assessmentId)
             activity.startActivity(intent)
             if (isFinish) activity.finish()
         }
@@ -85,7 +82,6 @@ class MacroReportInfoActivity : BaseActivity<MacroReportInfoPresenter, MacroRepo
                 bundle.putSerializable("bean", s)
                 bundle.putString("subProjectId", subProjectId)
                 bundle.putString("projectId", projectId)
-                bundle.putString("assessmentId", assessmentId)
                 bundle.putInt("type", type)
                 tvp_macro_report_layout.addTab(ProcedureReportFragment.newInstance(bundle), s?.subProcessName)
             }

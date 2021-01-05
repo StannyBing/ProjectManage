@@ -27,9 +27,6 @@ class ProcedureReportFragment : BaseFragment<ProcedureReportPresenter, Procedure
     private val reportListAdapter = ProcedureListAdapter(list)
     var subProjectId = ""
     var projectId = ""
-
-    //工序模版id
-    var assessmentId = ""
     var type = 0
     var parcelable: ProjectProcessInfoBean.DetailedListBean? = null
 
@@ -60,15 +57,10 @@ class ProcedureReportFragment : BaseFragment<ProcedureReportPresenter, Procedure
         parcelable = arguments?.getSerializable("bean") as ProjectProcessInfoBean.DetailedListBean
         subProjectId = arguments?.getString("subProjectId").toString()
         projectId = arguments?.getString("projectId").toString()
-        assessmentId = arguments?.getString("assessmentId").toString()
         type = arguments?.getInt("type", 0)!!
         if (parcelable?.sort != 0) {
             tv_report_addEquip.visibility = View.GONE
         }
-        if (type == 1) {
-            btn_approve_submit.text = "审核评分"
-        }
-
         if (parcelable?.showMaterials == 0) {
             materials.visibility = View.GONE
         }
@@ -172,7 +164,7 @@ class ProcedureReportFragment : BaseFragment<ProcedureReportPresenter, Procedure
     }
 
     override fun postSubmitResult(data: Any?) {
-        ZXToastUtil.showToast(data.toString())
+        ZXToastUtil.showToast("提交成功")
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

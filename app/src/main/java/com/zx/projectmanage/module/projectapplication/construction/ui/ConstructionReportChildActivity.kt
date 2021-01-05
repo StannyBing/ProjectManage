@@ -166,20 +166,9 @@ class ConstructionReportChildActivity : BaseActivity<ConstructionReportChildPres
 
         reportListAdapter.setOnItemClickListener { adapter, view, position ->
             val item = adapter.data[position] as ReportSubListBean
-            item.let {
-                MacroReportInfoActivity.startAction(
-                    mContext as Activity,
-                    false,
-                    item.processId.toString(),
-                    item.projectId.toString(),
-                    item.subProjectId.toString(),
-                    type,
-                    intent.getStringExtra("assessmentId").toString()
-                )
-            }
-
             if (type == 1) {
                 item.let {
+                    val assessmentId = item.assessmentId.toString()
                     ApproveProcessActivity.startAction(
                         mContext as Activity,
                         false,
@@ -187,7 +176,18 @@ class ConstructionReportChildActivity : BaseActivity<ConstructionReportChildPres
                         item.projectId.toString(),
                         item.subProjectId.toString(),
                         type,
-                        intent.getStringExtra("assessmentId").toString()
+                        assessmentId
+                    )
+                }
+            }else{
+                item.let {
+                    MacroReportInfoActivity.startAction(
+                        mContext as Activity,
+                        false,
+                        item.processId.toString(),
+                        item.projectId.toString(),
+                        item.subProjectId.toString(),
+                        type
                     )
                 }
             }

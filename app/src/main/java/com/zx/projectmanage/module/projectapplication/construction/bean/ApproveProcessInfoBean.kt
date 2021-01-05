@@ -22,6 +22,8 @@ data class ApproveProcessInfoBean(
     "scoreFlag": 0,
     "subProcessName": "string"
      */
+
+
     var assessment: String?,
     var auditFlag: Int? = 0,
     var detailedProId: String?,

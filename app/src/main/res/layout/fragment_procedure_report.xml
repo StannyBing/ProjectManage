@@ -3,7 +3,8 @@
     xmlns:stv="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/white">
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
@@ -109,7 +110,6 @@
     <Button
         android:id="@+id/btn_approve_submit"
         android:layout_width="match_parent"
-        android:textColor="@color/white"
         android:layout_height="@dimen/normal_button_height"
         android:layout_alignParentBottom="true"
         android:layout_marginLeft="15dp"
@@ -119,6 +119,7 @@
         android:layout_weight="1"
         android:background="@drawable/shape_btn_bg"
         android:text="提交审核"
+        android:textColor="@color/white"
         android:textSize="@dimen/text_normal_size" />
 
 </RelativeLayout>

@@ -161,9 +161,9 @@ interface ApiService {
     /**
      * 查询考核模版
      */
-    @GET("/business/zdhjcsubassessment/{subAssessmentId}")
+    @GET("/business/zdhjcassessment/sub/{assessmentId}")
     fun getScoreTemple(
-        @Path("subAssessmentId") subAssessmentId: String
+        @Path("assessmentId") subAssessmentId: String
     ): Observable<BaseRespose<ScoreTemplateBean>>
 
 
@@ -195,11 +195,11 @@ interface ApiService {
      * 设备驳回
      */
     @POST("business/report/app/auditReject")
-    fun doDeviceReject(@Body body: RequestBody) : Observable<BaseRespose<Any>>
+    fun doDeviceReject(@Body body: RequestBody): Observable<BaseRespose<Any>>
 
     /**
      * 设备通过
      */
     @POST("business/report/app/auditPass")
-    fun doDevicePass(@Body body: RequestBody) : Observable<BaseRespose<Any>>
+    fun doDevicePass(@Body body: RequestBody): Observable<BaseRespose<Any>>
 }

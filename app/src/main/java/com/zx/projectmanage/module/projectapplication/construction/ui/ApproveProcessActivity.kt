@@ -13,6 +13,7 @@ import com.zx.projectmanage.module.projectapplication.construction.bean.ProjectP
 import com.zx.projectmanage.module.projectapplication.construction.mvp.contract.ApproveProcessContract
 import com.zx.projectmanage.module.projectapplication.construction.mvp.model.ApproveProcessModel
 import com.zx.projectmanage.module.projectapplication.construction.mvp.presenter.ApproveProcessPresenter
+import com.zx.zxutils.util.ZXToastUtil
 import com.zx.zxutils.views.TabViewPager.ZXTabViewPager
 import kotlinx.android.synthetic.main.activity_contruction_macro_report_info.*
 
@@ -69,6 +70,7 @@ class ApproveProcessActivity : BaseActivity<ApproveProcessPresenter, ApproveProc
         processId = intent.getStringExtra("processId").toString()
         projectId = intent.getStringExtra("projectId").toString()
         subProjectId = intent.getStringExtra("subProject").toString()
+        assessmentId = intent.getStringExtra("assessmentId").toString()
         mPresenter.getProcessInfo(projectId, subProjectId)
     }
 
@@ -125,6 +127,11 @@ class ApproveProcessActivity : BaseActivity<ApproveProcessPresenter, ApproveProc
     }
 
     override fun getDataProcessResult(data: MutableList<ApproveProcessInfoBean>?) {
-        initTab(data)
+        if (data != null) {
+            initTab(data)
+        } else {
+            ZXToastUtil.showToast("未获取到数据")
+        }
+
     }
 }

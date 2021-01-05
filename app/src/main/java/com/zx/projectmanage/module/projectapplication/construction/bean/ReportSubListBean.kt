@@ -52,4 +52,5 @@ class ReportSubListBean {
     var delFlag: String? = null
     var constructionTeam: String? = null
     var statusDesc: String? = null
+    var assessmentId: String? = null
 }

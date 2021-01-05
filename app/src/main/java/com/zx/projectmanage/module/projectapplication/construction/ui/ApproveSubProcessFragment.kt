@@ -4,15 +4,12 @@ import android.app.Activity
 import android.os.Bundle
 import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.google.gson.Gson
 import com.zx.projectmanage.R
-import com.zx.projectmanage.app.toJson2
 import com.zx.projectmanage.base.BaseFragment
 import com.zx.projectmanage.module.projectapplication.construction.bean.ApproveProcessInfoBean
 import com.zx.projectmanage.module.projectapplication.construction.bean.DeviceListBean
 import com.zx.projectmanage.module.projectapplication.construction.dto.PostAuditDto
 import com.zx.projectmanage.module.projectapplication.construction.func.adapter.ApproveListAdapter
-import com.zx.projectmanage.module.projectapplication.construction.func.adapter.ProcedureListAdapter
 import com.zx.projectmanage.module.projectapplication.construction.mvp.contract.ApproveSubProcessContract
 import com.zx.projectmanage.module.projectapplication.construction.mvp.model.ApproveSubProcessModel
 import com.zx.projectmanage.module.projectapplication.construction.mvp.presenter.ApproveSubProcessPresenter
@@ -44,8 +41,8 @@ class ApproveSubProcessFragment : BaseFragment<ApproveSubProcessPresenter, Appro
         /**
          * 启动器
          */
-        fun newInstance(bundle: Bundle? = null): ProcedureReportFragment {
-            val fragment = ProcedureReportFragment()
+        fun newInstance(bundle: Bundle? = null): ApproveSubProcessFragment {
+            val fragment = ApproveSubProcessFragment()
             fragment.arguments = bundle
             return fragment
         }
@@ -61,6 +58,7 @@ class ApproveSubProcessFragment : BaseFragment<ApproveSubProcessPresenter, Appro
         subProjectId = arguments?.getString("subProjectId").toString()
         projectId = arguments?.getString("projectId").toString()
         assessmentId = arguments?.getString("assessmentId").toString()
+
         if (parcelable?.materials == null) {
             materials.visibility = View.GONE
         }
@@ -84,7 +82,7 @@ class ApproveSubProcessFragment : BaseFragment<ApproveSubProcessPresenter, Appro
             adapter = reportListAdapter
 //            addItemDecoration(SimpleDecoration(mContext))
         }
-
+        mPresenter.getDeviceList(parcelable?.detailedProId.toString())
     }
 
     /**
@@ -94,9 +92,10 @@ class ApproveSubProcessFragment : BaseFragment<ApproveSubProcessPresenter, Appro
         process_progress.setOnSuperTextViewClickListener {
             ProjectProgressActivity.startAction(activity as Activity, false, parcelable?.detailedProId.toString())
         }
-        reportListAdapter.setOnItemChildClickListener { adapter, view, position ->
+        reportListAdapter.setOnItemClickListener { adapter, view, position ->
             val deviceListBean = adapter.data[position] as DeviceListBean
             DeviceReportActivity.startAction(requireActivity(), false, parcelable?.detailedProId.toString(), subProjectId, deviceListBean, 1)
+
         }
         materials.setOnSuperTextViewClickListener {
             val material = parcelable?.materials
@@ -124,29 +123,36 @@ class ApproveSubProcessFragment : BaseFragment<ApproveSubProcessPresenter, Appro
 
         }
         btn_approve_submit.setOnClickListener {
+            val dto = initDto()
             ApproveScoreActivity.startAction(
                 activity as Activity, false,
-                assessmentId
+                assessmentId,
+                dto
             )
         }
         btn_audit_reject.setOnClickListener {
-            val dto = PostAuditDto()
-            dto.projectId = projectId
-            dto.subProjectId = subProjectId
-            var listVos: MutableList<PostAuditDto.ReportEquipmentVosBean> = ArrayList()
-            list.forEach {
-                val reportEquipmentVosBean = PostAuditDto.ReportEquipmentVosBean()
-                reportEquipmentVosBean.auditStatus = it.auditStatus
-                reportEquipmentVosBean.detailedProId = it.detailedProId
-                reportEquipmentVosBean.equipmentName = it.equipmentName
-                reportEquipmentVosBean.standardId = it.standardId
-                reportEquipmentVosBean.standardProId = it.standardProId
-                listVos.add(reportEquipmentVosBean)
-            }
-
-            dto.reportEquipmentVos = listVos
+            val dto = initDto()
             mPresenter.postAuditProcess(dto)
         }
+    }
+
+    private fun initDto(): PostAuditDto {
+        val dto = PostAuditDto()
+        dto.projectId = projectId
+        dto.subProjectId = subProjectId
+        var listVos: MutableList<PostAuditDto.ReportEquipmentVosBean> = ArrayList()
+        list.forEach {
+            val reportEquipmentVosBean = PostAuditDto.ReportEquipmentVosBean()
+            reportEquipmentVosBean.auditStatus = it.auditStatus
+            reportEquipmentVosBean.detailedProId = it.detailedProId
+            reportEquipmentVosBean.equipmentName = it.equipmentName
+            reportEquipmentVosBean.standardId = it.standardId
+            reportEquipmentVosBean.standardProId = it.standardProId
+            listVos.add(reportEquipmentVosBean)
+        }
+
+        dto.reportEquipmentVos = listVos
+        return dto
     }
 
 
