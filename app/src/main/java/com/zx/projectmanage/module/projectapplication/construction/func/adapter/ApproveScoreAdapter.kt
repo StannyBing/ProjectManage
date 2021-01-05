@@ -13,7 +13,7 @@ import com.zx.projectmanage.module.projectapplication.construction.ui.Constructi
 import com.zx.zxutils.other.QuickAdapter.ZXBaseHolder
 import com.zx.zxutils.other.QuickAdapter.ZXQuickAdapter
 
-class ApproveScoreAdapter(dataList: List<ScoreTemplateBean>, type: Int) : ZXQuickAdapter<ScoreTemplateBean, ZXBaseHolder>(R.layout.item_approve_score_edit, dataList) {
+class ApproveScoreAdapter(dataList: List<ScoreTemplateBean>) : ZXQuickAdapter<ScoreTemplateBean, ZXBaseHolder>(R.layout.item_approve_score_edit, dataList) {
     private var listener: DataStepListener? = null
     override fun convert(helper: ZXBaseHolder, item: ScoreTemplateBean) {
         helper.setText(R.id.tv_data_edit_name, "item.name")
