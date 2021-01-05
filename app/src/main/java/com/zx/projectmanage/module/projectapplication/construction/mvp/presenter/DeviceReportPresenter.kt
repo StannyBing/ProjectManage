@@ -7,7 +7,7 @@ import com.frame.zxmvp.http.upload.UploadRequestBody
 import com.zx.projectmanage.app.toJson2
 import com.zx.projectmanage.base.NormalList
 import com.zx.projectmanage.module.projectapplication.construction.bean.*
-import com.zx.projectmanage.module.projectapplication.construction.mvp.contract.ConstructionDataContract
+import com.zx.projectmanage.module.projectapplication.construction.mvp.contract.DeviceReportContract
 import okhttp3.MediaType
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
@@ -18,7 +18,7 @@ import java.io.File
  * Create By admin On 2017/7/11
  * 功能：
  */
-class ConstructionDataPresenter : ConstructionDataContract.Presenter() {
+class DeviceReportPresenter : DeviceReportContract.Presenter() {
     override fun doGeocoder(location: Location) {
         val url = "https://apis.map.qq.com/ws/geocoder/v1/?location=${location.latitude},${location.longitude}&key=UYZBZ-P4RE4-WWBUC-XJ3JG-QJPST-IPB26"
         mModel.baiduGeocoderData(url)
@@ -68,7 +68,7 @@ class ConstructionDataPresenter : ConstructionDataContract.Presenter() {
     }
 
     override fun saveDataInfo(
-        dataList: List<ConstructionDataBean>,
+        dataList: List<DeviceInfoBean>,
         deviceBean: DeviceListBean?
     ) {
         var uploadIndex = 0

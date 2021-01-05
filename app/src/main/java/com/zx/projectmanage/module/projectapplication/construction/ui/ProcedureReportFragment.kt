@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.zx.projectmanage.R
-import com.zx.projectmanage.app.toJson
 import com.zx.projectmanage.app.toJson2
 import com.zx.projectmanage.base.BaseFragment
 import com.zx.projectmanage.module.projectapplication.construction.bean.DeviceListBean
@@ -97,7 +96,7 @@ class ProcedureReportFragment : BaseFragment<ProcedureReportPresenter, Procedure
      */
     override fun onViewListener() {
         tv_report_addEquip.setOnClickListener {
-            ConstructionDataActivity.startAction(requireActivity(), false, parcelable?.id.toString(), subProjectId, null, type)
+            DeviceReportActivity.startAction(requireActivity(), false, parcelable?.id.toString(), subProjectId, null, type)
         }
         process_progress.setOnSuperTextViewClickListener {
 //            if (list.size > 0) {
@@ -107,7 +106,7 @@ class ProcedureReportFragment : BaseFragment<ProcedureReportPresenter, Procedure
         }
         reportListAdapter.setOnItemClickListener { adapter, view, position ->
             val deviceListBean = adapter.data[position] as DeviceListBean
-            ConstructionDataActivity.startAction(requireActivity(), false, parcelable?.id.toString(), subProjectId, deviceListBean, 0)
+            DeviceReportActivity.startAction(requireActivity(), false, parcelable?.id.toString(), subProjectId, deviceListBean, 0)
 
         }
         materials.setOnSuperTextViewClickListener {

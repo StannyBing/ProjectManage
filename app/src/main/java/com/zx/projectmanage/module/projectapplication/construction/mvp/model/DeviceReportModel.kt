@@ -9,7 +9,7 @@ import com.zx.projectmanage.module.projectapplication.construction.bean.BaiduGeo
 import com.zx.projectmanage.module.projectapplication.construction.bean.StepStandardBean
 import com.zx.projectmanage.module.projectapplication.construction.bean.FileUploadBean
 
-import com.zx.projectmanage.module.projectapplication.construction.mvp.contract.ConstructionDataContract
+import com.zx.projectmanage.module.projectapplication.construction.mvp.contract.DeviceReportContract
 import okhttp3.RequestBody
 import rx.Observable
 
@@ -17,7 +17,7 @@ import rx.Observable
  * Create By admin On 2017/7/11
  * 功能：
  */
-class ConstructionDataModel : BaseModel(), ConstructionDataContract.Model {
+class DeviceReportModel : BaseModel(), DeviceReportContract.Model {
     override fun baiduGeocoderData(url: String): Observable<BaiduGeocoderBean> {
         return mRepositoryManager.obtainRetrofitService(ApiService::class.java)
             .geocoder(url)

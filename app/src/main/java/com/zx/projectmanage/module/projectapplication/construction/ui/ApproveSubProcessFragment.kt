@@ -96,7 +96,7 @@ class ApproveSubProcessFragment : BaseFragment<ApproveSubProcessPresenter, Appro
         }
         reportListAdapter.setOnItemChildClickListener { adapter, view, position ->
             val deviceListBean = adapter.data[position] as DeviceListBean
-            ConstructionDataActivity.startAction(requireActivity(), false, parcelable?.detailedProId.toString(), subProjectId, deviceListBean, 1)
+            DeviceReportActivity.startAction(requireActivity(), false, parcelable?.detailedProId.toString(), subProjectId, deviceListBean, 1)
         }
         materials.setOnSuperTextViewClickListener {
             val material = parcelable?.materials

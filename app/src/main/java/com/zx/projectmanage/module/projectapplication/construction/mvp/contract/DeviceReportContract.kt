@@ -6,7 +6,7 @@ import com.frame.zxmvp.base.IView
 import com.frame.zxmvp.base.IModel
 import com.zx.projectmanage.base.NormalList
 import com.zx.projectmanage.module.projectapplication.construction.bean.BaiduGeocoderBean
-import com.zx.projectmanage.module.projectapplication.construction.bean.ConstructionDataBean
+import com.zx.projectmanage.module.projectapplication.construction.bean.DeviceInfoBean
 import com.zx.projectmanage.module.projectapplication.construction.bean.StepStandardBean
 import com.zx.projectmanage.module.projectapplication.construction.bean.*
 import okhttp3.RequestBody
@@ -16,7 +16,7 @@ import rx.Observable
  * Create By admin On 2017/7/11
  * 功能：
  */
-interface ConstructionDataContract {
+interface DeviceReportContract {
     //对于经常使用的关于UI的方法可以定义到IView中,如显示隐藏进度条,和显示文字消息
     interface View : IView {
         fun onGeocoderResult(location: Location, geocoderBean: BaiduGeocoderBean)
@@ -51,7 +51,7 @@ interface ConstructionDataContract {
         abstract fun getStepDetail(id: String)
 
         abstract fun saveDataInfo(
-            dataList: List<ConstructionDataBean>,
+            dataList: List<DeviceInfoBean>,
             deviceBean: DeviceListBean?
         )
     }

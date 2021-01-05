@@ -7,7 +7,7 @@
     android:orientation="vertical">
 
     <com.allen.library.SuperTextView
-        android:id="@+id/stv_construction_data"
+        android:id="@+id/stv_deviceaudit_data"
         android:layout_width="match_parent"
         android:layout_height="@dimen/toolbar_height"
         android:padding="5dp"
@@ -19,7 +19,7 @@
         stv:sLeftIconWidth="@dimen/toolbar_back_width" />
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rv_construction_data"
+        android:id="@+id/rv_deviceaudit_data"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1" />
@@ -30,20 +30,20 @@
         android:orientation="horizontal">
 
         <Button
-            android:id="@+id/btn_construction_delete"
+            android:id="@+id/btn_deviceaudit_reject"
             style="@style/MyCancelBtnStyle"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:text="删除设备" />
+            android:text="驳回" />
 
         <Button
-            android:id="@+id/btn_construction_save"
+            android:id="@+id/btn_deviceaudit_pass"
             style="@style/MyBtnStyle"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:text="保存" />
+            android:text="通过" />
 
     </LinearLayout>
 

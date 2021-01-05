@@ -190,4 +190,16 @@ interface ApiService {
      */
     @POST("business/app/buildpost/save")
     fun saveDataInfo(@Body body: RequestBody): Observable<BaseRespose<Any>>
+
+    /**
+     * 设备驳回
+     */
+    @POST("business/report/app/auditReject")
+    fun doDeviceReject(@Body body: RequestBody) : Observable<BaseRespose<Any>>
+
+    /**
+     * 设备通过
+     */
+    @POST("business/report/app/auditPass")
+    fun doDevicePass(@Body body: RequestBody) : Observable<BaseRespose<Any>>
 }

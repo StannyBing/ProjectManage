@@ -20,24 +20,24 @@ import com.zx.projectmanage.base.BottomSheetTool
 import com.zx.projectmanage.base.SimpleDecoration
 import com.zx.projectmanage.module.other.ui.CameraActivity
 import com.zx.projectmanage.module.projectapplication.construction.bean.*
-import com.zx.projectmanage.module.projectapplication.construction.func.adapter.ConstructionDataAdapter
+import com.zx.projectmanage.module.projectapplication.construction.func.adapter.DeviceInfoAdapter
 import com.zx.projectmanage.module.projectapplication.construction.func.adapter.StepStandardAdapter
 import com.zx.projectmanage.module.projectapplication.construction.func.listener.DataStepListener
 
-import com.zx.projectmanage.module.projectapplication.construction.mvp.contract.ConstructionDataContract
-import com.zx.projectmanage.module.projectapplication.construction.mvp.model.ConstructionDataModel
-import com.zx.projectmanage.module.projectapplication.construction.mvp.presenter.ConstructionDataPresenter
+import com.zx.projectmanage.module.projectapplication.construction.mvp.contract.DeviceReportContract
+import com.zx.projectmanage.module.projectapplication.construction.mvp.model.DeviceReportModel
+import com.zx.projectmanage.module.projectapplication.construction.mvp.presenter.DeviceReportPresenter
 import com.zx.zxutils.util.ZXDialogUtil
 import com.zx.zxutils.util.ZXLocationUtil
 import com.zx.zxutils.util.ZXSystemUtil
-import kotlinx.android.synthetic.main.activity_construction_data.*
+import kotlinx.android.synthetic.main.activity_device_report.*
 
 
 /**
  * Create By admin On 2017/7/11
  * 功能：施工资料
  */
-class ConstructionDataActivity : BaseActivity<ConstructionDataPresenter, ConstructionDataModel>(), ConstructionDataContract.View {
+class DeviceReportActivity : BaseActivity<DeviceReportPresenter, DeviceReportModel>(), DeviceReportContract.View {
 
     companion object {
         /**
@@ -51,7 +51,7 @@ class ConstructionDataActivity : BaseActivity<ConstructionDataPresenter, Constru
             deviceListBean: DeviceListBean? = null,
             type: Int
         ) {
-            val intent = Intent(activity, ConstructionDataActivity::class.java)
+            val intent = Intent(activity, DeviceReportActivity::class.java)
             intent.putExtra("detailedId", detailedId)
             intent.putExtra("subProjectId", subProjectId)
             intent.putExtra("deviceListBean", deviceListBean)
@@ -60,8 +60,8 @@ class ConstructionDataActivity : BaseActivity<ConstructionDataPresenter, Constru
         }
     }
 
-    private val dataList = arrayListOf<ConstructionDataBean>()
-    private val dataAdapter = ConstructionDataAdapter(dataList)
+    private val dataList = arrayListOf<DeviceInfoBean>()
+    private val dataAdapter = DeviceInfoAdapter(dataList)
 
     private val stepStandardList = arrayListOf<StepStandardBean>()
     private val stepStandardAdapter = StepStandardAdapter(stepStandardList)
@@ -75,7 +75,7 @@ class ConstructionDataActivity : BaseActivity<ConstructionDataPresenter, Constru
      * layout配置
      */
     override fun getLayoutId(): Int {
-        return R.layout.activity_construction_data
+        return R.layout.activity_device_report
     }
 
     /**
@@ -91,13 +91,13 @@ class ConstructionDataActivity : BaseActivity<ConstructionDataPresenter, Constru
             intent.getSerializableExtra("deviceListBean") as DeviceListBean?
         }
 
-        dataList.add(ConstructionDataBean(ConstructionDataBean.Edit_Type, "设备ID", stringValue = deviceBean?.equipmentId ?: ""))
-        dataList.add(ConstructionDataBean(ConstructionDataBean.Edit_Type, "设备名称", stringValue = deviceBean?.equipmentName ?: ""))
-        dataList.add(ConstructionDataBean(ConstructionDataBean.Select_Type, "规范模板", isDivider = true))
-        dataList.add(ConstructionDataBean(ConstructionDataBean.Location_Type, "上报位置", isDivider = true, stringValue = deviceBean?.postAddr ?: ""))
-        dataList.add(ConstructionDataBean(ConstructionDataBean.Text_Type, "驳回原因", isDivider = true, stringValue = deviceBean?.remarks ?: ""))
+        dataList.add(DeviceInfoBean(DeviceInfoBean.Edit_Type, "设备ID", stringValue = deviceBean?.equipmentId ?: ""))
+        dataList.add(DeviceInfoBean(DeviceInfoBean.Edit_Type, "设备名称", stringValue = deviceBean?.equipmentName ?: ""))
+        dataList.add(DeviceInfoBean(DeviceInfoBean.Select_Type, "规范模板", isDivider = true))
+        dataList.add(DeviceInfoBean(DeviceInfoBean.Location_Type, "上报位置", isDivider = true, stringValue = deviceBean?.postAddr ?: ""))
+        dataList.add(DeviceInfoBean(DeviceInfoBean.Text_Type, "驳回原因", isDivider = true, stringValue = deviceBean?.remarks ?: ""))
 
-        rv_construction_data.apply {
+        rv_devicereport_data.apply {
             layoutManager = LinearLayoutManager(mContext)
             adapter = dataAdapter
             addItemDecoration(SimpleDecoration(mContext, heightList = arrayListOf<Int>().apply {
@@ -114,7 +114,7 @@ class ConstructionDataActivity : BaseActivity<ConstructionDataPresenter, Constru
      */
     override fun onViewListener() {
         //返回按钮
-        stv_construction_data.setLeftImageViewClickListener {
+        stv_devicereport_data.setLeftImageViewClickListener {
             super.onBackPressed()
         }
         //点击事件
@@ -154,25 +154,25 @@ class ConstructionDataActivity : BaseActivity<ConstructionDataPresenter, Constru
             }
         })
         //保存
-        btn_construction_save.setOnClickListener {
+        btn_devicereport_save.setOnClickListener {
             ZXDialogUtil.showYesNoDialog(mContext, "提示", "是否保存设备信息？") { dialog, which ->
                 dataList.filter {
-                    it.type == ConstructionDataBean.Edit_Type
+                    it.type == DeviceInfoBean.Edit_Type
                 }.forEach {
                     if (it.stringValue.isEmpty()) {
                         showToast("请完善输入")
                         return@showYesNoDialog
                     }
                 }
-                if (dataList.first { it.type == ConstructionDataBean.Select_Type }.stringValue.isEmpty()) {
+                if (dataList.first { it.type == DeviceInfoBean.Select_Type }.stringValue.isEmpty()) {
                     showToast("请选择规范模板")
                     return@showYesNoDialog
                 }
-                if (dataList.first { it.type == ConstructionDataBean.Location_Type }.latitude == null) {
+                if (dataList.first { it.type == DeviceInfoBean.Location_Type }.latitude == null) {
                     showToast("请选择上报位置")
                     return@showYesNoDialog
                 }
-                dataList.filter { it.type == ConstructionDataBean.Step_Type }.forEach {
+                dataList.filter { it.type == DeviceInfoBean.Step_Type }.forEach {
                     if (it.stepInfos.size < 2) {
                         showToast("请上传步骤文件")
                         return@showYesNoDialog
@@ -232,7 +232,7 @@ class ConstructionDataActivity : BaseActivity<ConstructionDataPresenter, Constru
                 ifEmpty {
                     return@run null
                 }
-                dataList.first { it.type == ConstructionDataBean.Select_Type }.apply {
+                dataList.first { it.type == DeviceInfoBean.Select_Type }.apply {
                     stringValue = first().name
                     standardBean = first()
                 }
@@ -258,7 +258,7 @@ class ConstructionDataActivity : BaseActivity<ConstructionDataPresenter, Constru
      * 逆地址编码
      */
     override fun onGeocoderResult(location: Location, geocoderBean: BaiduGeocoderBean) {
-        dataList.first { it.type == ConstructionDataBean.Location_Type }.apply {
+        dataList.first { it.type == DeviceInfoBean.Location_Type }.apply {
             longitude = location.longitude
             latitude = location.latitude
             stringValue = geocoderBean.result?.address ?: "未获取到位置"
@@ -281,11 +281,11 @@ class ConstructionDataActivity : BaseActivity<ConstructionDataPresenter, Constru
     @RequiresApi(Build.VERSION_CODES.N)
     override fun onStepDetailResult(stepDetail: StepStandardBean) {
         selectStepBean = stepDetail
-        dataList.removeIf { it.type == ConstructionDataBean.Step_Type }
+        dataList.removeIf { it.type == DeviceInfoBean.Step_Type }
         stepDetail.standardSteps?.forEach {
             dataList.add(
-                ConstructionDataBean(
-                    ConstructionDataBean.Step_Type,
+                DeviceInfoBean(
+                    DeviceInfoBean.Step_Type,
                     it.stepName,
                     it.standard,
                     stepInfos = arrayListOf<DataStepInfoBean>().apply {
@@ -307,6 +307,7 @@ class ConstructionDataActivity : BaseActivity<ConstructionDataPresenter, Constru
     override fun onSaveResult() {
         showToast("保存成功")
         setResult(0x01)
+        finish()
     }
 
     /**

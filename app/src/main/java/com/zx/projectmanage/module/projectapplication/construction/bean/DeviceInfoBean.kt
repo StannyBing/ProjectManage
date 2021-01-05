@@ -4,7 +4,7 @@ import com.zx.projectmanage.module.projectapplication.construction.bean.DataStep
 import com.zx.projectmanage.module.projectapplication.construction.bean.StepStandardBean
 import com.zx.zxutils.other.QuickAdapter.entity.MultiItemEntity
 
-data class ConstructionDataBean(
+data class DeviceInfoBean(
     var type: Int,
     var name: String,
     var stringValue: String = "",
