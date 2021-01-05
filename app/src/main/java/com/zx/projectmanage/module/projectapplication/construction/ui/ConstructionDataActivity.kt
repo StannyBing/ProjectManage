@@ -51,7 +51,10 @@ class ConstructionDataActivity : BaseActivity<ConstructionDataPresenter, Constru
             type: Int
         ) {
             val intent = Intent(activity, ConstructionDataActivity::class.java)
-            activity.startActivity(intent)
+            intent.putExtra("detailedId", detailedId)
+            intent.putExtra("subProjectId", subProjectId)
+            intent.putExtra("deviceListBean", deviceListBean)
+            activity.startActivityForResult(intent, 0x01)
             if (isFinish) activity.finish()
         }
     }
@@ -62,7 +65,8 @@ class ConstructionDataActivity : BaseActivity<ConstructionDataPresenter, Constru
     private val stepStandardList = arrayListOf<StepStandardBean>()
     private val stepStandardAdapter = StepStandardAdapter(stepStandardList)
 
-    private var selectStepBean: StepStandardBean? = null
+    private var selectStepBean: StepStandardBean? = null//当前选中的步骤
+    private var deviceBean: DeviceListBean? = null//设备详情
 
     private var cameraPos = 0
 
@@ -77,39 +81,20 @@ class ConstructionDataActivity : BaseActivity<ConstructionDataPresenter, Constru
      * 初始化
      */
     override fun initView(savedInstanceState: Bundle?) {
-        dataList.add(
-            ConstructionDataBean(
-                ConstructionDataBean.Edit_Type,
-                "设备ID"
-            )
-        )
-        dataList.add(
-            ConstructionDataBean(
-                ConstructionDataBean.Edit_Type,
-                "设备名称"
-            )
-        )
-        dataList.add(
-            ConstructionDataBean(
-                ConstructionDataBean.Select_Type,
-                "规范模板",
-                isDivider = true
-            )
-        )
-        dataList.add(
-            ConstructionDataBean(
-                ConstructionDataBean.Location_Type,
-                "上报位置",
-                isDivider = true
-            )
-        )
-        dataList.add(
-            ConstructionDataBean(
-                ConstructionDataBean.Text_Type,
-                "驳回原因",
-                isDivider = true
-            )
-        )
+        deviceBean = if (intent.getSerializableExtra("deviceListBean") == null) {
+            DeviceListBean().apply {
+                detailedId = intent.getStringExtra("detailedId")
+                subProjectId = intent.getStringExtra("subProjectId")
+            }
+        } else {
+            intent.getSerializableExtra("deviceListBean") as DeviceListBean?
+        }
+
+        dataList.add(ConstructionDataBean(ConstructionDataBean.Edit_Type, "设备ID"))
+        dataList.add(ConstructionDataBean(ConstructionDataBean.Edit_Type, "设备名称"))
+        dataList.add(ConstructionDataBean(ConstructionDataBean.Select_Type, "规范模板", isDivider = true))
+        dataList.add(ConstructionDataBean(ConstructionDataBean.Location_Type, "上报位置", isDivider = true))
+        dataList.add(ConstructionDataBean(ConstructionDataBean.Text_Type, "驳回原因", isDivider = true))
 
         rv_construction_data.apply {
             layoutManager = LinearLayoutManager(mContext)
@@ -162,6 +147,10 @@ class ConstructionDataActivity : BaseActivity<ConstructionDataPresenter, Constru
             override fun onFileDelete(stepPos: Int, filePos: Int) {
                 dataList[stepPos].stepInfos.removeAt(filePos)
             }
+
+            override fun onEditChange(pos: Int, info: String) {
+                dataList[pos].stringValue = info
+            }
         })
         //保存
         btn_construction_save.setOnClickListener {
@@ -187,7 +176,7 @@ class ConstructionDataActivity : BaseActivity<ConstructionDataPresenter, Constru
                     return@setOnClickListener
                 }
             }
-            mPresenter.saveDataInfo(dataList)
+            mPresenter.saveDataInfo(dataList, deviceBean)
         }
     }
 
@@ -299,7 +288,9 @@ class ConstructionDataActivity : BaseActivity<ConstructionDataPresenter, Constru
                     stepInfos = arrayListOf<DataStepInfoBean>().apply {
                         //                add(DataStepInfoBean(ApiConfigModule.BASE_IP + "admin/sys-file/getFileById?id=" + it.standardId))
                         add(DataStepInfoBean(thumbnail = ApiConfigModule.BASE_IP + "admin/sys-file/getFileById?id=353732457519910912"))
-                    })
+                    },
+                    standardBean = stepDetail
+                )
             )
         }
         dataAdapter.notifyDataSetChanged()
@@ -307,6 +298,7 @@ class ConstructionDataActivity : BaseActivity<ConstructionDataPresenter, Constru
 
     override fun onSaveResult() {
         showToast("保存成功")
+        setResult(0x01)
     }
 
     /**

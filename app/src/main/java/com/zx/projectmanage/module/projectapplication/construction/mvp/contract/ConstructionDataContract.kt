@@ -50,7 +50,10 @@ interface ConstructionDataContract {
 
         abstract fun getStepDetail(id: String)
 
-        abstract fun saveDataInfo(dataList: List<ConstructionDataBean>)
+        abstract fun saveDataInfo(
+            dataList: List<ConstructionDataBean>,
+            deviceBean: DeviceListBean?
+        )
     }
 }
 

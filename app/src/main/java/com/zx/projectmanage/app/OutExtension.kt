@@ -28,6 +28,11 @@ fun <K, Y> Map<K, Y>.toJson(): RequestBody {
         .build()
 }
 
+fun <K, Y> Map<K, Y>.toJson2(): RequestBody {
+    val json = Gson().toJson(this)
+    return RequestBody.create(MediaType.parse("application/json; charset=utf-8"), json)
+}
+
 fun Paint.getBaseline(): Float {
     return (fontMetrics.bottom - fontMetrics.top) / 2 - fontMetrics.bottom
 }

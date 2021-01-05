@@ -1,5 +1,7 @@
 package com.zx.projectmanage.module.projectapplication.construction.func.adapter
 
+import android.text.Editable
+import android.text.TextWatcher
 import android.widget.EditText
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
@@ -32,6 +34,17 @@ class ConstructionDataAdapter(dataList: List<ConstructionDataBean>) : ZXMultiIte
                 helper.setText(R.id.tv_data_edit_name, item.name)
                 helper.setText(R.id.et_data_edit_value, item.stringValue)
                 helper.getView<EditText>(R.id.et_data_edit_value).hint = "请输入${item.name}"
+                helper.getView<EditText>(R.id.et_data_edit_value).addTextChangedListener(object : TextWatcher {
+                    override fun afterTextChanged(s: Editable?) {
+                    }
+
+                    override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+                    }
+
+                    override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                        listener?.onEditChange(helper.adapterPosition, helper.getView<EditText>(R.id.et_data_edit_value).text.toString())
+                    }
+                })
             }
             ConstructionDataBean.Text_Type -> {
                 helper.setText(R.id.tv_data_text_name, item.name)

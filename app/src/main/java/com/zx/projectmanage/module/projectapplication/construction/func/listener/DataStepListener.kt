@@ -4,4 +4,5 @@ interface DataStepListener {
 
     fun onFileDelete(stepPos : Int, filePos : Int)
 
+    fun onEditChange(pos : Int, info : String)
 }

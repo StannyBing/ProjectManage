@@ -5,11 +5,8 @@ import com.frame.zxmvp.baserx.RxHelper
 import com.frame.zxmvp.baserx.RxSubscriber
 import com.frame.zxmvp.http.upload.UploadRequestBody
 import com.gt.giscollect.base.NormalList
-import com.zx.projectmanage.app.toJson
-import com.zx.projectmanage.module.projectapplication.construction.bean.BaiduGeocoderBean
-import com.zx.projectmanage.module.projectapplication.construction.bean.ConstructionDataBean
-import com.zx.projectmanage.module.projectapplication.construction.bean.DataStepInfoBean
-import com.zx.projectmanage.module.projectapplication.construction.bean.StepStandardBean
+import com.zx.projectmanage.app.toJson2
+import com.zx.projectmanage.module.projectapplication.construction.bean.*
 import com.zx.projectmanage.module.projectapplication.construction.mvp.contract.ConstructionDataContract
 import okhttp3.MediaType
 import okhttp3.MultipartBody
@@ -70,7 +67,10 @@ class ConstructionDataPresenter : ConstructionDataContract.Presenter() {
             })
     }
 
-    override fun saveDataInfo(dataList: List<ConstructionDataBean>) {
+    override fun saveDataInfo(
+        dataList: List<ConstructionDataBean>,
+        deviceBean: DeviceListBean?
+    ) {
         var uploadIndex = 0
         val fileList = arrayListOf<File>()
         val uploadIdsList = arrayListOf<String>()
@@ -104,9 +104,9 @@ class ConstructionDataPresenter : ConstructionDataContract.Presenter() {
                 uploadIdsList.add(it.id)
                 val equipmentId = dataList.first { it.name == "设备ID" }.stringValue
                 val equipmentName = dataList.first { it.name == "设备名称" }.stringValue
-                val detailedId = ""
-                val subProjectId = ""
-                val standardId = dataList.first { it.name == "上报位置" }.standardBean?.id
+                val detailedId = deviceBean?.detailedId
+                val subProjectId = deviceBean?.subProjectId
+                val standardId = dataList.first { it.name == "规范模板" }.standardBean?.id
                 val postAddr = dataList.first { it.name == "上报位置" }.stringValue
                 val latitude = dataList.first { it.name == "上报位置" }.latitude
                 val longitude = dataList.first { it.name == "上报位置" }.longitude
@@ -129,6 +129,8 @@ class ConstructionDataPresenter : ConstructionDataContract.Presenter() {
                 }
                 mModel.saveInfoData(
                     hashMapOf(
+                        "detailedId" to detailedId,
+                        "subProjectId" to subProjectId,
                         "equipmentId" to equipmentId,
                         "equipmentName" to equipmentName,
                         "standardId" to standardId,
@@ -136,7 +138,7 @@ class ConstructionDataPresenter : ConstructionDataContract.Presenter() {
                         "latitude" to latitude,
                         "longitude" to longitude,
                         "postDetails" to postDetails
-                    ).toJson()
+                    ).toJson2()
                 )
             }
             .subscribe(object : RxSubscriber<Any>(mView) {
