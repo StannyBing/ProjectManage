@@ -48,7 +48,7 @@
                     android:textSize="@dimen/text_normal_size" />
 
                 <EditText
-                    android:id="@+id/et_data_edit_value"
+                    android:id="@+id/et_score_edit_value"
                     android:layout_width="wrap_content"
                     android:layout_height="@dimen/item_height"
                     android:layout_alignParentEnd="true"

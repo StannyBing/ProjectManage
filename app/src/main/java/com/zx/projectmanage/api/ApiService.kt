@@ -2,7 +2,7 @@ package com.zx.projectmanage.api
 
 
 import com.frame.zxmvp.basebean.BaseRespose
-import com.gt.giscollect.base.NormalList
+import com.zx.projectmanage.base.NormalList
 import com.zx.projectmanage.module.main.bean.UserBean
 import com.zx.projectmanage.module.projectapplication.construction.bean.BaiduGeocoderBean
 import com.zx.projectmanage.module.projectapplication.construction.bean.FileInfoBean
@@ -41,7 +41,7 @@ interface ApiService {
     fun getProjectPeriod(): Observable<BaseRespose<MutableList<ProjectPeriodBean>>>
 
     /**
-     * 插叙项目列表
+     * 查询项目列表
      */
     @GET("/business/app/buildpost/pageProject")
     fun getPageProject(
@@ -66,10 +66,19 @@ interface ApiService {
     /**
      * 查询工序详情
      */
-    @GET("/business//app/buildpost/process/{processId}")
+    @GET("/business/app/buildpost/process/{processId}")
     fun getProcessProjectInfo(
         @Path("processId") processId: String
     ): Observable<BaseRespose<ProjectProcessInfoBean>>
+
+    /**
+     * 审批查询工序详情
+     */
+    @GET("/business/report/app/findProcess/{projectId}/{subProjectId}")
+    fun getApproveProcessProjectInfo(
+        @Path("projectId") projectId: String,
+        @Path("subProjectId") subProjectId: String
+    ): Observable<BaseRespose<MutableList<ApproveProcessInfoBean>>>
 
     /**
      * 查询工序已添加设备
@@ -77,6 +86,14 @@ interface ApiService {
     @GET("/business/app/buildpost/list")
     fun getDeviceList(
         @QueryMap map: Map<String, String>
+    ): Observable<BaseRespose<MutableList<DeviceListBean>>>
+
+    /**
+     * 审批查询工序设备
+     */
+    @GET("/business/report/app/equipments/{detailedProId}")
+    fun getDeviceList(
+        @Path("detailedProId") detailedProId: String
     ): Observable<BaseRespose<MutableList<DeviceListBean>>>
 
     /**
@@ -132,7 +149,7 @@ interface ApiService {
     @GET("/business/report/app/findProjects")
     fun getApproveProject(
         @Query("districtCode") districtCode: String?,
-        @Query("keyword") keyword: String?,
+        @Query("projectName") keyword: String?,
         @Query("pageNo") pageNo: Int?,
         @Query("pageSize") pageSize: Int?,
         @Query("projectStatus") projectStatus: String?,
@@ -161,11 +178,11 @@ interface ApiService {
      * 上传文件
      */
     @POST("admin/sys-file/upload")
-    fun uploadFile(@Body body: RequestBody) : Observable<BaseRespose<FileUploadBean>>
+    fun uploadFile(@Body body: RequestBody): Observable<BaseRespose<FileUploadBean>>
 
     /**
      * 新增施工上报
      */
     @POST("business/app/buildpost/save")
-    fun saveDataInfo(@Body body: RequestBody) : Observable<BaseRespose<Any>>
+    fun saveDataInfo(@Body body: RequestBody): Observable<BaseRespose<Any>>
 }

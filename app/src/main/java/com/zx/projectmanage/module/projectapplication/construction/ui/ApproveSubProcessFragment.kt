@@ -5,24 +5,21 @@ import android.os.Bundle
 import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.zx.projectmanage.R
-import com.zx.projectmanage.app.toJson
-import com.zx.projectmanage.app.toJson2
 import com.zx.projectmanage.base.BaseFragment
+import com.zx.projectmanage.module.projectapplication.construction.bean.ApproveProcessInfoBean
 import com.zx.projectmanage.module.projectapplication.construction.bean.DeviceListBean
-import com.zx.projectmanage.module.projectapplication.construction.bean.ProjectProcessInfoBean
 import com.zx.projectmanage.module.projectapplication.construction.func.adapter.ProcedureListAdapter
-import com.zx.projectmanage.module.projectapplication.construction.mvp.contract.ProcedureReportContract
-import com.zx.projectmanage.module.projectapplication.construction.mvp.model.ProcedureReportModel
-import com.zx.projectmanage.module.projectapplication.construction.mvp.presenter.ProcedureReportPresenter
-import com.zx.zxutils.util.ZXDialogUtil
+import com.zx.projectmanage.module.projectapplication.construction.mvp.contract.ApproveSubProcessContract
+import com.zx.projectmanage.module.projectapplication.construction.mvp.model.ApproveSubProcessModel
+import com.zx.projectmanage.module.projectapplication.construction.mvp.presenter.ApproveSubProcessPresenter
 import com.zx.zxutils.util.ZXToastUtil
-import kotlinx.android.synthetic.main.fragment_procedure_report.*
+import kotlinx.android.synthetic.main.fragment_approve_sub_process.*
 
 /**
  * Create By admin On 2017/7/11
- * 功能：工序fragment
+ * 功能：
  */
-class ProcedureReportFragment : BaseFragment<ProcedureReportPresenter, ProcedureReportModel>(), ProcedureReportContract.View {
+class ApproveSubProcessFragment : BaseFragment<ApproveSubProcessPresenter, ApproveSubProcessModel>(), ApproveSubProcessContract.View {
     private var list: MutableList<DeviceListBean> = arrayListOf<DeviceListBean>()
     private val reportListAdapter = ProcedureListAdapter(list)
     var subProjectId = ""
@@ -30,14 +27,13 @@ class ProcedureReportFragment : BaseFragment<ProcedureReportPresenter, Procedure
 
     //工序模版id
     var assessmentId = ""
-    var type = 0
-    var parcelable: ProjectProcessInfoBean.DetailedListBean? = null
+    var parcelable: ApproveProcessInfoBean? = null
 
     /**
      * layout配置
      */
     override fun getLayoutId(): Int {
-        return R.layout.fragment_procedure_report
+        return R.layout.fragment_approve_sub_process
     }
 
     companion object {
@@ -57,58 +53,46 @@ class ProcedureReportFragment : BaseFragment<ProcedureReportPresenter, Procedure
      */
     override fun initView(savedInstanceState: Bundle?) {
         super.initView(savedInstanceState)
-        parcelable = arguments?.getSerializable("bean") as ProjectProcessInfoBean.DetailedListBean
+        parcelable = arguments?.getSerializable("bean") as ApproveProcessInfoBean
         subProjectId = arguments?.getString("subProjectId").toString()
         projectId = arguments?.getString("projectId").toString()
         assessmentId = arguments?.getString("assessmentId").toString()
-        type = arguments?.getInt("type", 0)!!
-        if (parcelable?.sort != 0) {
-            tv_report_addEquip.visibility = View.GONE
-        }
-        if (type == 1) {
-            btn_approve_submit.text = "审核评分"
-        }
-
-        if (parcelable?.showMaterials == 0) {
+        if (parcelable?.materials == null) {
             materials.visibility = View.GONE
         }
-        if (parcelable?.showOperationGuide == 0) {
+        if (parcelable?.operationGuide == null) {
             operationGuide.visibility = View.GONE
         }
-        if (parcelable?.showSafetyRegulations == 0) {
+        if (parcelable?.safetyRegulations == null) {
             safetyRegulations.visibility = View.GONE
         }
+        if (parcelable?.scoreFlag == 1) {
+            btn_approve_submit.visibility = View.VISIBLE
+        }
+        if (parcelable?.auditFlag == 1) {
+            btn_audit_reject.visibility = View.VISIBLE
+            btn_audit_pass.visibility = View.VISIBLE
+        }
+        sv_score.setRightString(parcelable?.score.toString())
         //设置adapter
         dataShow.apply {
             layoutManager = LinearLayoutManager(mContext)
             adapter = reportListAdapter
 //            addItemDecoration(SimpleDecoration(mContext))
         }
-        mPresenter.getDeviceList(
-            hashMapOf(
-                "detailId" to parcelable?.id.toString(),
-                "subProjectId" to subProjectId
-            )
-        )
+
     }
 
     /**
      * View事件设置
      */
     override fun onViewListener() {
-        tv_report_addEquip.setOnClickListener {
-            ConstructionDataActivity.startAction(requireActivity(), false, parcelable?.id.toString(), subProjectId, null, type)
-        }
         process_progress.setOnSuperTextViewClickListener {
-//            if (list.size > 0) {
-////                ProjectProgressActivity.startAction(activity as Activity, false, list[0].detailedProId)
-////            }
-            ProjectProgressActivity.startAction(activity as Activity, false, "0")
+            ProjectProgressActivity.startAction(activity as Activity, false, parcelable?.detailedProId.toString())
         }
-        reportListAdapter.setOnItemClickListener { adapter, view, position ->
+        reportListAdapter.setOnItemChildClickListener { adapter, view, position ->
             val deviceListBean = adapter.data[position] as DeviceListBean
-            ConstructionDataActivity.startAction(requireActivity(), false, parcelable?.id.toString(), subProjectId, deviceListBean, 0)
-
+            ConstructionDataActivity.startAction(requireActivity(), false, parcelable?.detailedProId.toString(), subProjectId, deviceListBean, 1)
         }
         materials.setOnSuperTextViewClickListener {
             val material = parcelable?.materials
@@ -136,42 +120,20 @@ class ProcedureReportFragment : BaseFragment<ProcedureReportPresenter, Procedure
 
         }
         btn_approve_submit.setOnClickListener {
-            var b = 0
-            for (deviceListBean in list) {
-                val toInt = deviceListBean.status?.toInt()
-                if (toInt == 0) {
-                    b++
-                }
-            }
-            if (b == list.size) {
-                //自动登录
-                mPresenter.postSubmit(
-                    hashMapOf(
-                        "detailedProId" to list[0].detailedProId,
-                        "projectId" to projectId,
-                        "subProecssId" to parcelable?.id.toString()
-                    ).toJson2()
-                )
-            } else {
-                ZXDialogUtil.showYesNoDialog(mContext, "提示", "您有设备未完成资料上传") { _, i ->
-                    ZXDialogUtil.dismissDialog()
-                }
-            }
+            ApproveScoreActivity.startAction(
+                activity as Activity, false,
+                assessmentId
+            )
+        }
+        btn_audit_reject.setOnClickListener {
+
         }
     }
 
 
     override fun getDeviceListResult(data: MutableList<DeviceListBean>?) {
-        if (data != null) {
-            list = data
-        }
         reportListAdapter.setNewData(
             data
         )
     }
-
-    override fun postSubmitResult(data: Any?) {
-
-    }
-
 }

@@ -1,4 +1,4 @@
-package com.gt.giscollect.base
+package com.zx.projectmanage.base
 
 data class NormalList<T>(
     var pages: Int,

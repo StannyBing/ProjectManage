@@ -10,5 +10,6 @@ class ProcedureListAdapter(dataList: MutableList<DeviceListBean>) : ZXQuickAdapt
     override fun convert(helper: ZXBaseHolder, item: DeviceListBean?) {
         val superTextView = helper.getView<SuperTextView>(R.id.super_tv)
         superTextView.setLeftString(item?.equipmentName)
+        superTextView.setRightString(item?.statusDesc)
     }
 }

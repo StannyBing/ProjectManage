@@ -42,8 +42,12 @@ class DeviceListBean : Serializable {
     var remarks: String? = null
     var standardId: String? = null
     var subProjectId: String? = null
+    var status: String? = null
+    var auditStatus: String? = null
+    var auditStatusDesc: String? = null
+    var standardProId: String? = null
+    var statusDesc: String? = null
     var postDetails: List<PostDetailsBean?>? = null
-
 
     class PostDetailsBean : Serializable {
         /**
@@ -70,6 +74,5 @@ class DeviceListBean : Serializable {
         var stepId: String? = null
         var updateTime: String? = null
         var updateUser: String? = null
-
     }
 }
