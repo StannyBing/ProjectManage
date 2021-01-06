@@ -49,6 +49,7 @@ class DeviceListBean : Serializable {
     var submitNumber: String? = null
     var statusDesc: String? = null
     var fraction: String? = null
+    var attachementVos : List<PostDetailsBean>?=null
     var postDetails: List<PostDetailsBean?>? = null
 
     class PostDetailsBean : Serializable {
@@ -66,14 +67,17 @@ class DeviceListBean : Serializable {
          * updateUser : string
          */
         var attachment: String? = null
+        var attachmentId: String? = null
         var createTime: String? = null
         var createUser: String? = null
         var delFlag: String? = null
         var fileType = 0
         var postDetailId: String? = null
         var remarks: String? = null
+        var standard: String? = null
         var standardProId: String? = null
         var stepId: String? = null
+        var stepName: String? = null
         var updateTime: String? = null
         var updateUser: String? = null
     }

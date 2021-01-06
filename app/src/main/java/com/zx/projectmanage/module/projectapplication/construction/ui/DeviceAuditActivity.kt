@@ -170,6 +170,7 @@ class DeviceAuditActivity : BaseActivity<DeviceAuditPresenter, DeviceAuditModel>
                 i++
             }
         }
+        dataList.first{it.name == "规范模板"}.stringValue = stepDetail.name
         stepDetail.standardSteps?.forEach {
             dataList.add(
                 DeviceInfoBean(
@@ -179,9 +180,9 @@ class DeviceAuditActivity : BaseActivity<DeviceAuditPresenter, DeviceAuditModel>
                     stepInfos = arrayListOf<DataStepInfoBean>().apply {
                         add(DataStepInfoBean(ApiConfigModule.BASE_IP + "admin/sys-file/getFileById?id=" + it.standardId))
                         if (it.standardId == deviceBean?.standardId) {
-                            deviceBean?.postDetails?.forEach { post ->
-                                if (it.stepId == post?.stepId) {
-                                    add(DataStepInfoBean(ApiConfigModule.BASE_IP + "admin/sys-file/getFileById?id=" + post.attachment))
+                            deviceBean?.attachementVos?.forEach { post ->
+                                if (it.stepId == post.stepId) {
+                                    add(DataStepInfoBean(ApiConfigModule.BASE_IP + "admin/sys-file/getFileById?id=" + post.attachmentId))
                                 }
                             }
                         }
