@@ -25,7 +25,7 @@
         android:maxLength="30"
         android:singleLine="true"
         android:textColor="@color/default_text_color"
-        android:textColorHint="@color/gray_8f"
+        android:textColorHint="@color/gray_cc"
         android:textSize="@dimen/text_normal_size"
         app:layout_constraintRight_toRightOf="parent" />
 

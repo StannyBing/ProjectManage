@@ -55,7 +55,8 @@ class DeviceInfoAdapter(dataList: List<DeviceInfoBean>) : ZXMultiItemQuickAdapte
             }
             DeviceInfoBean.Select_Type -> {
                 helper.setText(R.id.tv_data_select_name, item.name)
-                helper.setText(R.id.tv_data_select_value, if (item.stringValue.isEmpty()) "请选择${item.name}" else item.stringValue)
+                helper.getView<TextView>(R.id.tv_data_select_value).hint = "请输入${item.name}"
+                helper.setText(R.id.tv_data_select_value, item.stringValue)
                 helper.addOnClickListener(R.id.tv_data_select_value)
             }
             DeviceInfoBean.Location_Type -> {

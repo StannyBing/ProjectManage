@@ -13,6 +13,7 @@ import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import java.io.File
 import java.util.*
+import kotlin.collections.ArrayList
 import kotlin.collections.HashMap
 
 
@@ -104,65 +105,130 @@ class DeviceReportPresenter : DeviceReportContract.Presenter() {
                 }
             }
         }
+
+        uploadFile(dataList, deviceBean, fileList, uploadIndex, idMapList)
+//        mModel.uploadFileData(getUploadRequestBody(fileList, uploadIndex))
+//            .compose(RxHelper.bindToLifecycle(mView))
+//            .apply {
+//                for (i in 0 until fileList.size) {
+//                    flatMap {
+//                        val temp = idMapList.filter { it.first == fileList[uploadIndex].first }
+//                        if (temp.isNotEmpty()) {
+//                            temp.first().second["attachment"] = it.id
+//                        }
+//                        uploadIndex++
+//                        mModel.uploadFileData(getUploadRequestBody(fileList, uploadIndex))
+//                    }
+//                }
+//            }
+//            .flatMap {
+//                val temp = idMapList.filter { it.first == fileList[uploadIndex].first }
+//                if (temp.isNotEmpty()) {
+//                    temp.first().second["attachment"] = it.id
+//                }
+//                val equipmentId = dataList.first { it.name == "设备ID" }.stringValue
+//                val equipmentName = dataList.first { it.name == "设备名称" }.stringValue
+//                val detailedId = deviceBean?.detailedId
+//                val subProjectId = deviceBean?.subProjectId
+//                val standardId = dataList.first { it.name == "规范模板" }.standardBean?.id
+//                val postAddr = dataList.first { it.name == "上报位置" }.stringValue
+//                val latitude = dataList.first { it.name == "上报位置" }.latitude
+//                val longitude = dataList.first { it.name == "上报位置" }.longitude
+//                val postDetails = arrayListOf<HashMap<String, String?>>().apply {
+//                    idMapList.forEach {
+//                        add(it.second)
+//                    }
+//                }
+//                val info = hashMapOf(
+//                    "detailedId" to detailedId,
+//                    "subProjectId" to subProjectId,
+//                    "equipmentId" to equipmentId,
+//                    "equipmentName" to equipmentName,
+//                    "standardId" to standardId,
+//                    "postAddr" to postAddr,
+//                    "latitude" to latitude,
+//                    "longitude" to longitude,
+//                    "postDetails" to postDetails
+//                )
+//                if (deviceBean?.id == null) {
+//                    mModel.saveInfoData(info.toJson2())
+//                } else {
+//                    mModel.updateInfoData(info.apply {
+//                        put("id", deviceBean.id)
+//                    }.toJson2())
+//                }
+//            }
+//            .subscribe(object : RxSubscriber<Any>(mView) {
+//                override fun _onNext(t: Any?) {
+//                    mView.onSaveResult()
+//                }
+//
+//                override fun _onError(code: Int, message: String?) {
+//                    mView.handleError(code, message)
+//                }
+//            })
+    }
+
+    private fun uploadFile(
+        dataList: List<DeviceInfoBean>,
+        deviceBean: DeviceListBean?,
+        fileList: List<Pair<String, File>>,
+        uploadIndex: Int,
+        idMapList: ArrayList<Pair<String, HashMap<String, String?>>>
+    ) {
         mModel.uploadFileData(getUploadRequestBody(fileList, uploadIndex))
             .compose(RxHelper.bindToLifecycle(mView))
-            .apply {
-                for (i in 0..(dataList.size - 2)) {
-                    flatMap {
-                        val temp = idMapList.filter { it.first == fileList[uploadIndex].first }
-                        if (temp.isNotEmpty()) {
-                            temp.first().second["attachment"] = it.id
-                        }
-                        uploadIndex++
-                        mModel.uploadFileData(getUploadRequestBody(fileList, uploadIndex))
+            .subscribe(object : RxSubscriber<FileUploadBean>(mView) {
+                override fun _onNext(it: FileUploadBean?) {
+                    val temp = idMapList.filter { it.first == fileList[uploadIndex].first }
+                    if (temp.isNotEmpty()) {
+                        temp.first().second["attachment"] = it?.id
+                    }
+                    if (uploadIndex >= fileList.size - 1) {
+                        submitInfo(dataList, deviceBean, idMapList)
+                    } else {
+                        uploadFile(dataList, deviceBean, fileList, uploadIndex + 1, idMapList)
                     }
                 }
+
+                override fun _onError(code: Int, message: String?) {
+                    mView.handleError(code, message)
+                }
+            })
+    }
+
+    private fun submitInfo(dataList: List<DeviceInfoBean>, deviceBean: DeviceListBean?, idMapList: ArrayList<Pair<String, HashMap<String, String?>>>) {
+        val equipmentId = dataList.first { it.name == "设备ID" }.stringValue
+        val equipmentName = dataList.first { it.name == "设备名称" }.stringValue
+        val detailedId = deviceBean?.detailedId
+        val subProjectId = deviceBean?.subProjectId
+        val standardId = dataList.first { it.name == "规范模板" }.standardBean?.id
+        val postAddr = dataList.first { it.name == "上报位置" }.stringValue
+        val latitude = dataList.first { it.name == "上报位置" }.latitude
+        val longitude = dataList.first { it.name == "上报位置" }.longitude
+        val postDetails = arrayListOf<HashMap<String, String?>>().apply {
+            idMapList.forEach {
+                add(it.second)
             }
-            .flatMap {
-                val temp = idMapList.filter { it.first == fileList[uploadIndex].first }
-                if (temp.isNotEmpty()) {
-                    temp.first().second["attachment"] = it.id
-                }
-                uploadIndex++
-                mModel.uploadFileData(getUploadRequestBody(fileList, uploadIndex))
-            }
-            .flatMap {
-                val temp = idMapList.filter { it.first == fileList[uploadIndex].first }
-                if (temp.isNotEmpty()) {
-                    temp.first().second["attachment"] = it.id
-                }
-                val equipmentId = dataList.first { it.name == "设备ID" }.stringValue
-                val equipmentName = dataList.first { it.name == "设备名称" }.stringValue
-                val detailedId = deviceBean?.detailedId
-                val subProjectId = deviceBean?.subProjectId
-                val standardId = dataList.first { it.name == "规范模板" }.standardBean?.id
-                val postAddr = dataList.first { it.name == "上报位置" }.stringValue
-                val latitude = dataList.first { it.name == "上报位置" }.latitude
-                val longitude = dataList.first { it.name == "上报位置" }.longitude
-                val postDetails = arrayListOf<HashMap<String, String?>>().apply {
-                    idMapList.forEach {
-                        add(it.second)
-                    }
-                }
-                val info = hashMapOf(
-                    "detailedId" to detailedId,
-                    "subProjectId" to subProjectId,
-                    "equipmentId" to equipmentId,
-                    "equipmentName" to equipmentName,
-                    "standardId" to standardId,
-                    "postAddr" to postAddr,
-                    "latitude" to latitude,
-                    "longitude" to longitude,
-                    "postDetails" to postDetails
-                )
-                if (deviceBean?.id == null) {
-                    mModel.saveInfoData(info.toJson2())
-                } else {
-                    mModel.updateInfoData(info.apply {
-                        put("id", deviceBean.id)
-                    }.toJson2())
-                }
-            }
+        }
+        val info = hashMapOf(
+            "detailedId" to detailedId,
+            "subProjectId" to subProjectId,
+            "equipmentId" to equipmentId,
+            "equipmentName" to equipmentName,
+            "standardId" to standardId,
+            "postAddr" to postAddr,
+            "latitude" to latitude,
+            "longitude" to longitude,
+            "postDetails" to postDetails
+        )
+        if (deviceBean?.id == null) {
+            mModel.saveInfoData(info.toJson2())
+        } else {
+            mModel.updateInfoData(info.apply {
+                put("id", deviceBean.id)
+            }.toJson2())
+        }.compose(RxHelper.bindToLifecycle(mView))
             .subscribe(object : RxSubscriber<Any>(mView) {
                 override fun _onNext(t: Any?) {
                     mView.onSaveResult()

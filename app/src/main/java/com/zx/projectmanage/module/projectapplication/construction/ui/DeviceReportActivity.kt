@@ -2,6 +2,7 @@ package com.zx.projectmanage.module.projectapplication.construction.ui
 
 import android.Manifest
 import android.app.Activity
+import android.content.Context
 import android.content.Intent
 import android.location.Location
 import android.os.Build
@@ -11,6 +12,7 @@ import android.view.LayoutInflater
 import android.view.inputmethod.EditorInfo
 import android.widget.Button
 import android.widget.EditText
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.zx.projectmanage.R
@@ -68,7 +70,7 @@ class DeviceReportActivity : BaseActivity<DeviceReportPresenter, DeviceReportMod
     private val stepStandardAdapter = StepStandardAdapter(stepStandardList)
 
     private var selectStepBean: StepStandardBean? = null//当前选中的步骤
-    private var deviceBean: DeviceListBean? = null//设备详情
+    private lateinit var deviceBean: DeviceListBean//设备详情
 
     private var cameraPos = 0
 
@@ -83,21 +85,25 @@ class DeviceReportActivity : BaseActivity<DeviceReportPresenter, DeviceReportMod
      * 初始化
      */
     override fun initView(savedInstanceState: Bundle?) {
-        deviceBean = intent.getSerializableExtra("deviceListBean") as DeviceListBean?
-        deviceBean?.detailedId = intent.getStringExtra("detailedId")
-        deviceBean?.subProjectId = intent.getStringExtra("subProjectId")
+        deviceBean = if (intent.hasExtra("deviceListBean") && intent.getSerializableExtra("deviceListBean") != null) {
+            intent.getSerializableExtra("deviceListBean") as DeviceListBean
+        } else {
+            DeviceListBean()
+        }
+        deviceBean.detailedId = intent.getStringExtra("detailedId")
+        deviceBean.subProjectId = intent.getStringExtra("subProjectId")
 
-        dataList.add(DeviceInfoBean(DeviceInfoBean.Edit_Type, "设备ID", stringValue = deviceBean?.equipmentId ?: ""))
-        dataList.add(DeviceInfoBean(DeviceInfoBean.Edit_Type, "设备名称", stringValue = deviceBean?.equipmentName ?: ""))
+        dataList.add(DeviceInfoBean(DeviceInfoBean.Edit_Type, "设备ID", stringValue = deviceBean.equipmentId ?: ""))
+        dataList.add(DeviceInfoBean(DeviceInfoBean.Edit_Type, "设备名称", stringValue = deviceBean.equipmentName ?: ""))
         dataList.add(DeviceInfoBean(DeviceInfoBean.Select_Type, "规范模板", isDivider = true))
         dataList.add(
             DeviceInfoBean(
                 DeviceInfoBean.Location_Type,
                 "上报位置",
                 isDivider = true,
-                stringValue = deviceBean?.postAddr ?: "",
-                latitude = deviceBean?.latitude ?: "",
-                longitude = deviceBean?.longitude ?: ""
+                stringValue = deviceBean.postAddr ?: "",
+                latitude = deviceBean.latitude ?: "",
+                longitude = deviceBean.longitude ?: ""
             )
         )
 //        dataList.add(DeviceInfoBean(DeviceInfoBean.Text_Type, "驳回原因", isDivider = true, stringValue = deviceBean?.remarks ?: ""))
@@ -316,11 +322,20 @@ class DeviceReportActivity : BaseActivity<DeviceReportPresenter, DeviceReportMod
                     it.stepName,
                     it.standard,
                     stepInfos = arrayListOf<DataStepInfoBean>().apply {
-                        add(DataStepInfoBean(ApiConfigModule.BASE_IP + "admin/sys-file/getFileById?id=" + it.standardId))
+                        add(DataStepInfoBean(ApiConfigModule.BASE_IP + "admin/sys-file/getFileById?id=" + it.attachmentId))
                         if (it.standardId == deviceBean?.standardId) {
                             deviceBean?.postDetails?.forEach { post ->
                                 if (it.stepId == post?.stepId) {
-                                    add(DataStepInfoBean(ApiConfigModule.BASE_IP + "admin/sys-file/getFileById?id=" + post.attachment))
+                                    add(
+                                        DataStepInfoBean(
+                                            ApiConfigModule.BASE_IP + "admin/sys-file/getFileById?id=" + post.attachment,
+                                            type = if (post.fileType == 0) {
+                                                DataStepInfoBean.Type.PICTURE
+                                            } else {
+                                                DataStepInfoBean.Type.VIDEO
+                                            }
+                                        )
+                                    )
                                 }
                             }
                         }
