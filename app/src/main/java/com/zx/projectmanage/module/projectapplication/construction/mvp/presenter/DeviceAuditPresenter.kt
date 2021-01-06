@@ -41,8 +41,8 @@ class DeviceAuditPresenter : DeviceAuditContract.Presenter() {
             })
     }
 
-    override fun getDeviceDetail(id: String) {
-        mModel.deviceDetailData(id)
+    override fun getDeviceDetail(standardProId: String, standardId : String) {
+        mModel.deviceDetailData(standardProId, standardId)
             .compose(RxHelper.bindToLifecycle(mView))
             .subscribe(object : RxSubscriber<DeviceListBean>(mView){
                 override fun _onNext(t: DeviceListBean?) {

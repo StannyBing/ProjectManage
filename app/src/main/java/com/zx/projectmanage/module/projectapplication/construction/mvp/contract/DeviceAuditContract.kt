@@ -26,13 +26,13 @@ interface DeviceAuditContract {
 
     //Model层定义接口,外部只需关心Model返回的数据,无需关心内部细节,即是否使用缓存
     interface Model : IModel {
-        fun rejectData(body: RequestBody) : Observable<Any>
+        fun rejectData(body: RequestBody): Observable<Any>
 
-        fun passData(body: RequestBody) : Observable<Any>
+        fun passData(body: RequestBody): Observable<Any>
 
         fun stepDetailData(id: String): Observable<StepStandardBean>
 
-        fun deviceDetailData(id : String) : Observable<DeviceListBean>
+        fun deviceDetailData(standardProId: String, standardId: String): Observable<DeviceListBean>
     }
 
     //方法
@@ -43,7 +43,7 @@ interface DeviceAuditContract {
 
         abstract fun getStepDetail(id: String)
 
-        abstract fun getDeviceDetail(id: String)
+        abstract fun getDeviceDetail(standardProId: String, standardId: String)
     }
 }
 
