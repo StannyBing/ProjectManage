@@ -193,6 +193,12 @@ interface ApiService {
     fun saveDataInfo(@Body body: RequestBody): Observable<BaseRespose<Any>>
 
     /**
+     * 更新施工上报
+     */
+    @POST("business/app/buildpost/update")
+    fun updateDataInfo(@Body body: RequestBody): Observable<BaseRespose<Any>>
+
+    /**
      * 设备驳回
      */
     @POST("business/report/app/auditReject")

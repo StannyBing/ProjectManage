@@ -52,6 +52,13 @@ class DeviceReportModel : BaseModel(), DeviceReportContract.Model {
             .compose(RxSchedulers.io_main())
     }
 
+    override fun updateInfoData(body: RequestBody): Observable<Any> {
+        return mRepositoryManager.obtainRetrofitService(ApiService::class.java)
+            .updateDataInfo(body)
+            .compose(RxHelper.handleResult())
+            .compose(RxSchedulers.io_main())
+    }
+
     override fun deviceDeleteData(id: String): Observable<Any> {
         return mRepositoryManager.obtainRetrofitService(ApiService::class.java)
             .deleteDevice(id)

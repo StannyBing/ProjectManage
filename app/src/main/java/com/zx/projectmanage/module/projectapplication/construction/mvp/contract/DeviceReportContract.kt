@@ -42,6 +42,8 @@ interface DeviceReportContract {
 
         fun saveInfoData(body: RequestBody): Observable<Any>
 
+        fun updateInfoData(body: RequestBody): Observable<Any>
+
         fun deviceDeleteData(id: String) : Observable<Any>
     }
 

@@ -90,7 +90,16 @@ class DeviceReportActivity : BaseActivity<DeviceReportPresenter, DeviceReportMod
         dataList.add(DeviceInfoBean(DeviceInfoBean.Edit_Type, "设备ID", stringValue = deviceBean?.equipmentId ?: ""))
         dataList.add(DeviceInfoBean(DeviceInfoBean.Edit_Type, "设备名称", stringValue = deviceBean?.equipmentName ?: ""))
         dataList.add(DeviceInfoBean(DeviceInfoBean.Select_Type, "规范模板", isDivider = true))
-        dataList.add(DeviceInfoBean(DeviceInfoBean.Location_Type, "上报位置", isDivider = true, stringValue = deviceBean?.postAddr ?: ""))
+        dataList.add(
+            DeviceInfoBean(
+                DeviceInfoBean.Location_Type,
+                "上报位置",
+                isDivider = true,
+                stringValue = deviceBean?.postAddr ?: "",
+                latitude = deviceBean?.latitude ?: "",
+                longitude = deviceBean?.longitude ?: ""
+            )
+        )
 //        dataList.add(DeviceInfoBean(DeviceInfoBean.Text_Type, "驳回原因", isDivider = true, stringValue = deviceBean?.remarks ?: ""))
 
         deviceBean?.standardId?.apply {
@@ -265,8 +274,8 @@ class DeviceReportActivity : BaseActivity<DeviceReportPresenter, DeviceReportMod
      */
     override fun onGeocoderResult(location: Location, geocoderBean: BaiduGeocoderBean) {
         dataList.first { it.type == DeviceInfoBean.Location_Type }.apply {
-            longitude = location.longitude
-            latitude = location.latitude
+            longitude = location.longitude.toString()
+            latitude = location.latitude.toString()
             stringValue = geocoderBean.result?.address ?: "未获取到位置"
             dataAdapter.notifyDataSetChanged()
         }
@@ -299,6 +308,7 @@ class DeviceReportActivity : BaseActivity<DeviceReportPresenter, DeviceReportMod
                 i++
             }
         }
+        dataList.first { it.name == "规范模板" }.stringValue = stepDetail.name
         stepDetail.standardSteps?.forEach {
             dataList.add(
                 DeviceInfoBean(
