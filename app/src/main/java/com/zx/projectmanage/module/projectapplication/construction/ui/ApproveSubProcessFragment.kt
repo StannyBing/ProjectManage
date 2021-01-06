@@ -1,6 +1,7 @@
 package com.zx.projectmanage.module.projectapplication.construction.ui
 
 import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -13,8 +14,10 @@ import com.zx.projectmanage.module.projectapplication.construction.func.adapter.
 import com.zx.projectmanage.module.projectapplication.construction.mvp.contract.ApproveSubProcessContract
 import com.zx.projectmanage.module.projectapplication.construction.mvp.model.ApproveSubProcessModel
 import com.zx.projectmanage.module.projectapplication.construction.mvp.presenter.ApproveSubProcessPresenter
+import com.zx.zxutils.util.ZXDialogUtil
 import com.zx.zxutils.util.ZXToastUtil
 import kotlinx.android.synthetic.main.fragment_approve_sub_process.*
+import java.text.BreakIterator
 
 /**
  * Create By admin On 2017/7/11
@@ -124,16 +127,58 @@ class ApproveSubProcessFragment : BaseFragment<ApproveSubProcessPresenter, Appro
         }
         btn_approve_submit.setOnClickListener {
             val dto = initDto()
-            ApproveScoreActivity.startAction(
-                activity as Activity, false,
-                assessmentId,
-                dto
-            )
+            var b = isAllfinish()
+            if (b == 0) {
+                ApproveScoreActivity.startAction(
+                    activity as Activity, false,
+                    assessmentId,
+                    dto,
+                    parcelable?.detailedProId.toString()
+                )
+            } else {
+                ZXDialogUtil.showYesNoDialog(mContext, "提示", "您有设备未完成审批") { _, i ->
+                    ZXDialogUtil.dismissDialog()
+                }
+            }
+
+
         }
         btn_audit_reject.setOnClickListener {
             val dto = initDto()
-            mPresenter.postAuditProcess(dto)
+            val b = isAllfinish()
+            if (b == 0) {
+                mPresenter.postAuditProcess(dto)
+            } else {
+                ZXDialogUtil.showYesNoDialog(mContext, "提示", "您有设备未完成审批") { _, i ->
+                    ZXDialogUtil.dismissDialog()
+                }
+            }
         }
+        btn_audit_pass.setOnClickListener {
+            val dto = initDto()
+            val b = isAllfinish()
+            if (b == 0) {
+                mPresenter.postAuditProcess(dto)
+            } else {
+                ZXDialogUtil.showYesNoDialog(mContext, "提示", "您有设备未完成审批") { _, i ->
+                    ZXDialogUtil.dismissDialog()
+                }
+            }
+
+        }
+    }
+
+    /**
+     * 获取未审批设备数量
+     */
+    private fun isAllfinish(): Int {
+        var b = 0
+        list.forEach {
+            if (it.auditStatus?.toInt()!! < 3) {
+                b++
+            }
+        }
+        return b
     }
 
     private fun initDto(): PostAuditDto {
@@ -157,15 +202,31 @@ class ApproveSubProcessFragment : BaseFragment<ApproveSubProcessPresenter, Appro
 
 
     override fun getDeviceListResult(data: MutableList<DeviceListBean>?) {
-        if (data != null) {
-            list = data
-        }
         reportListAdapter.setNewData(
             data
         )
+        if (data != null) {
+            list.clear()
+            list = data
+            data.forEach {
+                if (it.auditStatus == "9") {
+                    btn_audit_reject.visibility = View.VISIBLE
+                }
+                return
+            }
+
+        }
+
     }
 
     override fun auditProcessResult(data: Any?) {
 
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == 0x01 && resultCode == 0x01) {
+            mPresenter.getDeviceList(parcelable?.detailedProId.toString())
+        }
     }
 }

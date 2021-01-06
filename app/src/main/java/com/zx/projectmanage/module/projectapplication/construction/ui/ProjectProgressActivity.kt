@@ -23,6 +23,7 @@ import kotlinx.android.synthetic.main.activity_project_progress.*
 class ProjectProgressActivity : BaseActivity<ProjectProgressPresenter, ProjectProgressModel>(), ProjectProgressContract.View {
     var dataList = ArrayList<ProcessProgressBean>()
     var detailedProId = ""
+    var timeLineAdapter = ProcessProgressAdapter(dataList)
 
     companion object {
         /**
@@ -49,25 +50,11 @@ class ProjectProgressActivity : BaseActivity<ProjectProgressPresenter, ProjectPr
     override fun initView(savedInstanceState: Bundle?) {
         detailedProId = intent.getStringExtra("detailedProId").toString()
         super.initView(savedInstanceState)
-//        mPresenter.getProcessProgress(detailedProId)
+        mPresenter.getProcessProgress(detailedProId)
 
-        for (i in 1..20) {
-            var timeLineBean = ProcessProgressBean()
-            timeLineBean.postName = "(职务$i)"
-            timeLineBean.realName = "姓名$i"
-            when {
-                i % 2 == 0 -> timeLineBean.auditStatus = "已通过"
-                i % 3 == 0 -> timeLineBean.auditStatus = "已驳回"
-                else -> timeLineBean.auditStatus = "提交资料"
-            }
-            timeLineBean.createTime = "i"
-            dataList.add(timeLineBean)
-        }
         val linearLayoutManager = LinearLayoutManager(this)
         linearLayoutManager.orientation = LinearLayoutManager.VERTICAL
         time_line_list.layoutManager = linearLayoutManager
-        time_line_list.addItemDecoration(TimeLineItemDecoration(this, dataList))
-        var timeLineAdapter = ProcessProgressAdapter(dataList)
         time_line_list.adapter = timeLineAdapter
     }
 
@@ -79,6 +66,10 @@ class ProjectProgressActivity : BaseActivity<ProjectProgressPresenter, ProjectPr
     }
 
     override fun getProgressResult(data: MutableList<ProcessProgressBean>?) {
+        if (data != null) {
+            time_line_list.addItemDecoration(TimeLineItemDecoration(this, data))
+            timeLineAdapter.setNewData(data)
+        }
     }
 
 }

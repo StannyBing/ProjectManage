@@ -11,6 +11,7 @@ import com.zx.projectmanage.module.projectapplication.construction.bean.ProjectP
 import com.zx.projectmanage.module.projectapplication.construction.mvp.contract.MacroReportInfoContract
 import com.zx.projectmanage.module.projectapplication.construction.mvp.model.MacroReportInfoModel
 import com.zx.projectmanage.module.projectapplication.construction.mvp.presenter.MacroReportInfoPresenter
+import com.zx.zxutils.util.ZXToastUtil
 import com.zx.zxutils.views.TabViewPager.ZXTabViewPager
 import kotlinx.android.synthetic.main.activity_contruction_macro_report_info.*
 
@@ -122,8 +123,11 @@ class MacroReportInfoActivity : BaseActivity<MacroReportInfoPresenter, MacroRepo
     }
 
     override fun getDataProcessResult(data: ProjectProcessInfoBean?) {
-
-        initTab(data?.detailedList)
+        if (data?.detailedList != null) {
+            initTab(data.detailedList)
+        } else {
+            ZXToastUtil.showToast("未获取到数据")
+        }
     }
 
 }

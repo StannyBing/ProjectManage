@@ -48,6 +48,7 @@ class DeviceListBean : Serializable {
     var standardProId: String? = null
     var submitNumber: String? = null
     var statusDesc: String? = null
+    var fraction: String? = null
     var postDetails: List<PostDetailsBean?>? = null
 
     class PostDetailsBean : Serializable {

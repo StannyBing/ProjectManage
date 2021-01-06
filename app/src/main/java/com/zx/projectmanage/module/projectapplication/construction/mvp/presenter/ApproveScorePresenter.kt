@@ -3,6 +3,7 @@ package com.zx.projectmanage.module.projectapplication.construction.mvp.presente
 import com.frame.zxmvp.baserx.RxHelper
 import com.frame.zxmvp.baserx.RxSubscriber
 import com.zx.projectmanage.module.projectapplication.construction.bean.ScoreTemplateBean
+import com.zx.projectmanage.module.projectapplication.construction.dto.PostAuditDto
 import com.zx.projectmanage.module.projectapplication.construction.mvp.contract.ApproveScoreContract
 
 
@@ -14,14 +15,30 @@ class ApproveScorePresenter : ApproveScoreContract.Presenter() {
     override fun getScoreTemple(subAssessmentId: String) {
         mModel.getScoreTemple(subAssessmentId)
             .compose(RxHelper.bindToLifecycle(mView))
-            .subscribe(object : RxSubscriber<ScoreTemplateBean>(mView) {
-                override fun _onNext(t: ScoreTemplateBean?) {
+            .subscribe(object : RxSubscriber<MutableList<ScoreTemplateBean>>(mView) {
+                override fun _onNext(t: MutableList<ScoreTemplateBean>?) {
                     mView.onScoreTempleResult(t)
                 }
 
                 override fun _onError(code: Int, message: String?) {
                     mView.handleError(code, "请求失败，请检查网络后再试")
                     mView.onScoreTempleResult(null)
+
+                }
+            })
+    }
+
+    override fun postAuditProcess(body: PostAuditDto) {
+        mModel.postAuditProcess(body)
+            .compose(RxHelper.bindToLifecycle(mView))
+            .subscribe(object : RxSubscriber<Any>(mView) {
+                override fun _onNext(t: Any?) {
+                    mView.auditProcessResult(t)
+                }
+
+                override fun _onError(code: Int, message: String?) {
+                    mView.handleError(code, "请求失败，请检查网络后再试")
+//                    mView.auditProcessResult(null)
 
                 }
             })

@@ -16,7 +16,14 @@ import com.zx.projectmanage.module.projectapplication.construction.mvp.model.Pro
 import com.zx.projectmanage.module.projectapplication.construction.mvp.presenter.ProcedureReportPresenter
 import com.zx.zxutils.util.ZXDialogUtil
 import com.zx.zxutils.util.ZXToastUtil
+import kotlinx.android.synthetic.main.fragment_approve_sub_process.*
 import kotlinx.android.synthetic.main.fragment_procedure_report.*
+import kotlinx.android.synthetic.main.fragment_procedure_report.btn_approve_submit
+import kotlinx.android.synthetic.main.fragment_procedure_report.dataShow
+import kotlinx.android.synthetic.main.fragment_procedure_report.materials
+import kotlinx.android.synthetic.main.fragment_procedure_report.operationGuide
+import kotlinx.android.synthetic.main.fragment_procedure_report.process_progress
+import kotlinx.android.synthetic.main.fragment_procedure_report.safetyRegulations
 
 /**
  * Create By admin On 2017/7/11
@@ -154,13 +161,22 @@ class ProcedureReportFragment : BaseFragment<ProcedureReportPresenter, Procedure
 
 
     override fun getDeviceListResult(data: MutableList<DeviceListBean>?) {
-        if (data != null) {
-            list.clear()
-            list = data
-        }
         reportListAdapter.setNewData(
             data
         )
+
+        if (data != null) {
+            list.clear()
+            list = data
+            data.forEach {
+                if (it.status == "2") {
+                    tv_report_addEquip.visibility = View.GONE
+                    btn_approve_submit.visibility = View.GONE
+                }
+                return
+            }
+        }
+
     }
 
     override fun postSubmitResult(data: Any?) {

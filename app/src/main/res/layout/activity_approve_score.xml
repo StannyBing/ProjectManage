@@ -30,13 +30,15 @@
             android:orientation="vertical">
 
             <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/swipeRecyler"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent" />
 
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/white">
+                android:background="@color/white"
+                android:visibility="gone">
 
                 <TextView
                     android:id="@+id/tv_data_edit_name"
@@ -93,9 +95,9 @@
                     android:layout_marginRight="20dp"
                     android:background="@null"
                     android:gravity="center_vertical|right"
+                    android:hint="请输入备注"
                     android:maxLength="30"
                     android:singleLine="true"
-                    android:text="123"
                     android:textColor="@color/default_text_color"
                     android:textColorHint="@color/gray_8f"
                     android:textSize="@dimen/text_normal_size" />
@@ -103,4 +105,28 @@
         </LinearLayout>
 
     </androidx.core.widget.NestedScrollView>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/item_height"
+        android:layout_alignParentBottom="true"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/btn_devicereport_delete"
+            style="@style/MyCancelBtnStyle"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="取消" />
+
+        <Button
+            android:id="@+id/btn_score_save"
+            style="@style/MyBtnStyle"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="提交" />
+
+    </LinearLayout>
 </RelativeLayout>

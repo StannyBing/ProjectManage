@@ -34,7 +34,7 @@ class PostAuditDto : Serializable {
         var detailedProId: String? = null
         var id: String? = null
         var remarks: String? = null
-        var score = 0
+        var score: String? = null
         var subAssessmentId: String? = null
 
     }

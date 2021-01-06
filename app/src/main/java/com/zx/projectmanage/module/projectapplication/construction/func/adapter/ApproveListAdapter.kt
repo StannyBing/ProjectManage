@@ -10,6 +10,11 @@ class ApproveListAdapter(dataList: MutableList<DeviceListBean>) : ZXQuickAdapter
     override fun convert(helper: ZXBaseHolder, item: DeviceListBean?) {
         val superTextView = helper.getView<SuperTextView>(R.id.super_tv)
         superTextView.setLeftString(item?.equipmentName)
-        superTextView.setRightString(item?.auditStatusDesc)
+        if (item?.status == "2" || item?.status == "9") {
+            superTextView.setRightString("${item?.auditStatusDesc}(${item?.fraction})")
+        } else {
+            superTextView.setRightString(item?.auditStatusDesc)
+        }
+
     }
 }

@@ -14,8 +14,22 @@ class ProcessProgressAdapter(dataList: List<ProcessProgressBean>) : ZXQuickAdapt
 
     override fun convert(helper: ZXBaseHolder, item: ProcessProgressBean?) {
         helper
-            .setText(R.id.status, item?.auditStatus)
             .setText(R.id.name, item?.realName)
-            .setText(R.id.personType, item?.postName)
+            .setText(R.id.personType, "(${item?.postName})")
+            .setText(R.id.resion, if (item?.auditReason == null) "" else item.auditReason)
+        when (item?.auditStatus) {
+            "1" -> {
+                helper
+                    .setText(R.id.status, "提交资料")
+            }
+            "3" -> {
+                helper
+                    .setText(R.id.status, "审核通过")
+            }
+            "9" -> {
+                helper
+                    .setText(R.id.status, "驳回")
+            }
+        }
     }
 }

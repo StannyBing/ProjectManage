@@ -62,7 +62,7 @@ class TimeLineItemDecoration(var context: Context, var timeBeanList: List<Proces
      */
     private fun setVerticalRect(outRect: Rect) {
         topOffset = dp2px(context, 30)
-        leftOffset = dp2px(context, 150)
+        leftOffset = dp2px(context, 130)
         bottomOffset = 0
         rightOffset = 0
         outRect.set(leftOffset, topOffset, rightOffset, bottomOffset)
@@ -96,10 +96,15 @@ class TimeLineItemDecoration(var context: Context, var timeBeanList: List<Proces
             //val bitmapResult : Bitmap = Bitmap.createBitmap(bitmap , 0 , 0 , dp2px(context , 10) , dp2px(context , 10))
             c.drawBitmap(bitmap, circleX - circleRadius, circleY - circleRadius, paintLine)
             //绘制时间
-            val drawText: String = timeBeanList[currentPosition].createTime
+            val toString = timeBeanList[currentPosition].createTime.toString()
+            val split = toString.split(" ")
+
+//            val drawText: String = "${split[0]}${System.getProperty("line.separator")}${split[1]}"
             val rect = Rect()
-            paintText?.getTextBounds(drawText, 0, drawText.length, rect)
-            paintText?.let { c.drawText(drawText, circleX - rect.width() - dp2px(context, 20), circleY, it) }
+            paintText?.getTextBounds(split[0], 0, split[0].length, rect)
+            paintText?.let { c.drawText(split[0], circleX - rect.width() - dp2px(context, 20), circleY, it) }
+            paintText?.getTextBounds(split[1], 0, split[1].length, rect)
+            paintText?.let { c.drawText(split[1], circleX - rect.width() - dp2px(context, 20), circleY + 25, it) }
             //绘制上半轴线
             if (currentPosition != 0) {
                 //上端点

@@ -164,7 +164,7 @@ interface ApiService {
     @GET("/business/zdhjcassessment/sub/{assessmentId}")
     fun getScoreTemple(
         @Path("assessmentId") subAssessmentId: String
-    ): Observable<BaseRespose<ScoreTemplateBean>>
+    ): Observable<BaseRespose<MutableList<ScoreTemplateBean>>>
 
 
     /**
