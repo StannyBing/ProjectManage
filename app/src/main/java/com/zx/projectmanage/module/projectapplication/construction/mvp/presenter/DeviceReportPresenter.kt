@@ -12,6 +12,8 @@ import okhttp3.MediaType
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import java.io.File
+import java.util.*
+import kotlin.collections.HashMap
 
 
 /**
@@ -72,15 +74,32 @@ class DeviceReportPresenter : DeviceReportContract.Presenter() {
         deviceBean: DeviceListBean?
     ) {
         var uploadIndex = 0
-        val fileList = arrayListOf<Pair<File, String>>()
-        val uploadIdsList = arrayListOf<Pair<String, String>>()
-        dataList.filter { it.type == DeviceInfoBean.Step_Type }.forEach {
-            it.stepInfos.forEachIndexed { index, dataStepInfoBean ->
+        val idMapList = arrayListOf<Pair<String, HashMap<String, String?>>>()
+        val fileList = arrayListOf<Pair<String, File>>()
+        dataList.filter { it.type == DeviceInfoBean.Step_Type }.forEachIndexed { dataIndex, deviceInfoBean ->
+            deviceInfoBean.stepInfos.forEachIndexed { index, dataStepInfoBean ->
+                //移除示意图
                 if (index > 0) {
+                    val uuid = UUID.randomUUID().toString()
                     if (dataStepInfoBean.path.startsWith("http")) {
-//                        uploadIdsList.add(dataStepInfoBean. to (it.stepInfoBean?.stepId ?: "")
+                        //已上传
+                        idMapList.add(
+                            uuid to hashMapOf(
+                                "fileType" to if (dataStepInfoBean.type == DataStepInfoBean.Type.PICTURE) "0" else "1",
+                                "attachment" to deviceBean?.postDetails?.get(dataIndex)?.attachmentId,
+                                "stepId" to deviceInfoBean.stepInfoBean?.stepId
+                            )
+                        )
                     } else {
-                        fileList.add(File(dataStepInfoBean.path) to (it.stepInfoBean?.stepId ?: ""))
+                        //未上传
+                        idMapList.add(
+                            uuid to hashMapOf(
+                                "fileType" to if (dataStepInfoBean.type == DataStepInfoBean.Type.PICTURE) "0" else "1",
+                                "attachment" to "",
+                                "stepId" to deviceInfoBean.stepInfoBean?.stepId
+                            )
+                        )
+                        fileList.add(uuid to File(dataStepInfoBean.path))
                     }
                 }
             }
@@ -90,22 +109,28 @@ class DeviceReportPresenter : DeviceReportContract.Presenter() {
             .apply {
                 for (i in 0..(dataList.size - 2)) {
                     flatMap {
-                        uploadIdsList.add(it.id to fileList[uploadIndex].second)
+                        val temp = idMapList.filter { it.first == fileList[uploadIndex].first }
+                        if (temp.isNotEmpty()) {
+                            temp.first().second["attachment"] = it.id
+                        }
                         uploadIndex++
                         mModel.uploadFileData(getUploadRequestBody(fileList, uploadIndex))
                     }
                 }
             }
             .flatMap {
-                uploadIdsList.add(it.id to fileList[uploadIndex].second)
-                if (uploadIndex < fileList.size - 1) {
-                    uploadIndex++
-                    return@flatMap mModel.uploadFileData(getUploadRequestBody(fileList, uploadIndex))
+                val temp = idMapList.filter { it.first == fileList[uploadIndex].first }
+                if (temp.isNotEmpty()) {
+                    temp.first().second["attachment"] = it.id
                 }
-                return@flatMap mModel.uploadFileData(getUploadRequestBody(fileList, uploadIndex))
+                uploadIndex++
+                mModel.uploadFileData(getUploadRequestBody(fileList, uploadIndex))
             }
             .flatMap {
-                uploadIdsList.add(it.id to fileList[uploadIndex].second)
+                val temp = idMapList.filter { it.first == fileList[uploadIndex].first }
+                if (temp.isNotEmpty()) {
+                    temp.first().second["attachment"] = it.id
+                }
                 val equipmentId = dataList.first { it.name == "设备ID" }.stringValue
                 val equipmentName = dataList.first { it.name == "设备名称" }.stringValue
                 val detailedId = deviceBean?.detailedId
@@ -114,21 +139,9 @@ class DeviceReportPresenter : DeviceReportContract.Presenter() {
                 val postAddr = dataList.first { it.name == "上报位置" }.stringValue
                 val latitude = dataList.first { it.name == "上报位置" }.latitude
                 val longitude = dataList.first { it.name == "上报位置" }.longitude
-                val postDetails = arrayListOf<HashMap<String, String>>().apply {
-                    var fileIndex = 0
-                    dataList.forEach {
-                        it.stepInfos.forEachIndexed { index, dataStepInfoBean ->
-                            if (index > 0) {
-                                add(
-                                    hashMapOf(
-                                        "attachment" to uploadIdsList[fileIndex].first,
-                                        "fileType" to if (dataStepInfoBean.type == DataStepInfoBean.Type.PICTURE) "0" else "1",
-                                        "stepId" to uploadIdsList[fileIndex].second
-                                    )
-                                )
-                                fileIndex++
-                            }
-                        }
+                val postDetails = arrayListOf<HashMap<String, String?>>().apply {
+                    idMapList.forEach {
+                        add(it.second)
                     }
                 }
                 val info = hashMapOf(
@@ -175,10 +188,10 @@ class DeviceReportPresenter : DeviceReportContract.Presenter() {
             })
     }
 
-    private fun getUploadRequestBody(dataList: List<Pair<File, String>>, index: Int): UploadRequestBody {
+    private fun getUploadRequestBody(dataList: List<Pair<String, File>>, index: Int): UploadRequestBody {
         val builder = MultipartBody.Builder().setType(MultipartBody.FORM)
         builder.addFormDataPart("path", "app")
-        builder.addFormDataPart("file", dataList[index].first.name, RequestBody.create(MediaType.parse("multipart/form-data"), dataList[index].first))
+        builder.addFormDataPart("file", dataList[index].second.name, RequestBody.create(MediaType.parse("multipart/form-data"), dataList[index].second))
         return UploadRequestBody(builder.build(), UploadRequestBody.UploadListener
         { progress, done ->
             mView.showLoading("上传中...(${index + 1}/${dataList.size})", progress)

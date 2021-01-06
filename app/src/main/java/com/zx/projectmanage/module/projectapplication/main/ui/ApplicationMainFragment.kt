@@ -72,8 +72,8 @@ class ApplicationMainFragment : BaseFragment<ApplicationMainPresenter, Applicati
     private fun initBanner() {
         val images = arrayListOf<String>()
         images.add("https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fn.sinaimg.cn%2Fsinakd20200323ac%2F233%2Fw640h393%2F20200323%2F0a1c-ireifzh8572883.jpg&refer=http%3A%2F%2Fn.sinaimg.cn&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=jpeg?sec=1611290788&t=716ab4f8829340e491eeaa262987beaa")
-        images.add("https://gimg2.baidu.com/image_search/src=http%3A%2F%2Foss.huangye88.net%2Flive%2Fimport%2Fnews%2Fa66fe8cb5404d9db0b28bda82e1fb3f2.jpg&refer=http%3A%2F%2Foss.huangye88.net&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=jpeg?sec=1611290806&t=c7e88cafea59540cee5a619de8388a33")
-        images.add("https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fimages.shobserver.com%2Fnews%2F690_390%2F2018%2F12%2F2%2Fbaa716ec-9983-426d-b445-f629085b9944.jpg&refer=http%3A%2F%2Fimages.shobserver.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=jpeg?sec=1611290829&t=85b0659903b09403297cbd19b91975a6")
+        images.add("https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fn.sinaimg.cn%2Fsinakd20200323ac%2F233%2Fw640h393%2F20200323%2F0a1c-ireifzh8572883.jpg&refer=http%3A%2F%2Fn.sinaimg.cn&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=jpeg?sec=1611290788&t=716ab4f8829340e491eeaa262987beaa")
+        images.add("https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fn.sinaimg.cn%2Fsinakd20200323ac%2F233%2Fw640h393%2F20200323%2F0a1c-ireifzh8572883.jpg&refer=http%3A%2F%2Fn.sinaimg.cn&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=jpeg?sec=1611290788&t=716ab4f8829340e491eeaa262987beaa")
         banner_application_info
             .isAutoLoop(true)
             .setLoopTime(5000)
