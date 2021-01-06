@@ -1,9 +1,9 @@
-package com.zx.projectmanage.module.projectapplication.construction.ui
+package com.zx.projectmanag
+
 
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.zx.projectmanage.R
 import com.zx.projectmanage.base.BaseActivity
@@ -43,7 +43,7 @@ class ApproveScoreActivity : BaseActivity<ApproveScorePresenter, ApproveScoreMod
             intent.putExtra("assessmentId", assessmentId)
             intent.putExtra("detailedProId", detailedProId)
             intent.putExtra("dto", dto)
-            activity.startActivity(intent)
+            activity.startActivityForResult(intent, 0x01)
             if (isFinish) activity.finish()
         }
     }
@@ -82,9 +82,14 @@ class ApproveScoreActivity : BaseActivity<ApproveScorePresenter, ApproveScoreMod
             finish()
         }
         btn_score_save.setOnClickListener {
+
             val data = reportListAdapter.data
             var listVos: MutableList<PostAuditDto.ProjectProcessScoresBean> = ArrayList()
+            var b = 0
             data.forEach {
+                if (it.subAssessText?.length == 0) {
+                    b++
+                }
                 val projectProcessScoresBean = PostAuditDto.ProjectProcessScoresBean()
                 projectProcessScoresBean.subAssessmentId = it.subAssessmentId
                 projectProcessScoresBean.detailedProId = detailedProId
@@ -93,7 +98,12 @@ class ApproveScoreActivity : BaseActivity<ApproveScorePresenter, ApproveScoreMod
                 listVos.add(projectProcessScoresBean)
             }
             dto.projectProcessScores = listVos
-            mPresenter.postAuditProcess(dto)
+            if (b == 0) {
+                mPresenter.postAuditProcess(dto)
+            } else {
+                showToast("请完善分数信息")
+            }
+
         }
 
 
@@ -106,6 +116,8 @@ class ApproveScoreActivity : BaseActivity<ApproveScorePresenter, ApproveScoreMod
     }
 
     override fun auditProcessResult(data: Any?) {
-        Log.e("TAG", "auditProcessResult: ")
+        showToast("提交成功")
+        setResult(0x01)
+        finish()
     }
 }

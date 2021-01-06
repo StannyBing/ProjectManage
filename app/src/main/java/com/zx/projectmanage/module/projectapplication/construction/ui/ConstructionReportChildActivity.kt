@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import android.view.inputmethod.EditorInfo
 import android.widget.TextView
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.bottomsheet.BottomSheetBehavior
@@ -16,14 +17,17 @@ import com.zx.projectmanage.R
 import com.zx.projectmanage.base.BaseActivity
 import com.zx.projectmanage.module.projectapplication.construction.bean.ReportSubListBean
 import com.zx.projectmanage.module.projectapplication.construction.func.adapter.ReportChildListAdapter
+import com.zx.projectmanage.module.projectapplication.construction.func.tool.hitSoft
 import com.zx.projectmanage.module.projectapplication.construction.func.tool.setHintKtx
 import com.zx.projectmanage.module.projectapplication.construction.mvp.contract.ConstructionReportChildContract
 import com.zx.projectmanage.module.projectapplication.construction.mvp.model.ConstructionReportChildModel
 import com.zx.projectmanage.module.projectapplication.construction.mvp.presenter.ConstructionReportChildPresenter
 import com.zx.zxutils.util.ZXToastUtil
+
 import kotlinx.android.synthetic.main.activity_construction_report.refresh
 import kotlinx.android.synthetic.main.activity_construction_report_child.*
 import kotlinx.android.synthetic.main.activity_construction_report_child.head
+import kotlinx.android.synthetic.main.activity_construction_report_child.searchText
 import kotlinx.android.synthetic.main.activity_construction_report_child.swipeRecyler
 import kotlinx.android.synthetic.main.dialog_filter_project.view.*
 
@@ -162,6 +166,38 @@ class ConstructionReportChildActivity : BaseActivity<ConstructionReportChildPres
             refresh()
             refresh.isRefreshing = false
         }
+
+
+        //软键盘搜索按钮监听
+        searchText.setOnEditorActionListener(TextView.OnEditorActionListener { v, actionId, event ->
+            if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+                //点击搜索的时候隐藏软键盘
+                searchText.hitSoft()
+                // 网络请求数据
+                mPresenter.getPageSubProject(
+                    hashMapOf(
+                        "projectId" to projectId,
+                        "pageNo" to pageNo.toString(),
+                        "subProjectName" to v.text.toString()
+                    ),
+                    type
+                )
+                return@OnEditorActionListener true
+            }
+            false
+        })
+        //搜索图标点击监听
+        searchImg.setOnClickListener {
+            // 网络请求数据
+            mPresenter.getPageSubProject(
+                hashMapOf(
+                    "projectId" to projectId,
+                    "pageNo" to pageNo.toString(),
+                    "subProjectName" to searchText.text.toString()
+                ),
+                type
+            )
+        }
         reportListAdapter.setOnLoadMoreListener({ loadMore() }, swipeRecyler)
 
         reportListAdapter.setOnItemClickListener { adapter, view, position ->
@@ -179,7 +215,7 @@ class ConstructionReportChildActivity : BaseActivity<ConstructionReportChildPres
                         assessmentId
                     )
                 }
-            }else{
+            } else {
                 item.let {
                     MacroReportInfoActivity.startAction(
                         mContext as Activity,
@@ -242,7 +278,7 @@ class ConstructionReportChildActivity : BaseActivity<ConstructionReportChildPres
      *
      * @return height
      */
-    protected fun getPeekHeight(): Int {
+    private fun getPeekHeight(): Int {
         val peekHeight = resources.displayMetrics.heightPixels
         //设置弹窗高度为屏幕高度的3/4
         return peekHeight - peekHeight / 3

@@ -21,8 +21,7 @@ class ProcedureReportPresenter : ProcedureReportContract.Presenter() {
                 }
 
                 override fun _onError(code: Int, message: String?) {
-                    mView.handleError(code, "请求失败，请检查网络后再试")
-                    mView.getDeviceListResult(null)
+                    mView.handleError(code, message)
 
                 }
             })

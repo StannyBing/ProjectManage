@@ -4,7 +4,9 @@ import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.zx.projectmanag.ApproveScoreActivity
 import com.zx.projectmanage.R
 import com.zx.projectmanage.base.BaseFragment
 import com.zx.projectmanage.module.projectapplication.construction.bean.ApproveProcessInfoBean
@@ -71,13 +73,6 @@ class ApproveSubProcessFragment : BaseFragment<ApproveSubProcessPresenter, Appro
         if (parcelable?.safetyRegulations == null) {
             safetyRegulations.visibility = View.GONE
         }
-        if (parcelable?.scoreFlag == 1) {
-            btn_approve_submit.visibility = View.VISIBLE
-        }
-        if (parcelable?.auditFlag == 1) {
-            btn_audit_reject.visibility = View.VISIBLE
-            btn_audit_pass.visibility = View.VISIBLE
-        }
         sv_score.setRightString(parcelable?.score.toString())
         //设置adapter
         dataShow.apply {
@@ -97,6 +92,10 @@ class ApproveSubProcessFragment : BaseFragment<ApproveSubProcessPresenter, Appro
         }
         reportListAdapter.setOnItemClickListener { adapter, view, position ->
             val deviceListBean = adapter.data[position] as DeviceListBean
+            if (deviceListBean.auditStatus == "0") {
+                showToast("当前设备不可审批")
+                return@setOnItemClickListener
+            }
             DeviceAuditActivity.startAction(requireActivity(), false, deviceListBean, 1)
 
         }
@@ -208,19 +207,35 @@ class ApproveSubProcessFragment : BaseFragment<ApproveSubProcessPresenter, Appro
         if (data != null) {
             list.clear()
             list = data
+            var b = 0
             data.forEach {
                 if (it.auditStatus == "9") {
-                    btn_audit_reject.visibility = View.VISIBLE
+                    b++
                 }
-                return
             }
 
+            if (b != 0 && parcelable?.auditFlag == 1) {
+                btn_audit_reject.visibility = View.VISIBLE
+                btn_audit_pass.visibility = View.GONE
+                btn_approve_submit.visibility = View.GONE
+            }
+            if (b == 0 && parcelable?.scoreFlag == 1) {
+                btn_audit_reject.visibility = View.GONE
+                btn_audit_pass.visibility = View.GONE
+                btn_approve_submit.visibility = View.VISIBLE
+            }
+            if (b == 0 && parcelable?.scoreFlag == -1) {
+                btn_audit_reject.visibility = View.GONE
+                btn_audit_pass.visibility = View.VISIBLE
+                btn_approve_submit.visibility = View.GONE
+            }
         }
 
     }
 
     override fun auditProcessResult(data: Any?) {
-
+        activity?.finish()
+        ZXToastUtil.showToast("提交成功")
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

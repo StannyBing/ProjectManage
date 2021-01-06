@@ -83,7 +83,9 @@ class ProjectProcessInfoBean() : Serializable {
         var updateUser: Any? = null
         var participants: String? = null
         var delFlag: String? = null
-
+        var auditStatus: String? = null
+        var score: Double? = null
+        var processDetailedProId: String? = null
     }
 
 }

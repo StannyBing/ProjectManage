@@ -11,8 +11,8 @@ import com.zx.projectmanage.module.projectapplication.construction.mvp.contract.
  */
 class MacroReportInfoPresenter : MacroReportInfoContract.Presenter() {
 
-    override fun getProcessInfo(id: String) {
-        mModel.getProcessInfo(id)
+    override fun getProcessInfo(subProjectId: String, id: String) {
+        mModel.getProcessInfo(subProjectId, id)
             .compose(RxHelper.bindToLifecycle(mView))
             .subscribe(object : RxSubscriber<ProjectProcessInfoBean>(mView) {
                 override fun _onNext(t: ProjectProcessInfoBean?) {
@@ -20,8 +20,7 @@ class MacroReportInfoPresenter : MacroReportInfoContract.Presenter() {
                 }
 
                 override fun _onError(code: Int, message: String?) {
-                    mView.handleError(code, "请求失败，请检查网络后再试")
-                    mView.getDataProcessResult(null)
+                    mView.handleError(code, message)
 
                 }
             })

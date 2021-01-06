@@ -28,14 +28,18 @@
         android:textColor="@color/default_text_color"
         android:textColorHint="@color/gray_8f"
         android:textSize="@dimen/text_normal_size" />
-
+    <TextView
+        android:id="@+id/line"
+        android:layout_below="@id/tv_data_edit_name"
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:background="@color/gray"/>
     <TextView
         android:id="@+id/tv_data_edit_info"
         android:layout_width="match_parent"
         android:layout_height="@dimen/item_height"
-        android:layout_below="@id/tv_data_edit_name"
+        android:layout_below="@id/line"
         android:layout_marginLeft="20dp"
-        android:text="满足诗句xxxxxxxxxxxxxxxxx"
         android:textColor="@color/default_text_color"
         android:textSize="@dimen/text_normal_size" />
 </RelativeLayout>

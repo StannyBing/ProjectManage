@@ -78,33 +78,33 @@ class ProjectBaseInfomationActivity : BaseActivity<ProjectBaseInfomationPresente
         list.add(InformationListBean("项目配置", "", 1))
         list.add(InformationListBean("工序方案", "", 2))
         list.add(InformationListBean("竣工时间", data?.completedTime, 2))
-        list.add(InformationListBean("项目状态", data?.projectStatus.toString(), 2))
+        list.add(InformationListBean("项目状态", data?.statusDesc.toString(), 2))
         list.add(InformationListBean("总质评分", data?.score.toString(), 2))
 
         val participates = data?.participates
         participates?.forEach {
-            if (it?.type == "1") {
-                list.add(InformationListBean("监理", "", 1))
-                list.add(InformationListBean("单位名称", it.orgName, 2))
-                list.add(InformationListBean("资质", "优等", 2))
-                list.add(InformationListBean("单位负责人", it.chargeUser, 2))
-                list.add(InformationListBean("联系方式", it.contactWay, 2))
-                list.add(InformationListBean("监督员", it.superviseUser, 2))
-            } else if (it?.type == "2") {
-                list.add(InformationListBean("监理", "", 1))
-                list.add(InformationListBean("单位名称", it.orgName, 2))
-                list.add(InformationListBean("资质", "优等", 2))
-                list.add(InformationListBean("单位负责人", it.chargeUser, 2))
-                list.add(InformationListBean("联系方式", it.contactWay, 2))
-                list.add(InformationListBean("监督员", it.superviseUser, 2))
-            } else if (it?.type == "3") {
+            if (it.type == "1") {
                 list.add(InformationListBean("设计", "", 1))
                 list.add(InformationListBean("单位名称", it.orgName, 2))
                 list.add(InformationListBean("资质", "优等", 2))
                 list.add(InformationListBean("单位负责人", it.chargeUser, 2))
                 list.add(InformationListBean("联系方式", it.contactWay, 2))
                 list.add(InformationListBean("监督员", it.superviseUser, 2))
-            } else if (it?.type == "4") {
+            } else if (it.type == "2") {
+                list.add(InformationListBean("监理", "", 1))
+                list.add(InformationListBean("单位名称", it.orgName, 2))
+                list.add(InformationListBean("资质", "优等", 2))
+                list.add(InformationListBean("单位负责人", it.chargeUser, 2))
+                list.add(InformationListBean("联系方式", it.contactWay, 2))
+                list.add(InformationListBean("监督员", it.superviseUser, 2))
+            } else if (it.type == "3") {
+                list.add(InformationListBean("业主", "", 1))
+                list.add(InformationListBean("单位名称", it.orgName, 2))
+                list.add(InformationListBean("资质", "优等", 2))
+                list.add(InformationListBean("单位负责人", it.chargeUser, 2))
+                list.add(InformationListBean("联系方式", it.contactWay, 2))
+                list.add(InformationListBean("监督员", it.superviseUser, 2))
+            } else if (it.type == "4") {
                 list.add(InformationListBean("施工", "", 1))
                 list.add(InformationListBean("单位名称", it.orgName, 2))
                 list.add(InformationListBean("资质", "优等", 2))

@@ -109,13 +109,15 @@ class DeviceAuditActivity : BaseActivity<DeviceAuditPresenter, DeviceAuditModel>
         //通过
         btn_deviceaudit_pass.setOnClickListener {
             ZXDialogUtil.showYesNoDialog(mContext, "提示", "是否通过该设备？") { dialog, which ->
+                val hashMapOf = hashMapOf(
+                    "auditReason" to "",
+                    "detailedProId" to deviceBean?.detailedProId,
+                    "standardProId" to deviceBean?.standardProId,
+                    "submitNumber" to deviceBean?.submitNumber
+                )
+                val body = hashMapOf.toJson2()
                 mPresenter.doPass(
-                    hashMapOf(
-                        "auditReason" to "",
-                        "detailedProId" to deviceBean?.detailedProId,
-                        "standardProId" to deviceBean?.standardProId,
-                        "submitNumber" to deviceBean?.submitNumber
-                    ).toJson2()
+                    body
                 )
             }
         }
@@ -170,7 +172,7 @@ class DeviceAuditActivity : BaseActivity<DeviceAuditPresenter, DeviceAuditModel>
                 i++
             }
         }
-        dataList.first{it.name == "规范模板"}.stringValue = stepDetail.name
+        dataList.first { it.name == "规范模板" }.stringValue = stepDetail.name
         stepDetail.standardSteps?.forEach {
             dataList.add(
                 DeviceInfoBean(

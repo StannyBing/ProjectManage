@@ -6,6 +6,7 @@ import android.content.Intent
 import android.location.Location
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.inputmethod.EditorInfo
 import android.widget.Button
@@ -82,14 +83,9 @@ class DeviceReportActivity : BaseActivity<DeviceReportPresenter, DeviceReportMod
      * 初始化
      */
     override fun initView(savedInstanceState: Bundle?) {
-        deviceBean = if (intent.getSerializableExtra("deviceListBean") == null) {
-            DeviceListBean().apply {
-                detailedId = intent.getStringExtra("detailedId")
-                subProjectId = intent.getStringExtra("subProjectId")
-            }
-        } else {
-            intent.getSerializableExtra("deviceListBean") as DeviceListBean?
-        }
+        deviceBean = intent.getSerializableExtra("deviceListBean") as DeviceListBean?
+        deviceBean?.detailedId = intent.getStringExtra("detailedId")
+        deviceBean?.subProjectId = intent.getStringExtra("subProjectId")
 
         dataList.add(DeviceInfoBean(DeviceInfoBean.Edit_Type, "设备ID", stringValue = deviceBean?.equipmentId ?: ""))
         dataList.add(DeviceInfoBean(DeviceInfoBean.Edit_Type, "设备名称", stringValue = deviceBean?.equipmentName ?: ""))

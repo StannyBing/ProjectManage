@@ -101,6 +101,12 @@
                     android:textColor="@color/default_text_color"
                     android:textColorHint="@color/gray_8f"
                     android:textSize="@dimen/text_normal_size" />
+
+                <TextView
+                    android:layout_below="@id/tv_data_remark"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/gray"/>
             </RelativeLayout>
         </LinearLayout>
 

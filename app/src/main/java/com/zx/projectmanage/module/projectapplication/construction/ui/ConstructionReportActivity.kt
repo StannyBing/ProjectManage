@@ -125,7 +125,7 @@ class ConstructionReportActivity : BaseActivity<ConstructionReportPresenter, Con
      */
     override fun onViewListener() {
         //头部点击事件
-        head.setRightImageViewClickListener {
+        head.setRightBottomTvClickListener {
             val inflate = View.inflate(mContext, R.layout.dialog_filter_project, null)
             setPeriodFlow(inflate, 1)
             setPeriodFlow(inflate, 2)
@@ -208,7 +208,9 @@ class ConstructionReportActivity : BaseActivity<ConstructionReportPresenter, Con
         //为FlowLayout的标签设置选中监听事件
         inflate.periodFlow.setOnSelectListener(object : TagFlowLayout.OnSelectListener {
             override fun onSelected(selectPosSet: Set<Int>) {
-
+                if (arrayPeriod.toString().isNotEmpty()) {
+                    arrayPeriod.delete(0, arrayPeriod.toString().length)
+                }
                 for (i in selectPosSet) {
                     if (i == selectPosSet.size - 1) {
                         arrayPeriod.append(mVals[i].dictId)
@@ -241,7 +243,9 @@ class ConstructionReportActivity : BaseActivity<ConstructionReportPresenter, Con
         //为FlowLayout的标签设置选中监听事件
         inflate.statusFlow.setOnSelectListener(object : TagFlowLayout.OnSelectListener {
             override fun onSelected(selectPosSet: Set<Int>) {
-
+                if (arraystatus.toString().isNotEmpty()) {
+                    arraystatus.delete(0, arraystatus.toString().length)
+                }
                 for (i in selectPosSet) {
                     if (i == selectPosSet.size - 1) {
                         arraystatus.append(mVals1[i].statusId)

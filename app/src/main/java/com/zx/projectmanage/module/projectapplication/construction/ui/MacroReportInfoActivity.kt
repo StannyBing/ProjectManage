@@ -66,7 +66,7 @@ class MacroReportInfoActivity : BaseActivity<MacroReportInfoPresenter, MacroRepo
         processId = intent.getStringExtra("processId").toString()
         projectId = intent.getStringExtra("projectId").toString()
         subProjectId = intent.getStringExtra("subProject").toString()
-        mPresenter.getProcessInfo(processId)
+        mPresenter.getProcessInfo(subProjectId,processId)
     }
 
     private fun initTab(detailedList: List<ProjectProcessInfoBean.DetailedListBean?>?) {
@@ -128,6 +128,10 @@ class MacroReportInfoActivity : BaseActivity<MacroReportInfoPresenter, MacroRepo
         } else {
             ZXToastUtil.showToast("未获取到数据")
         }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
     }
 
 }

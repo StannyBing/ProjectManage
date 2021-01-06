@@ -67,8 +67,9 @@ interface ApiService {
     /**
      * 查询工序详情
      */
-    @GET("/business/app/buildpost/process/{processId}")
+    @GET("/business/app/buildpost/process/{subProjectId}/{processId}")
     fun getProcessProjectInfo(
+        @Path("subProjectId") subProjectId: String,
         @Path("processId") processId: String
     ): Observable<BaseRespose<ProjectProcessInfoBean>>
 

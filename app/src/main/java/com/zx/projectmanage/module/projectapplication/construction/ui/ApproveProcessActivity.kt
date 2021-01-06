@@ -134,4 +134,8 @@ class ApproveProcessActivity : BaseActivity<ApproveProcessPresenter, ApproveProc
         }
 
     }
+
+    override fun onActivityReenter(resultCode: Int, data: Intent?) {
+        super.onActivityReenter(resultCode, data)
+    }
 }

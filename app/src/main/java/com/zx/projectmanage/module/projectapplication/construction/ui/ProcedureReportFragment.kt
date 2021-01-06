@@ -16,14 +16,7 @@ import com.zx.projectmanage.module.projectapplication.construction.mvp.model.Pro
 import com.zx.projectmanage.module.projectapplication.construction.mvp.presenter.ProcedureReportPresenter
 import com.zx.zxutils.util.ZXDialogUtil
 import com.zx.zxutils.util.ZXToastUtil
-import kotlinx.android.synthetic.main.fragment_approve_sub_process.*
 import kotlinx.android.synthetic.main.fragment_procedure_report.*
-import kotlinx.android.synthetic.main.fragment_procedure_report.btn_approve_submit
-import kotlinx.android.synthetic.main.fragment_procedure_report.dataShow
-import kotlinx.android.synthetic.main.fragment_procedure_report.materials
-import kotlinx.android.synthetic.main.fragment_procedure_report.operationGuide
-import kotlinx.android.synthetic.main.fragment_procedure_report.process_progress
-import kotlinx.android.synthetic.main.fragment_procedure_report.safetyRegulations
 
 /**
  * Create By admin On 2017/7/11
@@ -65,9 +58,7 @@ class ProcedureReportFragment : BaseFragment<ProcedureReportPresenter, Procedure
         subProjectId = arguments?.getString("subProjectId").toString()
         projectId = arguments?.getString("projectId").toString()
         type = arguments?.getInt("type", 0)!!
-        if (parcelable?.sort != 0) {
-            tv_report_addEquip.visibility = View.GONE
-        }
+
         if (parcelable?.showMaterials == 0) {
             materials.visibility = View.GONE
         }
@@ -77,6 +68,7 @@ class ProcedureReportFragment : BaseFragment<ProcedureReportPresenter, Procedure
         if (parcelable?.showSafetyRegulations == 0) {
             safetyRegulations.visibility = View.GONE
         }
+        sv_score.setRightString(parcelable?.score.toString())
         //设置adapter
         dataShow.apply {
             layoutManager = LinearLayoutManager(mContext)
@@ -138,7 +130,7 @@ class ProcedureReportFragment : BaseFragment<ProcedureReportPresenter, Procedure
             var b = 0
             for (deviceListBean in list) {
                 val toInt = deviceListBean.status?.toInt()
-                if (toInt == 1) {
+                if (toInt == 1 || toInt == 4 || toInt == 9) {
                     b++
                 }
             }
@@ -164,17 +156,15 @@ class ProcedureReportFragment : BaseFragment<ProcedureReportPresenter, Procedure
         reportListAdapter.setNewData(
             data
         )
-
+        if (parcelable?.sort == 0 && parcelable?.auditStatus == "0") {
+            tv_report_addEquip.visibility = View.VISIBLE
+        }
+        if (parcelable?.auditStatus == "0" || parcelable?.auditStatus == "9") {
+            btn_approve_submit.visibility = View.VISIBLE
+        }
         if (data != null) {
             list.clear()
             list = data
-            data.forEach {
-                if (it.status == "2") {
-                    tv_report_addEquip.visibility = View.GONE
-                    btn_approve_submit.visibility = View.GONE
-                }
-                return
-            }
         }
 
     }

@@ -14,9 +14,9 @@ import rx.Observable
  * 功能：
  */
 class MacroReportInfoModel : BaseModel(), MacroReportInfoContract.Model {
-    override fun getProcessInfo(processId: String): Observable<ProjectProcessInfoBean> {
+    override fun getProcessInfo(subProjectId:String,processId: String): Observable<ProjectProcessInfoBean> {
         return mRepositoryManager.obtainRetrofitService(ApiService::class.java)
-            .getProcessProjectInfo(processId)
+            .getProcessProjectInfo(subProjectId,processId)
             .compose(RxHelper.handleResult())
             .compose(RxSchedulers.io_main())
     }
