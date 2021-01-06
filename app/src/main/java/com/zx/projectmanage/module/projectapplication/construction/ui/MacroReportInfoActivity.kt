@@ -7,7 +7,6 @@ import androidx.core.content.ContextCompat
 import com.google.android.material.tabs.TabLayout
 import com.zx.projectmanage.R
 import com.zx.projectmanage.base.BaseActivity
-import com.zx.projectmanage.module.projectapplication.construction.bean.DeviceListBean
 import com.zx.projectmanage.module.projectapplication.construction.bean.ProjectProcessInfoBean
 import com.zx.projectmanage.module.projectapplication.construction.mvp.contract.MacroReportInfoContract
 import com.zx.projectmanage.module.projectapplication.construction.mvp.model.MacroReportInfoModel
@@ -154,7 +153,11 @@ class MacroReportInfoActivity : BaseActivity<MacroReportInfoPresenter, MacroRepo
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+
         super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == 0x01 && resultCode == 0x01) {
+            mPresenter.getProcessInfo(subProjectId, processId)
+        }
     }
 
 }
