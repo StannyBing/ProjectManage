@@ -115,6 +115,10 @@ class CameraPreviewActivity : BaseActivity<CameraPreviewPresenter, CameraPreview
                     vv_preview_video.setVideoURI(uri)
                 }
                 vv_preview_video.start()
+                vv_preview_video.setOnErrorListener { mp, what, extra ->
+                    showToast("播放失败")
+                    return@setOnErrorListener false
+                }
                 vv_preview_video.setOnPreparedListener {
                     ZXLogUtil.loge(it.isPlaying.toString())
                 }
