@@ -96,6 +96,7 @@
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/tv_report_addEquip"
+                android:visibility="gone"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/item_height"
                 android:layout_marginTop="5dp"

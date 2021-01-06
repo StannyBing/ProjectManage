@@ -127,14 +127,29 @@ class ProcedureReportFragment : BaseFragment<ProcedureReportPresenter, Procedure
 
         }
         btn_approve_submit.setOnClickListener {
-            var b = 0
-            for (deviceListBean in list) {
-                val toInt = deviceListBean.status?.toInt()
-                if (toInt == 1 || toInt == 4 || toInt == 9) {
-                    b++
+            if (parcelable?.auditStatus == "0") {
+                var b = 0
+                for (deviceListBean in list) {
+                    val toInt = deviceListBean.status?.toInt()
+                    if (toInt == 1) {
+                        b++
+                    }
                 }
-            }
-            if (b == list.size) {
+                if (b == list.size) {
+                    //自动登录
+                    mPresenter.postSubmit(
+                        hashMapOf(
+                            "detailedProId" to list[0].detailedProId,
+                            "projectId" to projectId,
+                            "subProecssId" to parcelable?.id.toString()
+                        ).toJson2()
+                    )
+                } else {
+                    ZXDialogUtil.showYesNoDialog(mContext, "提示", "您有设备未完成资料上传") { _, i ->
+                        ZXDialogUtil.dismissDialog()
+                    }
+                }
+            } else {
                 //自动登录
                 mPresenter.postSubmit(
                     hashMapOf(
@@ -143,10 +158,6 @@ class ProcedureReportFragment : BaseFragment<ProcedureReportPresenter, Procedure
                         "subProecssId" to parcelable?.id.toString()
                     ).toJson2()
                 )
-            } else {
-                ZXDialogUtil.showYesNoDialog(mContext, "提示", "您有设备未完成资料上传") { _, i ->
-                    ZXDialogUtil.dismissDialog()
-                }
             }
         }
     }
