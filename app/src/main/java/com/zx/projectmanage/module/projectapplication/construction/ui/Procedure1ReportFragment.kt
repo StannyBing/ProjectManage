@@ -22,7 +22,7 @@ import kotlinx.android.synthetic.main.fragment_procedure_report.*
  * Create By admin On 2017/7/11
  * 功能：工序fragment
  */
-class ProcedureReportFragment : BaseFragment<ProcedureReportPresenter, ProcedureReportModel>(), ProcedureReportContract.View {
+class Procedure1ReportFragment : BaseFragment<ProcedureReportPresenter, ProcedureReportModel>(), ProcedureReportContract.View {
     var list: MutableList<DeviceListBean> = arrayListOf<DeviceListBean>()
     var allList: MutableList<DeviceListBean> = arrayListOf<DeviceListBean>()
     private val reportListAdapter = ProcedureListAdapter(list)
@@ -42,14 +42,14 @@ class ProcedureReportFragment : BaseFragment<ProcedureReportPresenter, Procedure
         /**
          * 启动器
          */
-        fun newInstance(bundle: Bundle? = null): ProcedureReportFragment {
-            val fragment = ProcedureReportFragment()
+        fun newInstance(bundle: Bundle? = null): Procedure1ReportFragment {
+            val fragment = Procedure1ReportFragment()
             fragment.arguments = bundle
             return fragment
         }
 
         fun getList(): MutableList<DeviceListBean>? {
-            val fragment = ProcedureReportFragment()
+            val fragment = Procedure1ReportFragment()
             return fragment.allList
         }
     }
@@ -182,12 +182,14 @@ class ProcedureReportFragment : BaseFragment<ProcedureReportPresenter, Procedure
         if (data != null) {
             list.clear()
             list = data
+            if (parcelable?.sort == 0) {
+                allList = data
+            }
         }
 
     }
 
     override fun postSubmitResult(data: Any?) {
-        activity?.finish()
         ZXToastUtil.showToast("提交成功")
     }
 

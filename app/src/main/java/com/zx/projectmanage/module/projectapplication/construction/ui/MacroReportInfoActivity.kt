@@ -7,6 +7,7 @@ import androidx.core.content.ContextCompat
 import com.google.android.material.tabs.TabLayout
 import com.zx.projectmanage.R
 import com.zx.projectmanage.base.BaseActivity
+import com.zx.projectmanage.module.projectapplication.construction.bean.DeviceListBean
 import com.zx.projectmanage.module.projectapplication.construction.bean.ProjectProcessInfoBean
 import com.zx.projectmanage.module.projectapplication.construction.mvp.contract.MacroReportInfoContract
 import com.zx.projectmanage.module.projectapplication.construction.mvp.model.MacroReportInfoModel
@@ -27,6 +28,8 @@ class MacroReportInfoActivity : BaseActivity<MacroReportInfoPresenter, MacroRepo
     var projectId = ""
     var subProjectId = ""
     var type = 0
+    var projectProcessInfoBean: ProjectProcessInfoBean = ProjectProcessInfoBean()
+    var auditStatus = 0
 
     /**
      * layout配置
@@ -55,6 +58,7 @@ class MacroReportInfoActivity : BaseActivity<MacroReportInfoPresenter, MacroRepo
             activity.startActivity(intent)
             if (isFinish) activity.finish()
         }
+
     }
 
 
@@ -66,7 +70,8 @@ class MacroReportInfoActivity : BaseActivity<MacroReportInfoPresenter, MacroRepo
         processId = intent.getStringExtra("processId").toString()
         projectId = intent.getStringExtra("projectId").toString()
         subProjectId = intent.getStringExtra("subProject").toString()
-        mPresenter.getProcessInfo(subProjectId,processId)
+        mPresenter.getProcessInfo(subProjectId, processId)
+
     }
 
     private fun initTab(detailedList: List<ProjectProcessInfoBean.DetailedListBean?>?) {
@@ -75,16 +80,28 @@ class MacroReportInfoActivity : BaseActivity<MacroReportInfoPresenter, MacroRepo
             .setTabScrollable(false)
             .setViewpagerCanScroll(false)
             .setTabLayoutGravity(ZXTabViewPager.TabGravity.GRAVITY_TOP)
-
         if (detailedList != null) {
-
             for (s in detailedList) {
-                val bundle = Bundle()
-                bundle.putSerializable("bean", s)
-                bundle.putString("subProjectId", subProjectId)
-                bundle.putString("projectId", projectId)
-                bundle.putInt("type", type)
-                tvp_macro_report_layout.addTab(ProcedureReportFragment.newInstance(bundle), s?.subProcessName)
+                if (auditStatus == 4) {
+                    val bundle = Bundle()
+                    bundle.putSerializable("bean", s)
+                    bundle.putString("subProjectId", subProjectId)
+                    bundle.putString("projectId", projectId)
+                    bundle.putInt("type", type)
+                    tvp_macro_report_layout.addTab(ProcedureReportFragment.newInstance(bundle), s?.subProcessName)
+                } else {
+                    if (s?.sort == 0) {
+                        val bundle = Bundle()
+                        bundle.putSerializable("bean", s)
+                        bundle.putString("subProjectId", subProjectId)
+                        bundle.putString("projectId", projectId)
+                        bundle.putInt("type", type)
+                        tvp_macro_report_layout.addTab(ProcedureReportFragment.newInstance(bundle), s?.subProcessName)
+                    } else {
+                        tvp_macro_report_layout.addTab(ProcessEmptyFragment(), s?.subProcessName)
+                    }
+                }
+
             }
         }
         tvp_macro_report_layout.setTitleColor(
@@ -123,7 +140,13 @@ class MacroReportInfoActivity : BaseActivity<MacroReportInfoPresenter, MacroRepo
     }
 
     override fun getDataProcessResult(data: ProjectProcessInfoBean?) {
+
         if (data?.detailedList != null) {
+            if (data?.detailedList?.get(0)?.auditStatus != null) {
+                auditStatus = data.detailedList?.get(0)?.auditStatus!!.toInt()
+            } else {
+                auditStatus = 0
+            }
             initTab(data.detailedList)
         } else {
             ZXToastUtil.showToast("未获取到数据")

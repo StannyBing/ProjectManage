@@ -4,7 +4,8 @@
     <string name="support_comany">技术支持:重庆市南地科技开发有限公司</string>
 
 
-
     <string name="inputProjectName">请输入项目名称</string>
     <string name="inputChildProjectName">请输入子项目名称</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
