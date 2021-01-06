@@ -14,7 +14,7 @@
         android:padding="5dp"
         stv:sBackgroundDrawableRes="@color/white"
         stv:sCenterTextSize="@dimen/text_big_size"
-        stv:sCenterTextString="考核评分"
+        stv:sCenterTextString="工序进度"
         stv:sLeftIconHeight="@dimen/toolbar_back_width"
         stv:sLeftIconRes="@drawable/icon_toolbar_back"
         stv:sLeftIconWidth="@dimen/toolbar_back_width" />

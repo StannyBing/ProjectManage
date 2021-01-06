@@ -83,6 +83,20 @@ class ApproveSubProcessFragment : BaseFragment<ApproveSubProcessPresenter, Appro
         mPresenter.getDeviceList(parcelable?.detailedProId.toString())
     }
 
+    fun startAction(
+        Context: Activity,
+        detailedId: String = "",
+        subProjectId: String = "",
+        deviceListBean: DeviceListBean? = null
+    ) {
+        val intent = Intent(activity, DeviceAuditActivity::class.java)
+        intent.putExtra("detailedId", detailedId)
+        intent.putExtra("subProjectId", subProjectId)
+        intent.putExtra("deviceListBean", deviceListBean)
+        startActivityForResult(intent, 0x01)
+
+    }
+
     /**
      * View事件设置
      */
@@ -96,7 +110,7 @@ class ApproveSubProcessFragment : BaseFragment<ApproveSubProcessPresenter, Appro
                 showToast("当前设备不可审批")
                 return@setOnItemClickListener
             }
-            DeviceAuditActivity.startAction(requireActivity(), false, deviceListBean, 1)
+            startAction(activity!!, deviceListBean.detailedId.toString(), subProjectId, deviceListBean)
 
         }
         materials.setOnSuperTextViewClickListener {

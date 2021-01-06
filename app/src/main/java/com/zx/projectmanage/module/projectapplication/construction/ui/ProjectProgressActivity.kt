@@ -56,12 +56,16 @@ class ProjectProgressActivity : BaseActivity<ProjectProgressPresenter, ProjectPr
         linearLayoutManager.orientation = LinearLayoutManager.VERTICAL
         time_line_list.layoutManager = linearLayoutManager
         time_line_list.adapter = timeLineAdapter
+        timeLineAdapter.setEmptyView(R.layout.item_empty, time_line_list)
     }
 
     /**
      * View事件设置
      */
     override fun onViewListener() {
+        head.setLeftImageViewClickListener {
+            finish()
+        }
 
     }
 

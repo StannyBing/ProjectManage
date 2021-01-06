@@ -89,22 +89,33 @@ class ProcedureReportFragment : BaseFragment<ProcedureReportPresenter, Procedure
         )
     }
 
+    fun startAction(
+        Context: Activity,
+        detailedId: String = "",
+        subProjectId: String = "",
+        deviceListBean: DeviceListBean? = null
+    ) {
+        val intent = Intent(activity, DeviceReportActivity::class.java)
+        intent.putExtra("detailedId", detailedId)
+        intent.putExtra("subProjectId", subProjectId)
+        intent.putExtra("deviceListBean", deviceListBean)
+        startActivityForResult(intent, 0x01)
+
+    }
+
     /**
      * View事件设置
      */
     override fun onViewListener() {
         tv_report_addEquip.setOnClickListener {
-            DeviceReportActivity.startAction(requireActivity(), false, parcelable?.id.toString(), subProjectId, null, type)
+            startAction(activity!!, parcelable?.id.toString(), subProjectId, null)
         }
         process_progress.setOnSuperTextViewClickListener {
-//            if (list.size > 0) {
-////                ProjectProgressActivity.startAction(activity as Activity, false, list[0].detailedProId)
-////            }
             ProjectProgressActivity.startAction(activity as Activity, false, "0")
         }
         reportListAdapter.setOnItemClickListener { adapter, view, position ->
             val deviceListBean = adapter.data[position] as DeviceListBean
-            DeviceReportActivity.startAction(requireActivity(), false, parcelable?.id.toString(), subProjectId, deviceListBean, 0)
+            startAction(activity!!, parcelable?.id.toString(), subProjectId, deviceListBean)
 
         }
         materials.setOnSuperTextViewClickListener {
