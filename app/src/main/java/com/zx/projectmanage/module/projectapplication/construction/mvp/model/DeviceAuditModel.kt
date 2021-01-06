@@ -30,9 +30,9 @@ class DeviceAuditModel : BaseModel(), DeviceAuditContract.Model {
             .compose(RxSchedulers.io_main())
     }
 
-    override fun deviceDetailData(id: String): Observable<DeviceListBean> {
+    override fun deviceDetailData(standardProId: String, standardId: String): Observable<DeviceListBean> {
         return mRepositoryManager.obtainRetrofitService(ApiService::class.java)
-            .getDeviceDetail(id)
+            .getDeviceDetail(standardProId, standardId)
             .compose(RxHelper.handleResult())
             .compose(RxSchedulers.io_main())
     }

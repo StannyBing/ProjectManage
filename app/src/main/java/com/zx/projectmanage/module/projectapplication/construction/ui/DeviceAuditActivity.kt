@@ -69,7 +69,7 @@ class DeviceAuditActivity : BaseActivity<DeviceAuditPresenter, DeviceAuditModel>
     override fun initView(savedInstanceState: Bundle?) {
         deviceBean = intent.getSerializableExtra("deviceListBean") as DeviceListBean
 
-        mPresenter.getDeviceDetail(deviceBean?.standardProId ?: "")
+        mPresenter.getDeviceDetail(deviceBean?.standardProId ?: "", deviceBean?.standardId ?: "")
 
         rv_deviceaudit_data.apply {
             layoutManager = LinearLayoutManager(mContext)

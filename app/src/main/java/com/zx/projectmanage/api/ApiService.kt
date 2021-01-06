@@ -207,11 +207,11 @@ interface ApiService {
      * 删除设备
      */
     @DELETE("business/app/buildpost/delete")
-    fun deleteDevice(@Query("ids") ids : String): Observable<BaseRespose<Any>>
+    fun deleteDevice(@Query("ids") ids: String): Observable<BaseRespose<Any>>
 
     /**
      * 设备详情
      */
-    @GET("business/report/app/equipmentDetail/{id}")
-    fun getDeviceDetail(@Path("id") id: String) : Observable<BaseRespose<DeviceListBean>>
+    @GET("business/report/app/equipmentDetail/{standardProId}/{standardId}")
+    fun getDeviceDetail(@Path("standardProId") standardProId: String, @Path("standardId") standardId: String): Observable<BaseRespose<DeviceListBean>>
 }
