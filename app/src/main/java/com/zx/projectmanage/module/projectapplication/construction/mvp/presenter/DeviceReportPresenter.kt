@@ -77,7 +77,11 @@ class DeviceReportPresenter : DeviceReportContract.Presenter() {
         dataList.filter { it.type == DeviceInfoBean.Step_Type }.forEach {
             it.stepInfos.forEachIndexed { index, dataStepInfoBean ->
                 if (index > 0) {
-                    fileList.add(File(dataStepInfoBean.path) to (it.stepInfoBean?.stepId ?: ""))
+                    if (dataStepInfoBean.path.startsWith("http")) {
+//                        uploadIdsList.add(dataStepInfoBean. to (it.stepInfoBean?.stepId ?: "")
+                    } else {
+                        fileList.add(File(dataStepInfoBean.path) to (it.stepInfoBean?.stepId ?: ""))
+                    }
                 }
             }
         }
@@ -127,19 +131,24 @@ class DeviceReportPresenter : DeviceReportContract.Presenter() {
                         }
                     }
                 }
-                mModel.saveInfoData(
-                    hashMapOf(
-                        "detailedId" to detailedId,
-                        "subProjectId" to subProjectId,
-                        "equipmentId" to equipmentId,
-                        "equipmentName" to equipmentName,
-                        "standardId" to standardId,
-                        "postAddr" to postAddr,
-                        "latitude" to latitude,
-                        "longitude" to longitude,
-                        "postDetails" to postDetails
-                    ).toJson2()
+                val info = hashMapOf(
+                    "detailedId" to detailedId,
+                    "subProjectId" to subProjectId,
+                    "equipmentId" to equipmentId,
+                    "equipmentName" to equipmentName,
+                    "standardId" to standardId,
+                    "postAddr" to postAddr,
+                    "latitude" to latitude,
+                    "longitude" to longitude,
+                    "postDetails" to postDetails
                 )
+                if (deviceBean?.id == null) {
+                    mModel.saveInfoData(info.toJson2())
+                } else {
+                    mModel.updateInfoData(info.apply {
+                        put("id", deviceBean.id)
+                    }.toJson2())
+                }
             }
             .subscribe(object : RxSubscriber<Any>(mView) {
                 override fun _onNext(t: Any?) {
