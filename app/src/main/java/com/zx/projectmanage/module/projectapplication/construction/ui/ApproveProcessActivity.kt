@@ -128,7 +128,9 @@ class ApproveProcessActivity : BaseActivity<ApproveProcessPresenter, ApproveProc
 
     override fun getDataProcessResult(data: MutableList<ApproveProcessInfoBean>?) {
         if (data != null) {
-            initTab(data)
+            if (data.size > 0) {
+                initTab(data)
+            }
         } else {
             ZXToastUtil.showToast("未获取到数据")
         }

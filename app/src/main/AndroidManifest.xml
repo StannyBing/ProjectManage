@@ -27,13 +27,14 @@
         android:usesCleartextTraffic="true"
         tools:ignore="LockedOrientationActivity">
         <activity
+            android:name=".module.projectapplication.construction.ui.ApproveScoreActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:windowSoftInputMode="stateAlwaysHidden|adjustPan" />
+        <activity
             android:name=".module.projectapplication.construction.ui.DeviceAuditActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".module.projectapplication.construction.ui.ApproveProcessActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".module.projectapplication.construction.ui.ApproveScoreActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".module.projectapplication.construction.ui.ProjectProgressActivity"

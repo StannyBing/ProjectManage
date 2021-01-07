@@ -71,8 +71,11 @@ class ProjectProgressActivity : BaseActivity<ProjectProgressPresenter, ProjectPr
 
     override fun getProgressResult(data: MutableList<ProcessProgressBean>?) {
         if (data != null) {
-            time_line_list.addItemDecoration(TimeLineItemDecoration(this, data))
-            timeLineAdapter.setNewData(data)
+            if (data.size>0){
+                time_line_list.addItemDecoration(TimeLineItemDecoration(this, data))
+                timeLineAdapter.setNewData(data)
+            }
+
         }
     }
 

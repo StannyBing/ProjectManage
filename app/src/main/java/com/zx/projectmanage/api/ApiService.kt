@@ -65,6 +65,14 @@ interface ApiService {
     ): Observable<BaseRespose<NormalList<ReportSubListBean>>>
 
     /**
+     * 查询子项目列表
+     */
+    @POST("/business/app/buildpost/selectEquipment")
+    fun selectEquipment(
+        @QueryMap map: Map<String, String>
+    ): Observable<BaseRespose<Any>>
+
+    /**
      * 查询工序详情
      */
     @GET("/business/app/buildpost/process/{subProjectId}/{processId}")

@@ -49,7 +49,8 @@ class DeviceListBean : Serializable {
     var submitNumber: String? = null
     var statusDesc: String? = null
     var fraction: String? = null
-    var attachementVos : List<PostDetailsBean>?=null
+    var isSelect: Boolean= false
+    var attachementVos: List<PostDetailsBean>? = null
     var postDetails: List<PostDetailsBean?>? = null
 
     class PostDetailsBean : Serializable {

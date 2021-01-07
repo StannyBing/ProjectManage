@@ -96,36 +96,42 @@ class TimeLineItemDecoration(var context: Context, var timeBeanList: List<Proces
             //val bitmapResult : Bitmap = Bitmap.createBitmap(bitmap , 0 , 0 , dp2px(context , 10) , dp2px(context , 10))
             c.drawBitmap(bitmap, circleX - circleRadius, circleY - circleRadius, paintLine)
             //绘制时间
-            val toString = timeBeanList[currentPosition].createTime.toString()
-            val split = toString.split(" ")
+            if (timeBeanList.isNotEmpty()) {
+                val toString = timeBeanList[currentPosition].createTime.toString()
+                val split = toString.split(" ")
+                val drawText: String = "${split[0]}${System.getProperty("line.separator")}${split[1]}"
+                val rect = Rect()
+                paintText?.getTextBounds(split[0], 0, split[0].length, rect)
+                paintText?.let { c.drawText(split[0], circleX - rect.width() - dp2px(context, 20), circleY, it) }
+                paintText?.getTextBounds(split[1], 0, split[1].length, rect)
+                paintText?.let { c.drawText(split[1], circleX - rect.width() - dp2px(context, 20), circleY + 25, it) }
+                //绘制上半轴线
+                if (currentPosition != 0) {
+                    //上端点
+                    val topTopPointX: Float = circleX
+                    val topTopPointY: Float = circleY - circleRadius / 2 - topOffset
+                    //下端点
+                    val topBottomPointX: Float = circleX
+                    val topBottomPointY: Float = circleY - circleRadius * 3
+                    paintLine?.let { c.drawLine(topTopPointX, topTopPointY, topBottomPointX, topBottomPointY, it) }
+                }
 
-//            val drawText: String = "${split[0]}${System.getProperty("line.separator")}${split[1]}"
-            val rect = Rect()
-            paintText?.getTextBounds(split[0], 0, split[0].length, rect)
-            paintText?.let { c.drawText(split[0], circleX - rect.width() - dp2px(context, 20), circleY, it) }
-            paintText?.getTextBounds(split[1], 0, split[1].length, rect)
-            paintText?.let { c.drawText(split[1], circleX - rect.width() - dp2px(context, 20), circleY + 25, it) }
-            //绘制上半轴线
-            if (currentPosition != 0) {
-                //上端点
-                val topTopPointX: Float = circleX
-                val topTopPointY: Float = circleY - circleRadius / 2 - topOffset
-                //下端点
-                val topBottomPointX: Float = circleX
-                val topBottomPointY: Float = circleY - circleRadius * 3
-                paintLine?.let { c.drawLine(topTopPointX, topTopPointY, topBottomPointX, topBottomPointY, it) }
+                if (currentPosition != timeBeanList.size - 1) {
+                    //绘制下半轴线
+                    val bottomTopPointX: Float = circleX
+                    val bottomTopPointY: Float = circleY + circleRadius * 3
+                    val bottomBottomPointX: Float = circleX
+                    val bottomBottomPointY: Float = child.bottom.toFloat()
+                    paintLine?.let { c.drawLine(bottomTopPointX, bottomTopPointY, bottomBottomPointX, bottomBottomPointY, it) }
+
+                }
             }
-
-            if (currentPosition != timeBeanList.size - 1) {
-                //绘制下半轴线
-                val bottomTopPointX: Float = circleX
-                val bottomTopPointY: Float = circleY + circleRadius * 3
-                val bottomBottomPointX: Float = circleX
-                val bottomBottomPointY: Float = child.bottom.toFloat()
-                paintLine?.let { c.drawLine(bottomTopPointX, bottomTopPointY, bottomBottomPointX, bottomBottomPointY, it) }
-            }
-
         }
+
+
+//            }
+
+
     }
 
     /**

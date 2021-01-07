@@ -11,10 +11,14 @@ import com.zx.projectmanage.base.BaseFragment
 import com.zx.projectmanage.module.projectapplication.construction.bean.DeviceListBean
 import com.zx.projectmanage.module.projectapplication.construction.bean.ProjectProcessInfoBean
 import com.zx.projectmanage.module.projectapplication.construction.func.adapter.ProcedureListAdapter
+import com.zx.projectmanage.module.projectapplication.construction.mvp.contract.ProcedureOneReportContract
 import com.zx.projectmanage.module.projectapplication.construction.mvp.contract.ProcedureReportContract
+import com.zx.projectmanage.module.projectapplication.construction.mvp.model.ProcedureOneReportModel
 import com.zx.projectmanage.module.projectapplication.construction.mvp.model.ProcedureReportModel
+import com.zx.projectmanage.module.projectapplication.construction.mvp.presenter.ProcedureOneReportPresenter
 import com.zx.projectmanage.module.projectapplication.construction.mvp.presenter.ProcedureReportPresenter
 import com.zx.zxutils.util.ZXDialogUtil
+import com.zx.zxutils.util.ZXSharedPrefUtil
 import com.zx.zxutils.util.ZXToastUtil
 import kotlinx.android.synthetic.main.fragment_procedure_report.*
 
@@ -22,7 +26,7 @@ import kotlinx.android.synthetic.main.fragment_procedure_report.*
  * Create By admin On 2017/7/11
  * 功能：工序fragment
  */
-class Procedure1ReportFragment : BaseFragment<ProcedureReportPresenter, ProcedureReportModel>(), ProcedureReportContract.View {
+class Procedure1ReportFragment : BaseFragment<ProcedureOneReportPresenter, ProcedureOneReportModel>(), ProcedureOneReportContract.View {
     var list: MutableList<DeviceListBean> = arrayListOf<DeviceListBean>()
     var allList: MutableList<DeviceListBean> = arrayListOf<DeviceListBean>()
     private val reportListAdapter = ProcedureListAdapter(list)
@@ -48,10 +52,6 @@ class Procedure1ReportFragment : BaseFragment<ProcedureReportPresenter, Procedur
             return fragment
         }
 
-        fun getList(): MutableList<DeviceListBean>? {
-            val fragment = Procedure1ReportFragment()
-            return fragment.allList
-        }
     }
 
 
@@ -97,10 +97,9 @@ class Procedure1ReportFragment : BaseFragment<ProcedureReportPresenter, Procedur
             DeviceReportActivity.startAction(requireActivity(), false, parcelable?.id.toString(), subProjectId, null, type)
         }
         process_progress.setOnSuperTextViewClickListener {
-//            if (list.size > 0) {
-////                ProjectProgressActivity.startAction(activity as Activity, false, list[0].detailedProId)
-////            }
-            ProjectProgressActivity.startAction(activity as Activity, false, "0")
+            if (list.size > 0) {
+                ProjectProgressActivity.startAction(activity as Activity, false, list[0].detailedProId)
+            }
         }
         reportListAdapter.setOnItemClickListener { adapter, view, position ->
             val deviceListBean = adapter.data[position] as DeviceListBean
@@ -137,7 +136,7 @@ class Procedure1ReportFragment : BaseFragment<ProcedureReportPresenter, Procedur
                 var b = 0
                 for (deviceListBean in list) {
                     val toInt = deviceListBean.status?.toInt()
-                    if (toInt == 1) {
+                    if (toInt == -1) {
                         b++
                     }
                 }
@@ -173,7 +172,7 @@ class Procedure1ReportFragment : BaseFragment<ProcedureReportPresenter, Procedur
         reportListAdapter.setNewData(
             data
         )
-        if (parcelable?.sort == 0 && parcelable?.auditStatus == "0") {
+        if (parcelable?.auditStatus == "0") {
             tv_report_addEquip.visibility = View.VISIBLE
         }
         if (parcelable?.auditStatus == "0" || parcelable?.auditStatus == "9") {
@@ -184,6 +183,8 @@ class Procedure1ReportFragment : BaseFragment<ProcedureReportPresenter, Procedur
             list = data
             if (parcelable?.sort == 0) {
                 allList = data
+                ZXSharedPrefUtil().putString("process1ID", parcelable?.id.toString())
+                ZXSharedPrefUtil().putList(parcelable?.id.toString(), allList)
             }
         }
 

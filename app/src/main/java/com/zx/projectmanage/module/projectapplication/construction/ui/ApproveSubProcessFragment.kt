@@ -4,9 +4,7 @@ import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
-import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.zx.projectmanag.ApproveScoreActivity
 import com.zx.projectmanage.R
 import com.zx.projectmanage.base.BaseFragment
 import com.zx.projectmanage.module.projectapplication.construction.bean.ApproveProcessInfoBean
@@ -19,7 +17,6 @@ import com.zx.projectmanage.module.projectapplication.construction.mvp.presenter
 import com.zx.zxutils.util.ZXDialogUtil
 import com.zx.zxutils.util.ZXToastUtil
 import kotlinx.android.synthetic.main.fragment_approve_sub_process.*
-import java.text.BreakIterator
 
 /**
  * Create By admin On 2017/7/11
@@ -198,6 +195,7 @@ class ApproveSubProcessFragment : BaseFragment<ApproveSubProcessPresenter, Appro
         val dto = PostAuditDto()
         dto.projectId = projectId
         dto.subProjectId = subProjectId
+        dto.processDetailedId = parcelable?.processDetailedId.toString()
         var listVos: MutableList<PostAuditDto.ReportEquipmentVosBean> = ArrayList()
         list.forEach {
             val reportEquipmentVosBean = PostAuditDto.ReportEquipmentVosBean()
@@ -228,21 +226,27 @@ class ApproveSubProcessFragment : BaseFragment<ApproveSubProcessPresenter, Appro
                 }
             }
 
-            if (b != 0 && parcelable?.auditFlag == 1) {
-                btn_audit_reject.visibility = View.VISIBLE
-                btn_audit_pass.visibility = View.GONE
-                btn_approve_submit.visibility = View.GONE
+            if (parcelable?.auditFlag == 1) {
+                bottom_ll.visibility = View.VISIBLE
+                if (b != 0) {
+                    btn_audit_reject.visibility = View.VISIBLE
+                    btn_audit_pass.visibility = View.GONE
+                    btn_approve_submit.visibility = View.GONE
+                }
+                if (b == 0 && parcelable?.scoreFlag == 1) {
+                    btn_audit_reject.visibility = View.GONE
+                    btn_audit_pass.visibility = View.GONE
+                    btn_approve_submit.visibility = View.VISIBLE
+                }
+                if (b == 0 && parcelable?.scoreFlag == -1) {
+                    btn_audit_reject.visibility = View.GONE
+                    btn_audit_pass.visibility = View.VISIBLE
+                    btn_approve_submit.visibility = View.GONE
+                }
+            } else {
+                bottom_ll.visibility = View.GONE
             }
-            if (b == 0 && parcelable?.scoreFlag == 1) {
-                btn_audit_reject.visibility = View.GONE
-                btn_audit_pass.visibility = View.GONE
-                btn_approve_submit.visibility = View.VISIBLE
-            }
-            if (b == 0 && parcelable?.scoreFlag == -1) {
-                btn_audit_reject.visibility = View.GONE
-                btn_audit_pass.visibility = View.VISIBLE
-                btn_approve_submit.visibility = View.GONE
-            }
+
         }
 
     }

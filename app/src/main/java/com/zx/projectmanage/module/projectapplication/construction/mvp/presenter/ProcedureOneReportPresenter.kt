@@ -3,6 +3,7 @@ package com.zx.projectmanage.module.projectapplication.construction.mvp.presente
 import com.frame.zxmvp.baserx.RxHelper
 import com.frame.zxmvp.baserx.RxSubscriber
 import com.zx.projectmanage.module.projectapplication.construction.bean.DeviceListBean
+import com.zx.projectmanage.module.projectapplication.construction.mvp.contract.ProcedureOneReportContract
 import com.zx.projectmanage.module.projectapplication.construction.mvp.contract.ProcedureReportContract
 import okhttp3.RequestBody
 
@@ -11,7 +12,7 @@ import okhttp3.RequestBody
  * Create By admin On 2017/7/11
  * 功能：
  */
-class ProcedureReportPresenter : ProcedureReportContract.Presenter() {
+class ProcedureOneReportPresenter : ProcedureOneReportContract.Presenter() {
     override fun getDeviceList(map: Map<String, String>) {
         mModel.getDeviceList(map)
             .compose(RxHelper.bindToLifecycle(mView))
@@ -33,21 +34,6 @@ class ProcedureReportPresenter : ProcedureReportContract.Presenter() {
             .subscribe(object : RxSubscriber<Any>(mView) {
                 override fun _onNext(t: Any?) {
                     mView.postSubmitResult(t)
-                }
-
-                override fun _onError(code: Int, message: String?) {
-                    mView.handleError(code, message)
-//                    mView.postSubmitResult(null)
-                }
-            })
-    }
-
-    override fun selectEquipment(map: Map<String, String>) {
-        mModel.selectEquipment(map)
-            .compose(RxHelper.bindToLifecycle(mView))
-            .subscribe(object : RxSubscriber<Any>(mView) {
-                override fun _onNext(t: Any?) {
-                    mView.selectEquipmentResult(t)
                 }
 
                 override fun _onError(code: Int, message: String?) {

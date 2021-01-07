@@ -16,6 +16,7 @@ class PostAuditDto : Serializable {
      */
     var projectId: String? = null
     var subProjectId: String? = null
+    var processDetailedId: String? = null
     var projectProcessScores: List<ProjectProcessScoresBean>? = null
     var reportEquipmentVos: List<ReportEquipmentVosBean>? = null
 
