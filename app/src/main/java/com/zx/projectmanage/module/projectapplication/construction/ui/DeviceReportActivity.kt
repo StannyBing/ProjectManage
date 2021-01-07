@@ -9,6 +9,7 @@ import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
+import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.widget.Button
 import android.widget.EditText
@@ -72,6 +73,8 @@ class DeviceReportActivity : BaseActivity<DeviceReportPresenter, DeviceReportMod
     private var selectStepBean: StepStandardBean? = null//当前选中的步骤
     private lateinit var deviceBean: DeviceListBean//设备详情
 
+    private var editable = true
+
     private var cameraPos = 0
 
     /**
@@ -85,6 +88,12 @@ class DeviceReportActivity : BaseActivity<DeviceReportPresenter, DeviceReportMod
      * 初始化
      */
     override fun initView(savedInstanceState: Bundle?) {
+        editable = intent.getBooleanExtra("editable", true)
+        if (!editable) {
+            ll_devicereport_btn.visibility = View.GONE
+        }
+        dataAdapter.editable = editable
+
         deviceBean = if (intent.hasExtra("deviceListBean") && intent.getSerializableExtra("deviceListBean") != null) {
             intent.getSerializableExtra("deviceListBean") as DeviceListBean
         } else {

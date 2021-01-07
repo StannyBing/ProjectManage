@@ -13,6 +13,8 @@ import com.zx.zxutils.other.QuickAdapter.ZXQuickAdapter
 import java.io.File
 
 class DataStepFileAdapter(dataList: List<DataStepInfoBean>) : ZXQuickAdapter<DataStepInfoBean, ZXBaseHolder>(R.layout.item_data_step_file, dataList) {
+    var editable: Boolean = true
+
     override fun convert(helper: ZXBaseHolder, item: DataStepInfoBean) {
         val url = if (item.thumbnail.isEmpty()) {
             item.path
@@ -37,7 +39,7 @@ class DataStepFileAdapter(dataList: List<DataStepInfoBean>) : ZXQuickAdapter<Dat
             )
             .into(helper.getView(R.id.iv_data_step_image))
         helper.setGone(R.id.tv_data_step_shadow, helper.adapterPosition == 0)
-        helper.setGone(R.id.iv_data_step_delete, helper.adapterPosition != 0)
+        helper.setGone(R.id.iv_data_step_delete, helper.adapterPosition != 0 && editable)
         helper.addOnClickListener(R.id.iv_data_step_delete)
     }
 }

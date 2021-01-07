@@ -25,7 +25,6 @@ import com.zx.projectmanage.module.projectapplication.construction.mvp.model.Dev
 import com.zx.projectmanage.module.projectapplication.construction.mvp.presenter.DeviceAuditPresenter
 import com.zx.zxutils.util.ZXDialogUtil
 import kotlinx.android.synthetic.main.activity_device_audit.*
-import kotlinx.android.synthetic.main.activity_device_report.*
 
 
 /**
@@ -54,6 +53,8 @@ class DeviceAuditActivity : BaseActivity<DeviceAuditPresenter, DeviceAuditModel>
     private val dataList = arrayListOf<DeviceInfoBean>()
     private val dataAdapter = DeviceInfoAdapter(dataList)
 
+    private var editable = true
+
     private var deviceBean: DeviceListBean? = null//设备详情
 
     /**
@@ -67,6 +68,12 @@ class DeviceAuditActivity : BaseActivity<DeviceAuditPresenter, DeviceAuditModel>
      * 初始化
      */
     override fun initView(savedInstanceState: Bundle?) {
+        editable = intent.getBooleanExtra("editable", true)
+        if (!editable) {
+            ll_deviceaudit_btn.visibility = View.GONE
+        }
+        dataAdapter.editable = false
+
         deviceBean = intent.getSerializableExtra("deviceListBean") as DeviceListBean
 
         mPresenter.getDeviceDetail(deviceBean?.standardProId ?: "", deviceBean?.standardId ?: "")

@@ -6,6 +6,7 @@ import com.zx.zxutils.other.QuickAdapter.ZXBaseHolder
 import com.zx.zxutils.other.QuickAdapter.ZXQuickAdapter
 
 class StepStandardAdapter(dataList: List<StepStandardBean>) : ZXQuickAdapter<StepStandardBean, ZXBaseHolder>(R.layout.item_standard_list, dataList) {
+
     override fun convert(helper: ZXBaseHolder, item: StepStandardBean) {
         helper.setText(R.id.tv_standard_list_name, item.name)
         helper.setBackgroundRes(
