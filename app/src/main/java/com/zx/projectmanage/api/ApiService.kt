@@ -195,7 +195,7 @@ interface ApiService {
     /**
      * 更新施工上报
      */
-    @POST("business/app/buildpost/update")
+    @PUT("business/app/buildpost/update")
     fun updateDataInfo(@Body body: RequestBody): Observable<BaseRespose<Any>>
 
     /**

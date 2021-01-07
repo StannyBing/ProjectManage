@@ -315,6 +315,7 @@ class DeviceReportActivity : BaseActivity<DeviceReportPresenter, DeviceReportMod
             }
         }
         dataList.first { it.name == "规范模板" }.stringValue = stepDetail.name
+        dataList.first { it.name == "规范模板" }.standardBean = stepDetail
         stepDetail.standardSteps?.forEach {
             dataList.add(
                 DeviceInfoBean(

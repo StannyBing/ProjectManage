@@ -148,7 +148,7 @@ class ProcedureReportFragment : BaseFragment<ProcedureReportPresenter, Procedure
                 var b = 0
                 for (deviceListBean in list) {
                     val toInt = deviceListBean.status?.toInt()
-                    if (toInt == 1) {
+                    if (toInt == -1) {
                         b++
                     }
                 }
