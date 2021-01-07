@@ -81,15 +81,15 @@ class MacroReportInfoActivity : BaseActivity<MacroReportInfoPresenter, MacroRepo
             .setTabLayoutGravity(ZXTabViewPager.TabGravity.GRAVITY_TOP)
         if (detailedList != null) {
             for (s in detailedList) {
-                if (auditStatus == 4) {
+                if (s?.sort == 0) {
                     val bundle = Bundle()
                     bundle.putSerializable("bean", s)
                     bundle.putString("subProjectId", subProjectId)
                     bundle.putString("projectId", projectId)
                     bundle.putInt("type", type)
-                    tvp_macro_report_layout.addTab(ProcedureReportFragment.newInstance(bundle), s?.subProcessName)
+                    tvp_macro_report_layout.addTab(Procedure1ReportFragment.newInstance(bundle), s.subProcessName)
                 } else {
-                    if (s?.sort == 0) {
+                    if (auditStatus == 4) {
                         val bundle = Bundle()
                         bundle.putSerializable("bean", s)
                         bundle.putString("subProjectId", subProjectId)
@@ -99,8 +99,8 @@ class MacroReportInfoActivity : BaseActivity<MacroReportInfoPresenter, MacroRepo
                     } else {
                         tvp_macro_report_layout.addTab(ProcessEmptyFragment(), s?.subProcessName)
                     }
-                }
 
+                }
             }
         }
         tvp_macro_report_layout.setTitleColor(

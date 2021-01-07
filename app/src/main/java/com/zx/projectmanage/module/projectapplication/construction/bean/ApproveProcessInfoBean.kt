@@ -35,5 +35,6 @@ data class ApproveProcessInfoBean(
     var safetyRegulations: String?,
     var score: Int? = 0,
     var scoreFlag: Int? = -1,
-    var subProcessName: String?
+    var subProcessName: String?,
+    var processDetailedId: String?
 ) : Serializable

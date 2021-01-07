@@ -218,7 +218,6 @@ class ConstructionReportActivity : BaseActivity<ConstructionReportPresenter, Con
                         arrayPeriod.append(mVals[i].dictId)
                         arrayPeriod.append(",")
                     }
-                    arrayPeriod.toString()
                 }
             }
         })

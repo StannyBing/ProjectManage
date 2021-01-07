@@ -31,10 +31,12 @@ class ApproveScoreAdapter(dataList: List<ScoreTemplateBean>) : ZXQuickAdapter<Sc
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
 
                 val info = helper.getView<EditText>(R.id.et_score_edit_value).text.toString()
-                if (info.toInt() > item.fraction!!) {
+
+                if (info.isNotEmpty() && info.toInt() > item.fraction!!) {
                     ZXToastUtil.showToast("请输入正确的分数")
                 } else {
                     listener?.onEditChange(helper.adapterPosition, info)
+                    item.subAssessText = info
                 }
 
             }

@@ -1,4 +1,4 @@
-package com.zx.projectmanag
+package com.zx.projectmanage.module.projectapplication.construction.ui
 
 
 import android.app.Activity
@@ -6,6 +6,7 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.zx.projectmanage.R
+import com.zx.projectmanage.app.MyApplication
 import com.zx.projectmanage.base.BaseActivity
 import com.zx.projectmanage.module.projectapplication.construction.bean.ScoreTemplateBean
 import com.zx.projectmanage.module.projectapplication.construction.dto.PostAuditDto
@@ -116,8 +117,7 @@ class ApproveScoreActivity : BaseActivity<ApproveScorePresenter, ApproveScoreMod
     }
 
     override fun auditProcessResult(data: Any?) {
-        showToast("提交成功")
-        setResult(0x01)
+        MyApplication.instance.remove(ApproveProcessActivity::class.java)
         finish()
     }
 }

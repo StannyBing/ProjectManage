@@ -22,7 +22,7 @@ class ProcessProgressAdapter(dataList: List<ProcessProgressBean>) : ZXQuickAdapt
                 helper
                     .setText(R.id.status, "提交资料")
             }
-            "3" -> {
+            "4" -> {
                 helper
                     .setText(R.id.status, "审核通过")
             }
