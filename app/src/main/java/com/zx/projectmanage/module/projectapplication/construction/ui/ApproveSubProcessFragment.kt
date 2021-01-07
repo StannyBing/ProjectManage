@@ -84,12 +84,14 @@ class ApproveSubProcessFragment : BaseFragment<ApproveSubProcessPresenter, Appro
         Context: Activity,
         detailedId: String = "",
         subProjectId: String = "",
-        deviceListBean: DeviceListBean? = null
+        deviceListBean: DeviceListBean? = null,
+        editable: Boolean
     ) {
         val intent = Intent(activity, DeviceAuditActivity::class.java)
         intent.putExtra("detailedId", detailedId)
         intent.putExtra("subProjectId", subProjectId)
         intent.putExtra("deviceListBean", deviceListBean)
+        intent.putExtra("editable", editable)
         startActivityForResult(intent, 0x01)
 
     }
@@ -107,7 +109,12 @@ class ApproveSubProcessFragment : BaseFragment<ApproveSubProcessPresenter, Appro
                 showToast("当前设备不可审批")
                 return@setOnItemClickListener
             }
-            startAction(activity!!, deviceListBean.detailedId.toString(), subProjectId, deviceListBean)
+            if (deviceListBean.auditStatus?.toInt()!! < 3) {
+                startAction(activity!!, deviceListBean.detailedId.toString(), subProjectId, deviceListBean, true)
+            } else {
+                startAction(activity!!, deviceListBean.detailedId.toString(), subProjectId, deviceListBean, false)
+            }
+
 
         }
         materials.setOnSuperTextViewClickListener {

@@ -13,7 +13,7 @@
         android:padding="5dp"
         stv:sBackgroundDrawableRes="@color/white"
         stv:sCenterTextSize="@dimen/text_biger_size"
-        stv:sCenterTextString="施工上报"
+        stv:sCenterTextString="基础信息"
         stv:sLeftIconHeight="@dimen/toolbar_back_width"
         stv:sLeftIconRes="@drawable/icon_toolbar_back"
         stv:sLeftIconWidth="@dimen/toolbar_back_width" />

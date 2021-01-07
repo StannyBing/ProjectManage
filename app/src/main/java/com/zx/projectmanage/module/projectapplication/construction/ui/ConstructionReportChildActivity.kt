@@ -15,6 +15,7 @@ import com.zhy.view.flowlayout.TagAdapter
 import com.zhy.view.flowlayout.TagFlowLayout
 import com.zx.projectmanage.R
 import com.zx.projectmanage.base.BaseActivity
+import com.zx.projectmanage.base.BottomSheetTool
 import com.zx.projectmanage.module.projectapplication.construction.bean.ReportSubListBean
 import com.zx.projectmanage.module.projectapplication.construction.func.adapter.ReportChildListAdapter
 import com.zx.projectmanage.module.projectapplication.construction.func.tool.hitSoft
@@ -142,21 +143,29 @@ class ConstructionReportChildActivity : BaseActivity<ConstructionReportChildPres
             setPeriodFlow(inflate, mVals, 1)
             setPeriodFlow(inflate, mVals1, 2)
 
-            val bottomSheetDialog = BottomSheetDialog(this, R.style.flow_dialog)
-            bottomSheetDialog.setCanceledOnTouchOutside(false)
-            inflate.bottomSheetCancel.setOnClickListener {
-                bottomSheetDialog.dismiss()
-            }
-            inflate.bottomSheetOK.setOnClickListener {
-                //发起筛选请求
-//                refresh(searchText.toString())
-                bottomSheetDialog.dismiss()
-            }
-            inflate?.let { it1 -> bottomSheetDialog.setContentView(it1) }
-            //设置bottomsheet behavior
-            val mDialogBehavior = BottomSheetBehavior.from(inflate.parent as View)
-            mDialogBehavior.peekHeight = getPeekHeight()
-            bottomSheetDialog.show()
+            val bottomSheet = BottomSheetTool.showBottomSheet(mContext, "请选择设备", inflate, {
+//                var takeStatus = ""
+//                var takePeriod = ""
+//                if (arraystatus.toString().length > 2) {
+//                    takeStatus = arraystatus.toString().take(arraystatus.toString().length - 1)
+//                }
+//                if (arrayPeriod.toString().length > 2) {
+//                    takePeriod = arrayPeriod.toString().take(arrayPeriod.toString().length - 1)
+//                }
+//
+//                //发起筛选请求
+//                if (takeStatus.isNotEmpty() && takePeriod.isNotEmpty()) {
+//                    mPresenter.getPageProject(pageNo = 1, projectStatus = takeStatus.toString(), buildPeriod = takePeriod.toString(), type = type)
+//                } else if (takeStatus.isNotEmpty() && takePeriod.isEmpty()) {
+//                    mPresenter.getPageProject(pageNo = 1, projectStatus = takeStatus.toString(), type = type)
+//                } else if (takeStatus.isEmpty() && takePeriod.isNotEmpty()) {
+//                    mPresenter.getPageProject(pageNo = 1, buildPeriod = takePeriod.toString(), type = type)
+//                } else {
+//                    mPresenter.getPageProject(pageNo = 1, type = type)
+//                }
+                it.dismiss()
+            })
+
         }.setLeftImageViewClickListener {
             finish()
         }

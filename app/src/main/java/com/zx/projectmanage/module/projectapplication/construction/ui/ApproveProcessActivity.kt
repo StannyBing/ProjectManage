@@ -130,6 +130,9 @@ class ApproveProcessActivity : BaseActivity<ApproveProcessPresenter, ApproveProc
         if (data != null) {
             if (data.size > 0) {
                 initTab(data)
+            } else {
+                ZXToastUtil.showToast("未获取到数据")
+                finish()
             }
         } else {
             ZXToastUtil.showToast("未获取到数据")

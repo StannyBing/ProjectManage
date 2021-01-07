@@ -14,6 +14,8 @@ import com.zhy.view.flowlayout.TagAdapter
 import com.zhy.view.flowlayout.TagFlowLayout
 import com.zx.projectmanage.R
 import com.zx.projectmanage.base.BaseActivity
+import com.zx.projectmanage.base.BottomSheetTool
+import com.zx.projectmanage.module.projectapplication.construction.bean.DeviceListBean
 
 import com.zx.projectmanage.module.projectapplication.construction.bean.ProjectPeriodBean
 import com.zx.projectmanage.module.projectapplication.construction.bean.ProjectStatusBean
@@ -24,6 +26,7 @@ import com.zx.projectmanage.module.projectapplication.construction.func.tool.set
 import com.zx.projectmanage.module.projectapplication.construction.mvp.contract.ConstructionReportContract
 import com.zx.projectmanage.module.projectapplication.construction.mvp.model.ConstructionReportModel
 import com.zx.projectmanage.module.projectapplication.construction.mvp.presenter.ConstructionReportPresenter
+import com.zx.zxutils.util.ZXToastUtil
 import kotlinx.android.synthetic.main.activity_construction_report.*
 import kotlinx.android.synthetic.main.dialog_filter_project.view.*
 
@@ -130,12 +133,7 @@ class ConstructionReportActivity : BaseActivity<ConstructionReportPresenter, Con
             setPeriodFlow(inflate, 1)
             setPeriodFlow(inflate, 2)
 
-            val bottomSheetDialog = BottomSheetDialog(this, R.style.flow_dialog)
-            bottomSheetDialog.setCanceledOnTouchOutside(false)
-            inflate.bottomSheetCancel.setOnClickListener {
-                bottomSheetDialog.dismiss()
-            }
-            inflate.bottomSheetOK.setOnClickListener {
+            val bottomSheet = BottomSheetTool.showBottomSheet(mContext, "请选择设备", inflate, {
                 var takeStatus = ""
                 var takePeriod = ""
                 if (arraystatus.toString().length > 2) {
@@ -155,19 +153,17 @@ class ConstructionReportActivity : BaseActivity<ConstructionReportPresenter, Con
                 } else {
                     mPresenter.getPageProject(pageNo = 1, type = type)
                 }
-                bottomSheetDialog.dismiss()
-            }
-            inflate?.let { it1 -> bottomSheetDialog.setContentView(it1) }
-            //设置bottomsheet behavior
-            val mDialogBehavior = BottomSheetBehavior.from(inflate.parent as View)
-            mDialogBehavior.peekHeight = getPeekHeight()
-            bottomSheetDialog.show()
+                it.dismiss()
+            })
+
         }.setLeftImageViewClickListener {
             finish()
         }
 
+
         //软键盘搜索按钮监听
-        searchText.setOnEditorActionListener(TextView.OnEditorActionListener { v, actionId, event ->
+        searchText.setOnEditorActionListener(TextView.OnEditorActionListener
+        { v, actionId, event ->
             if (actionId == EditorInfo.IME_ACTION_SEARCH) {
                 //点击搜索的时候隐藏软键盘
                 searchText.hitSoft()
@@ -187,10 +183,12 @@ class ConstructionReportActivity : BaseActivity<ConstructionReportPresenter, Con
             refresh()
             refresh.isRefreshing = false
         }
-        reportListAdapter.setOnLoadMoreListener({
-            isRefresh = false
-            mPresenter.getPageProject(pageNo = pageNo, type = type)
-        }, swipeRecyler)
+        reportListAdapter.setOnLoadMoreListener(
+            {
+                isRefresh = false
+                mPresenter.getPageProject(pageNo = pageNo, type = type)
+            }, swipeRecyler
+        )
     }
 
     /**
