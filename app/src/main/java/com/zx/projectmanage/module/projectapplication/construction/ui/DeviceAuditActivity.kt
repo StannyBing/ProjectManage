@@ -184,7 +184,16 @@ class DeviceAuditActivity : BaseActivity<DeviceAuditPresenter, DeviceAuditModel>
                         if (it.standardId == deviceBean?.standardId) {
                             deviceBean?.attachementVos?.forEach { post ->
                                 if (it.stepId == post.stepId) {
-                                    add(DataStepInfoBean(ApiConfigModule.BASE_IP + "admin/sys-file/getFileById?id=" + post.attachmentId))
+                                    add(
+                                        DataStepInfoBean(
+                                            ApiConfigModule.BASE_IP + "admin/sys-file/getFileById?id=" + post.attachment,
+                                            type = if (post.fileType == 0) {
+                                                DataStepInfoBean.Type.PICTURE
+                                            } else {
+                                                DataStepInfoBean.Type.VIDEO
+                                            }
+                                        )
+                                    )
                                 }
                             }
                         }
