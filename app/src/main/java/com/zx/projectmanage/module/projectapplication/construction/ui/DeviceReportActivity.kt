@@ -323,7 +323,7 @@ class DeviceReportActivity : BaseActivity<DeviceReportPresenter, DeviceReportMod
                     it.stepName,
                     it.standard,
                     stepInfos = arrayListOf<DataStepInfoBean>().apply {
-                        add(DataStepInfoBean(ApiConfigModule.BASE_IP + "admin/sys-file/getFileById?id=" + it.standardId))
+                        add(DataStepInfoBean(ApiConfigModule.BASE_IP + "admin/sys-file/getFileById?id=" + it.attachmentId))
                         if (it.standardId == deviceBean.standardId) {
                             deviceBean?.postDetails?.forEach { post ->
                                 if (it.stepId == post?.stepId) {
