@@ -133,6 +133,7 @@ class ApproveProcessActivity : BaseActivity<ApproveProcessPresenter, ApproveProc
             }
         } else {
             ZXToastUtil.showToast("未获取到数据")
+            finish()
         }
 
     }

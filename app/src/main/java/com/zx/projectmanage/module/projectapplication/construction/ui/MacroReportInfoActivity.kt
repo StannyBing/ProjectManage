@@ -149,6 +149,7 @@ class MacroReportInfoActivity : BaseActivity<MacroReportInfoPresenter, MacroRepo
             initTab(data.detailedList)
         } else {
             ZXToastUtil.showToast("未获取到数据")
+            finish()
         }
     }
 

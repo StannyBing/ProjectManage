@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:stv="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     android:background="@color/white">
 
     <com.allen.library.SuperTextView
@@ -21,21 +22,20 @@
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_above="@id/bottom_ll"
-        android:layout_below="@id/head"
-        android:orientation="vertical">
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:layout_marginBottom="20dp"
+        android:layout_below="@id/head">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginBottom="50dp"
             android:orientation="vertical">
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/swipeRecyler"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent" />
+                android:layout_height="wrap_content" />
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -116,7 +116,7 @@
     </androidx.core.widget.NestedScrollView>
 
     <LinearLayout
-        android:id="@+id/bottom_ll"
+
         android:layout_width="match_parent"
         android:layout_height="@dimen/item_height"
         android:layout_alignParentBottom="true"
@@ -139,4 +139,4 @@
             android:text="提交" />
 
     </LinearLayout>
-</RelativeLayout>
+</LinearLayout>

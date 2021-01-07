@@ -125,7 +125,7 @@ class ConstructionReportActivity : BaseActivity<ConstructionReportPresenter, Con
      */
     override fun onViewListener() {
         //头部点击事件
-        head.setRightBottomTvClickListener {
+        head.setRightImageViewClickListener {
             val inflate = View.inflate(mContext, R.layout.dialog_filter_project, null)
             setPeriodFlow(inflate, 1)
             setPeriodFlow(inflate, 2)
@@ -136,13 +136,22 @@ class ConstructionReportActivity : BaseActivity<ConstructionReportPresenter, Con
                 bottomSheetDialog.dismiss()
             }
             inflate.bottomSheetOK.setOnClickListener {
+                var takeStatus = ""
+                var takePeriod = ""
+                if (arraystatus.toString().length > 2) {
+                    takeStatus = arraystatus.toString().take(arraystatus.toString().length - 1)
+                }
+                if (arrayPeriod.toString().length > 2) {
+                    takePeriod = arrayPeriod.toString().take(arrayPeriod.toString().length - 1)
+                }
+
                 //发起筛选请求
-                if (arraystatus.isNotEmpty() && arrayPeriod.isNotEmpty()) {
-                    mPresenter.getPageProject(pageNo = 1, projectStatus = arraystatus.toString(), buildPeriod = arrayPeriod.toString(), type = type)
-                } else if (arraystatus.isNotEmpty() && arrayPeriod.isEmpty()) {
-                    mPresenter.getPageProject(pageNo = 1, projectStatus = arraystatus.toString(), type = type)
-                } else if (arraystatus.isEmpty() && arrayPeriod.isNotEmpty()) {
-                    mPresenter.getPageProject(pageNo = 1, buildPeriod = arrayPeriod.toString(), type = type)
+                if (takeStatus.isNotEmpty() && takePeriod.isNotEmpty()) {
+                    mPresenter.getPageProject(pageNo = 1, projectStatus = takeStatus.toString(), buildPeriod = takePeriod.toString(), type = type)
+                } else if (takeStatus.isNotEmpty() && takePeriod.isEmpty()) {
+                    mPresenter.getPageProject(pageNo = 1, projectStatus = takeStatus.toString(), type = type)
+                } else if (takeStatus.isEmpty() && takePeriod.isNotEmpty()) {
+                    mPresenter.getPageProject(pageNo = 1, buildPeriod = takePeriod.toString(), type = type)
                 } else {
                     mPresenter.getPageProject(pageNo = 1, type = type)
                 }
@@ -254,7 +263,7 @@ class ConstructionReportActivity : BaseActivity<ConstructionReportPresenter, Con
                     }
 
                 }
-                arraystatus.toString()
+
 
             }
         })

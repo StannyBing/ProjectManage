@@ -139,6 +139,7 @@ class DeviceAuditActivity : BaseActivity<DeviceAuditPresenter, DeviceAuditModel>
         val standardProId = deviceBean?.standardProId
         val standardId = deviceBean?.standardId
         this.deviceBean = deviceListBean
+        deviceBean?.standardId = standardId
         deviceBean?.standardProId = standardProId
         dataList.clear()
         dataList.add(DeviceInfoBean(DeviceInfoBean.Text_Type, "设备ID", stringValue = deviceBean?.equipmentId ?: ""))
@@ -173,42 +174,66 @@ class DeviceAuditActivity : BaseActivity<DeviceAuditPresenter, DeviceAuditModel>
             }
         }
         dataList.first { it.name == "规范模板" }.stringValue = stepDetail.name
-        stepDetail.standardSteps?.forEach {
+        deviceBean?.attachementVos?.forEach {
             dataList.add(
-                DeviceInfoBean(
-                    DeviceInfoBean.Step_Type,
-                    it.stepName,
-                    it.standard,
+                DeviceInfoBean(DeviceInfoBean.Step_Type,
+                    it.stepName ?: "",
+                    it.standard ?: "",
                     stepInfos = arrayListOf<DataStepInfoBean>().apply {
-                        add(DataStepInfoBean(ApiConfigModule.BASE_IP + "admin/sys-file/getFileById?id=" + it.standardId))
-                        if (it.standardId == deviceBean?.standardId) {
-                            deviceBean?.attachementVos?.forEach { post ->
-                                if (it.stepId == post.stepId) {
-                                    add(
-                                        DataStepInfoBean(
-                                            ApiConfigModule.BASE_IP + "admin/sys-file/getFileById?id=" + post.attachment,
-                                            type = if (post.fileType == 0) {
-                                                DataStepInfoBean.Type.PICTURE
-                                            } else {
-                                                DataStepInfoBean.Type.VIDEO
-                                            }
-                                        )
+                        add(DataStepInfoBean(ApiConfigModule.BASE_IP + "admin/sys-file/getFileById?id=" + it.attachmentId))
+                        it.buildPostDetails?.forEach { post ->
+                            if (post != null) {
+                                add(
+                                    DataStepInfoBean(
+                                        ApiConfigModule.BASE_IP + "admin/sys-file/getFileById?id=" + post.attachment,
+                                        type = if (post.fileType == 0) {
+                                            DataStepInfoBean.Type.PICTURE
+                                        } else {
+                                            DataStepInfoBean.Type.VIDEO
+                                        }
                                     )
-                                }
+                                )
                             }
                         }
-//                        add(
-//                            DataStepInfoBean(
-//                                path = ApiConfigModule.BASE_IP + "admin/sys-file/getFileById?id=353732457519910912",
-//                                thumbnail = ApiConfigModule.BASE_IP + "admin/sys-file/getFileById?id=353732457519910912"
-//                            )
-//                        )
-                    },
-                    standardBean = stepDetail,
-                    stepInfoBean = it
-                )
+                    })
             )
         }
+//        stepDetail.standardSteps?.forEach {
+//            dataList.add(
+//                DeviceInfoBean(
+//                    DeviceInfoBean.Step_Type,
+//                    it.stepName,
+//                    it.standard,
+//                    stepInfos = arrayListOf<DataStepInfoBean>().apply {
+//                        add(DataStepInfoBean(ApiConfigModule.BASE_IP + "admin/sys-file/getFileById?id=" + it.attachmentId))
+//                        if (it.standardId == deviceBean?.standardId) {
+//                            deviceBean?.attachementVos?.forEach { post ->
+//                                if (it.stepId == post.stepId) {
+//                                    add(
+//                                        DataStepInfoBean(
+//                                            ApiConfigModule.BASE_IP + "admin/sys-file/getFileById?id=" + post.attachment,
+//                                            type = if (post.fileType == 0) {
+//                                                DataStepInfoBean.Type.PICTURE
+//                                            } else {
+//                                                DataStepInfoBean.Type.VIDEO
+//                                            }
+//                                        )
+//                                    )
+//                                }
+//                            }
+//                        }
+////                        add(
+////                            DataStepInfoBean(
+////                                path = ApiConfigModule.BASE_IP + "admin/sys-file/getFileById?id=353732457519910912",
+////                                thumbnail = ApiConfigModule.BASE_IP + "admin/sys-file/getFileById?id=353732457519910912"
+////                            )
+////                        )
+//                    },
+//                    standardBean = stepDetail,
+//                    stepInfoBean = it
+//                )
+//            )
+//        }
         dataAdapter.notifyDataSetChanged()
     }
 

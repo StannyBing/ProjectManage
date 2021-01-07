@@ -81,5 +81,7 @@ class DeviceListBean : Serializable {
         var stepName: String? = null
         var updateTime: String? = null
         var updateUser: String? = null
+
+        var buildPostDetails: List<PostDetailsBean?>? = null
     }
 }
