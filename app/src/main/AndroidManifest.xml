@@ -27,6 +27,9 @@
         android:usesCleartextTraffic="true"
         tools:ignore="LockedOrientationActivity">
         <activity
+            android:name=".module.other.ui.BaseWebActivity"
+            android:screenOrientation="portrait" />
+        <activity
             android:name=".module.projectapplication.construction.ui.ApproveScoreActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:windowSoftInputMode="stateAlwaysHidden|adjustPan" />

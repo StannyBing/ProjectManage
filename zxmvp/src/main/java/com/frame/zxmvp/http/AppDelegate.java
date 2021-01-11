@@ -43,7 +43,6 @@ public class AppDelegate implements App {
         }
     }
 
-
     public void onCreate() {
         mAppComponent = DaggerAppComponent
                 .builder()
