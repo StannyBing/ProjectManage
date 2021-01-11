@@ -11,6 +11,9 @@ import com.zx.projectmanage.module.projectapplication.construction.bean.ProjectP
 import com.zx.projectmanage.module.projectapplication.construction.mvp.contract.MacroReportInfoContract
 import com.zx.projectmanage.module.projectapplication.construction.mvp.model.MacroReportInfoModel
 import com.zx.projectmanage.module.projectapplication.construction.mvp.presenter.MacroReportInfoPresenter
+import com.zx.projectmanage.module.projectapplication.construction.ui.fragment.Procedure1ReportFragment
+import com.zx.projectmanage.module.projectapplication.construction.ui.fragment.ProcedureReportFragment
+import com.zx.projectmanage.module.projectapplication.construction.ui.fragment.ProcessEmptyFragment
 import com.zx.zxutils.util.ZXToastUtil
 import com.zx.zxutils.views.TabViewPager.ZXTabViewPager
 import kotlinx.android.synthetic.main.activity_contruction_macro_report_info.*
@@ -76,7 +79,7 @@ class MacroReportInfoActivity : BaseActivity<MacroReportInfoPresenter, MacroRepo
     private fun initTab(detailedList: List<ProjectProcessInfoBean.DetailedListBean?>?) {
         //设置工序Tab
         tvp_macro_report_layout.setManager(supportFragmentManager)
-            .setTabScrollable(false)
+            .setTabScrollable(true)
             .setViewpagerCanScroll(false)
             .setTabLayoutGravity(ZXTabViewPager.TabGravity.GRAVITY_TOP)
         if (detailedList != null) {

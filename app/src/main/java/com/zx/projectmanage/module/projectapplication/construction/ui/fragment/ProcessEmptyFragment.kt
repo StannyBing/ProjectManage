@@ -1,4 +1,4 @@
-package com.zx.projectmanage.module.projectapplication.construction.ui
+package com.zx.projectmanage.module.projectapplication.construction.ui.fragment
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment

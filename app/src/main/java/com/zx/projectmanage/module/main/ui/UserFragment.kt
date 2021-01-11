@@ -104,6 +104,9 @@ class UserFragment : BaseFragment<UserPresenter, UserModel>(), UserContract.View
                         LoginActivity.startAction(requireActivity(), true)
                     }
                 }
+                "意见反馈" -> {
+                    FeedbackActivity.startAction(activity!!, false)
+                }
                 else -> {
                     showToast("正在建设中")
                 }

@@ -74,20 +74,21 @@ class DeviceReportPresenter : DeviceReportContract.Presenter() {
         dataList: List<DeviceInfoBean>,
         deviceBean: DeviceListBean?
     ) {
-        var uploadIndex = 0
+        var uploadIndex: Int = 0
         val idMapList = arrayListOf<Pair<String, HashMap<String, String?>>>()
         val fileList = arrayListOf<Pair<String, File>>()
         dataList.filter { it.type == DeviceInfoBean.Step_Type }.forEachIndexed { dataIndex, deviceInfoBean ->
+
             deviceInfoBean.stepInfos.forEachIndexed { index, dataStepInfoBean ->
                 //移除示意图
+                val uuid = UUID.randomUUID().toString()
                 if (index > 0) {
-                    val uuid = UUID.randomUUID().toString()
                     if (dataStepInfoBean.path.startsWith("http")) {
                         //已上传
                         idMapList.add(
                             uuid to hashMapOf(
                                 "fileType" to if (dataStepInfoBean.type == DataStepInfoBean.Type.PICTURE) "0" else "1",
-                                "attachment" to deviceBean?.postDetails?.get(dataIndex)?.attachmentId,
+                                "attachment" to deviceBean?.postDetails?.get(dataIndex)?.attachment,
                                 "stepId" to deviceInfoBean.stepInfoBean?.stepId
                             )
                         )
@@ -105,8 +106,13 @@ class DeviceReportPresenter : DeviceReportContract.Presenter() {
                 }
             }
         }
+        if (fileList.isEmpty()){
+            submitInfo(dataList,deviceBean, idMapList)
+        }else{
+            uploadFile(dataList, deviceBean, fileList, uploadIndex, idMapList)
+        }
 
-        uploadFile(dataList, deviceBean, fileList, uploadIndex, idMapList)
+
 //        mModel.uploadFileData(getUploadRequestBody(fileList, uploadIndex))
 //            .compose(RxHelper.bindToLifecycle(mView))
 //            .apply {

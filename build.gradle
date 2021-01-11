@@ -25,6 +25,9 @@ allprojects {
 //            url 'http://dl.bintray.com/esri/arcgis'
             url 'https://esri.bintray.com/arcgis'
         }
+        maven {
+            url 'http://maven.aliyun.com/nexus/content/repositories/releases/'
+        }
     }
 }
 

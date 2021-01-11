@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".module.projectapplication.construction.ui.ProcessEmptyFragment">
+    tools:context=".module.projectapplication.construction.ui.fragment.ProcessEmptyFragment">
 
     <TextView
         android:layout_width="match_parent"

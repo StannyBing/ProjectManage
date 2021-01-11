@@ -4,15 +4,19 @@ import android.app.Activity
 import android.content.Context
 import android.os.Build
 import android.os.StrictMode
+
+import com.alibaba.sdk.android.push.CommonCallback
+import com.alibaba.sdk.android.push.noonesdk.PushServiceFactory
 import com.frame.zxmvp.baseapp.BaseApplication
 import com.frame.zxmvp.di.component.AppComponent
-import com.zx.projectmanage.BuildConfig
 import com.tencent.bugly.crashreport.CrashReport
+import com.zx.projectmanage.BuildConfig
 import com.zx.zxutils.ZXApp
 import com.zx.zxutils.util.ZXFileUtil
 import com.zx.zxutils.util.ZXSharedPrefUtil
 import com.zx.zxutils.util.ZXSystemUtil
 import java.util.*
+
 
 /**
  * Created by Xiangb on 2019/2/26.
@@ -132,6 +136,23 @@ open class MyApplication : BaseApplication() {
 
     override fun getActivityList(): ArrayList<Activity> {
         return activityList
+    }
+
+    /**
+     * 初始化云推送通道
+     * @param applicationContext
+     */
+    fun initCloudChannel(applicationContext: Context) {
+        PushServiceFactory.init(applicationContext)
+        val pushService = PushServiceFactory.getCloudPushService()
+        pushService.register(applicationContext, object : CommonCallback {
+            override fun onSuccess(response: String?) {
+
+            }
+
+            override fun onFailed(errorCode: String, errorMessage: String) {
+            }
+        })
     }
 
 }

@@ -25,6 +25,7 @@ import java.net.URLDecoder
 class ApiConfigModule : ConfigModule {
     companion object {
         val BASE_IP = "http://192.168.1.236:9095/"
+//        val BASE_IP = "http://47.108.156.198:9091/"
         val MAP_URL = "http://192.168.1.246:8080/GCGL/pm_image.json"
         var COOKIE = ""
     }
