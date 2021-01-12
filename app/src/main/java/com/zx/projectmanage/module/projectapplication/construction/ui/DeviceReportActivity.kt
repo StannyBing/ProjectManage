@@ -2,23 +2,19 @@ package com.zx.projectmanage.module.projectapplication.construction.ui
 
 import android.Manifest
 import android.app.Activity
-import android.content.Context
 import android.content.Intent
 import android.location.Location
 import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.widget.Button
 import android.widget.EditText
-import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.zx.projectmanage.R
 import com.zx.projectmanage.api.ApiConfigModule
-import com.zx.projectmanage.app.toJson2
 import com.zx.projectmanage.base.BaseActivity
 import com.zx.projectmanage.base.BottomSheetTool
 import com.zx.projectmanage.base.SimpleDecoration
@@ -32,7 +28,6 @@ import com.zx.projectmanage.module.projectapplication.construction.mvp.model.Dev
 import com.zx.projectmanage.module.projectapplication.construction.mvp.presenter.DeviceReportPresenter
 import com.zx.zxutils.util.ZXDialogUtil
 import com.zx.zxutils.util.ZXLocationUtil
-import com.zx.zxutils.util.ZXLogUtil
 import com.zx.zxutils.util.ZXSystemUtil
 import kotlinx.android.synthetic.main.activity_device_report.*
 
@@ -92,7 +87,7 @@ class DeviceReportActivity : BaseActivity<DeviceReportPresenter, DeviceReportMod
         if (!editable) {
             ll_devicereport_btn.visibility = View.GONE
         }
-        dataAdapter.editable = editable
+        dataAdapter.isEditable = editable
 
         deviceBean = if (intent.hasExtra("deviceListBean") && intent.getSerializableExtra("deviceListBean") != null) {
             intent.getSerializableExtra("deviceListBean") as DeviceListBean

@@ -8,4 +8,8 @@
     <string name="inputChildProjectName">请输入子项目名称</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <string name="image_enable_storage_permission">开启存储权限</string>
+
+    <string name="image_enable_storage_tips">相册功能需要使用到存储权限，请在设置中开启此应用的存储权限</string>
 </resources>

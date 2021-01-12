@@ -17,7 +17,7 @@ import com.zx.zxutils.other.QuickAdapter.ZXMultiItemQuickAdapter
 
 class DeviceInfoAdapter(dataList: List<DeviceInfoBean>) : ZXMultiItemQuickAdapter<DeviceInfoBean, ZXBaseHolder>(dataList) {
 
-    var editable: Boolean = true
+    var isEditable: Boolean = true
     private var listener: DataStepListener? = null
 
     init {
@@ -49,7 +49,7 @@ class DeviceInfoAdapter(dataList: List<DeviceInfoBean>) : ZXMultiItemQuickAdapte
                         listener?.onEditChange(helper.adapterPosition, helper.getView<EditText>(R.id.et_data_edit_value).text.toString())
                     }
                 })
-                helper.setEnabled(R.id.et_data_edit_value, editable)
+                helper.setEnabled(R.id.et_data_edit_value, isEditable)
             }
             DeviceInfoBean.Text_Type -> {
                 helper.setText(R.id.tv_data_text_name, item.name)
@@ -59,25 +59,25 @@ class DeviceInfoAdapter(dataList: List<DeviceInfoBean>) : ZXMultiItemQuickAdapte
                 helper.setText(R.id.tv_data_select_name, item.name)
                 helper.getView<TextView>(R.id.tv_data_select_value).hint = "请输入${item.name}"
                 helper.setText(R.id.tv_data_select_value, item.stringValue)
-                if (editable) helper.addOnClickListener(R.id.tv_data_select_value)
+                if (isEditable) helper.addOnClickListener(R.id.tv_data_select_value)
             }
             DeviceInfoBean.Location_Type -> {
                 helper.setText(R.id.tv_data_location_name, item.name)
                 helper.setText(R.id.tv_data_location_value, if (item.stringValue.isEmpty()) "未获取到位置" else item.stringValue)
                 helper.addOnClickListener(R.id.tv_data_location_get)
-                helper.setGone(R.id.tv_data_location_get, editable)
-                if (item.stringValue.isEmpty() && editable) helper.getView<TextView>(R.id.tv_data_location_get).performClick()
+                helper.setGone(R.id.tv_data_location_get, isEditable)
+                if (item.stringValue.isEmpty() && isEditable) helper.getView<TextView>(R.id.tv_data_location_get).performClick()
             }
             DeviceInfoBean.Step_Type -> {
                 helper.setText(R.id.tv_data_step_name, item.name)
                 helper.setText(R.id.tv_data_step_info, item.stringValue)
                 helper.addOnClickListener(R.id.iv_data_step_camera)
-                helper.setGone(R.id.iv_data_step_camera, editable)
+                helper.setGone(R.id.iv_data_step_camera, isEditable)
                 val rvStep = helper.getView<RecyclerView>(R.id.rv_data_step_file)
                 rvStep.apply {
                     layoutManager = InScrollGridLayoutManager(mContext, 2)
                     adapter = DataStepFileAdapter(item.stepInfos).apply {
-                        this.editable = editable
+                        this.editable = isEditable
                         setOnItemChildClickListener { adapter, view, position ->
                             when (view.id) {
                                 R.id.iv_data_step_delete -> {

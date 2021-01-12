@@ -72,7 +72,7 @@ class DeviceAuditActivity : BaseActivity<DeviceAuditPresenter, DeviceAuditModel>
         if (!editable) {
             ll_deviceaudit_btn.visibility = View.GONE
         }
-        dataAdapter.editable = false
+        dataAdapter.isEditable = false
 
         deviceBean = intent.getSerializableExtra("deviceListBean") as DeviceListBean
 
