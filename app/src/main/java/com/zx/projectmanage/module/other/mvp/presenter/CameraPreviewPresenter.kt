@@ -1,4 +1,4 @@
-package com.zx.projectmanage.module.other.ui
+package com.zx.projectmanage.module.other.mvp.presenter
 
 import com.frame.zxmvp.http.download.DownInfo
 import com.frame.zxmvp.http.download.listener.DownloadOnNextListener

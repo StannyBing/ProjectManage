@@ -40,6 +40,7 @@
                 stv:sRightIconRes="@drawable/icon_next" />
 
             <com.allen.library.SuperTextView
+                android:id="@+id/messageInfo"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/item_height"
                 stv:sBackgroundDrawableRes="@color/white"
@@ -101,7 +102,7 @@
                 android:layout_height="@dimen/item_height"
                 android:layout_marginTop="5dp"
                 android:gravity="center"
-                android:text="添加设备"
+                android:text="添加测点"
                 android:textColor="@color/colorAccent"
                 android:textSize="@dimen/text_normal_size"
                 android:visibility="gone" />

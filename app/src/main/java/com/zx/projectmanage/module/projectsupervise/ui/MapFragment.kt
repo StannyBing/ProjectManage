@@ -3,11 +3,12 @@ package com.zx.projectmanage.module.projectsupervise.ui
 import android.graphics.PointF
 import android.os.Bundle
 import android.view.Gravity
+import android.view.View
+import android.view.animation.AnimationUtils
 import androidx.core.content.ContextCompat
 import com.lt.zxmap.tool.MapTool
 import com.zx.projectmanage.R
 import com.zx.projectmanage.api.ApiConfigModule
-import com.zx.projectmanage.app.ConstStrings
 import com.zx.projectmanage.base.BaseFragment
 import com.zx.projectmanage.module.projectsupervise.mvp.contract.MapContract
 import com.zx.projectmanage.module.projectsupervise.mvp.model.MapModel
@@ -54,7 +55,6 @@ class MapFragment : BaseFragment<MapPresenter, MapModel>(), MapContract.View {
     override fun initView(savedInstanceState: Bundle?) {
         map_view.onCreate(savedInstanceState)
         map_view.addStyle(ApiConfigModule.MAP_URL, "base_image")
-
         map_view.getMapAsync {
             this.zxMap = it
             mMapTool = MapTool(requireActivity(), zxMap)
@@ -71,7 +71,6 @@ class MapFragment : BaseFragment<MapPresenter, MapModel>(), MapContract.View {
             val pointF = it.projection.toScreenLocation(mLatLng)
             val newLatlng = it.projection.fromScreenLocation(PointF(pointF.x + ZXSystemUtil.dp2px(300f), pointF.y))
             it.moveCamera(CameraUpdateFactory.newLatLngZoom(newLatlng, 10.0))
-
             //启动定位
             mMapTool?.doLocation()
         }

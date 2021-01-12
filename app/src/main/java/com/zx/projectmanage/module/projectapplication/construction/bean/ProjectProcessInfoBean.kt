@@ -86,6 +86,7 @@ class ProjectProcessInfoBean() : Serializable {
         var auditStatus: String? = null
         var score: Double? = null
         var processDetailedProId: String? = null
+        var processType: String? = null
     }
 
 }

@@ -4,6 +4,7 @@ import android.Manifest
 import android.app.Activity
 import android.content.Intent
 import android.location.Location
+import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -15,9 +16,11 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.zx.projectmanage.R
 import com.zx.projectmanage.api.ApiConfigModule
+import com.zx.projectmanage.app.ConstStrings
 import com.zx.projectmanage.base.BaseActivity
 import com.zx.projectmanage.base.BottomSheetTool
 import com.zx.projectmanage.base.SimpleDecoration
+import com.zx.projectmanage.module.other.func.tool.image.IMGEditActivity
 import com.zx.projectmanage.module.other.ui.CameraActivity
 import com.zx.projectmanage.module.projectapplication.construction.bean.*
 import com.zx.projectmanage.module.projectapplication.construction.func.adapter.DeviceInfoAdapter
@@ -26,10 +29,10 @@ import com.zx.projectmanage.module.projectapplication.construction.func.listener
 import com.zx.projectmanage.module.projectapplication.construction.mvp.contract.DeviceReportContract
 import com.zx.projectmanage.module.projectapplication.construction.mvp.model.DeviceReportModel
 import com.zx.projectmanage.module.projectapplication.construction.mvp.presenter.DeviceReportPresenter
-import com.zx.zxutils.util.ZXDialogUtil
-import com.zx.zxutils.util.ZXLocationUtil
-import com.zx.zxutils.util.ZXSystemUtil
+import com.zx.zxutils.util.*
 import kotlinx.android.synthetic.main.activity_device_report.*
+import java.io.File
+import java.text.SimpleDateFormat
 
 
 /**
@@ -37,6 +40,7 @@ import kotlinx.android.synthetic.main.activity_device_report.*
  * 功能：施工资料
  */
 class DeviceReportActivity : BaseActivity<DeviceReportPresenter, DeviceReportModel>(), DeviceReportContract.View {
+    var saveFile: File? = null
 
     companion object {
         /**
@@ -96,9 +100,11 @@ class DeviceReportActivity : BaseActivity<DeviceReportPresenter, DeviceReportMod
         }
         deviceBean.detailedId = intent.getStringExtra("detailedId")
         deviceBean.subProjectId = intent.getStringExtra("subProjectId")
-
-        dataList.add(DeviceInfoBean(DeviceInfoBean.Edit_Type, "设备ID", stringValue = deviceBean.equipmentId ?: ""))
-        dataList.add(DeviceInfoBean(DeviceInfoBean.Edit_Type, "设备名称", stringValue = deviceBean.equipmentName ?: ""))
+        dataList.add(DeviceInfoBean(DeviceInfoBean.Edit_Type, "测点名称", stringValue = deviceBean.gaugingPoint ?: ""))
+        if (intent.getStringExtra("processType") == "1") {
+            dataList.add(DeviceInfoBean(DeviceInfoBean.Edit_Type, "设备ID", stringValue = deviceBean.equipmentId ?: ""))
+            dataList.add(DeviceInfoBean(DeviceInfoBean.Edit_Type, "设备名称", stringValue = deviceBean.equipmentName ?: ""))
+        }
         dataList.add(DeviceInfoBean(DeviceInfoBean.Select_Type, "规范模板", isDivider = true))
         dataList.add(
             DeviceInfoBean(
@@ -377,21 +383,41 @@ class DeviceReportActivity : BaseActivity<DeviceReportPresenter, DeviceReportMod
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == 0x001 && data != null) {
-            val fileBean = DataStepInfoBean(
-                if (!data.getStringExtra("vedioPath").isNullOrEmpty()) {
-                    data.getStringExtra("vedioPath") ?: ""
+            if (data.getStringExtra("vedioPath").isNullOrEmpty()) {
+                saveFile = File("${ConstStrings.getCachePath()}${ZXTimeUtil.getCurrentTime(SimpleDateFormat("yyyyMMddHHmm"))}jpg")
+                val currentTime = System.currentTimeMillis()
+                val file = File(data.getStringExtra("path") ?: "")
+                val lastModified = file.lastModified()
+                if (currentTime - lastModified > 600000) {
+                    ZXToastUtil.showToast("请选择合法时间内的照片")
                 } else {
-                    data.getStringExtra("path") ?: ""
-                },
-                data.getStringExtra("path") ?: "",
-                if (data.getStringExtra("vedioPath").isNullOrEmpty()) {
-                    DataStepInfoBean.Type.PICTURE
-                } else {
-                    DataStepInfoBean.Type.VIDEO
+                    startActivityForResult(
+                        Intent(mContext, IMGEditActivity::class.java)
+                            .putExtra(IMGEditActivity.EXTRA_IMAGE_URI, Uri.fromFile(file))
+                            .putExtra(IMGEditActivity.EXTRA_IMAGE_SAVE_PATH, saveFile?.absolutePath)
+                        , 0x12
+                    )
+                    return
                 }
+            } else {
+                val fileBean = DataStepInfoBean(
+                    data.getStringExtra("vedioPath") ?: "",
+                    data.getStringExtra("path") ?: "",
+                    DataStepInfoBean.Type.VIDEO
+                )
+                dataList[cameraPos].stepInfos.add(fileBean)
+                dataAdapter.notifyDataSetChanged()
+            }
+        }
+        if (requestCode == 0x12) {
+            val fileBean = DataStepInfoBean(
+                saveFile?.absolutePath.toString(),
+                saveFile?.absolutePath.toString(),
+                DataStepInfoBean.Type.PICTURE
             )
             dataList[cameraPos].stepInfos.add(fileBean)
             dataAdapter.notifyDataSetChanged()
+        } else {
         }
     }
 }

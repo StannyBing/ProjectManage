@@ -106,9 +106,9 @@ class DeviceReportPresenter : DeviceReportContract.Presenter() {
                 }
             }
         }
-        if (fileList.isEmpty()){
-            submitInfo(dataList,deviceBean, idMapList)
-        }else{
+        if (fileList.isEmpty()) {
+            submitInfo(dataList, deviceBean, idMapList)
+        } else {
             uploadFile(dataList, deviceBean, fileList, uploadIndex, idMapList)
         }
 
@@ -204,6 +204,8 @@ class DeviceReportPresenter : DeviceReportContract.Presenter() {
     }
 
     private fun submitInfo(dataList: List<DeviceInfoBean>, deviceBean: DeviceListBean?, idMapList: ArrayList<Pair<String, HashMap<String, String?>>>) {
+
+        val gaugingPoint = dataList.first { it.name == "测点名称" }.stringValue
         val equipmentId = dataList.first { it.name == "设备ID" }.stringValue
         val equipmentName = dataList.first { it.name == "设备名称" }.stringValue
         val detailedId = deviceBean?.detailedId
@@ -226,7 +228,8 @@ class DeviceReportPresenter : DeviceReportContract.Presenter() {
             "postAddr" to postAddr,
             "latitude" to latitude,
             "longitude" to longitude,
-            "postDetails" to postDetails
+            "postDetails" to postDetails,
+            "gaugingPoint" to gaugingPoint
         )
         if (deviceBean?.id == null) {
             mModel.saveInfoData(info.toJson2())

@@ -125,7 +125,7 @@ class ApproveSubProcessFragment : BaseFragment<ApproveSubProcessPresenter, Appro
                 showToast("当前设备不可审批")
                 return@setOnItemClickListener
             }
-            if (deviceListBean.auditStatus?.toInt()!! < 4) {
+            if (deviceListBean.auditStatus?.toInt()!! < 4 && deviceListBean.auditStatus?.toInt()!! > -1) {
                 startAction(activity!!, deviceListBean.detailedId.toString(), subProjectId, deviceListBean, true)
             } else {
                 startAction(activity!!, deviceListBean.detailedId.toString(), subProjectId, deviceListBean, false)

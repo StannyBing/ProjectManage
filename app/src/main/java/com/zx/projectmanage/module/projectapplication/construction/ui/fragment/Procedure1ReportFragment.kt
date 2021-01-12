@@ -59,13 +59,15 @@ class Procedure1ReportFragment : BaseFragment<ProcedureOneReportPresenter, Proce
         detailedId: String = "",
         subProjectId: String = "",
         deviceListBean: DeviceListBean? = null,
-        editable: Boolean? = null
+        editable: Boolean? = null,
+        processType: String? = null
     ) {
         val intent = Intent(activity, DeviceReportActivity::class.java)
         intent.putExtra("detailedId", detailedId)
         intent.putExtra("subProjectId", subProjectId)
         intent.putExtra("deviceListBean", deviceListBean)
         intent.putExtra("editable", editable)
+        intent.putExtra("processType", processType)
         startActivityForResult(intent, 0x01)
 
     }
@@ -79,15 +81,21 @@ class Procedure1ReportFragment : BaseFragment<ProcedureOneReportPresenter, Proce
         subProjectId = arguments?.getString("subProjectId").toString()
         projectId = arguments?.getString("projectId").toString()
         type = arguments?.getInt("type", 0)!!
-
+        var total = 0
         if (parcelable?.showMaterials == 0) {
             materials.visibility = View.GONE
+            total++
         }
         if (parcelable?.showOperationGuide == 0) {
             operationGuide.visibility = View.GONE
+            total++
         }
         if (parcelable?.showSafetyRegulations == 0) {
             safetyRegulations.visibility = View.GONE
+            total++
+        }
+        if (total ==3) {
+            messageInfo.visibility = View.GONE
         }
         sv_score.setRightString(if (parcelable?.score == null) "" else parcelable!!.score.toString())
         //设置adapter
@@ -109,7 +117,7 @@ class Procedure1ReportFragment : BaseFragment<ProcedureOneReportPresenter, Proce
      */
     override fun onViewListener() {
         tv_report_addEquip.setOnClickListener {
-            startAction(activity!!, parcelable?.id.toString(), subProjectId, null, true)
+            startAction(activity!!, parcelable?.id.toString(), subProjectId, null, true, parcelable?.processType)
         }
         process_progress.setOnSuperTextViewClickListener {
             if (list.size > 0) {
@@ -119,9 +127,9 @@ class Procedure1ReportFragment : BaseFragment<ProcedureOneReportPresenter, Proce
         reportListAdapter.setOnItemClickListener { adapter, view, position ->
             val deviceListBean = adapter.data[position] as DeviceListBean
             if ((deviceListBean.status == "9" && parcelable?.auditStatus == "0") || deviceListBean.status == "-1" || deviceListBean.status == "-2") {
-                startAction(activity!!, parcelable?.id.toString(), subProjectId, deviceListBean, true)
+                startAction(activity!!, parcelable?.id.toString(), subProjectId, deviceListBean, true, parcelable?.processType)
             } else {
-                startAction(activity!!, parcelable?.id.toString(), subProjectId, deviceListBean, false)
+                startAction(activity!!, parcelable?.id.toString(), subProjectId, deviceListBean, false, parcelable?.processType)
             }
 
 
