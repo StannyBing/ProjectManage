@@ -1,2 +1,3 @@
 rootProject.name='ProjectManage'
 include ':app', ':zxmvp', ':zxmap'
+include ':module_map'
