@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:stv="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
@@ -8,5 +10,165 @@
         android:id="@+id/fm_map"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <View
+                android:id="@+id/head_head"
+                android:layout_width="match_parent"
+                android:layout_height="20dp"
+                android:background="@color/alphaColor" />
+            <com.allen.library.SuperTextView
+                android:id="@+id/head"
+                android:layout_below="@id/head_head"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/toolbar_height"
+                android:padding="5dp"
+                app:sCenterTextColor="@color/white"
+                stv:sBackgroundDrawableRes="@color/alphaColor"
+                stv:sCenterTextSize="@dimen/text_big_size"
+                stv:sCenterTextString="项目监管" />
+            <RelativeLayout
+                android:id="@+id/mapLayer"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_marginTop="20dp"
+                android:layout_below="@id/head"
+                android:layout_marginRight="10dp"
+                android:layout_alignParentRight="true"
+                android:background="@color/alphaColor"
+                android:gravity="center">
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    app:srcCompat="@drawable/map_layer" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/mapSearch"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_below="@id/mapLayer"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="10dp"
+                android:background="@color/alphaColor"
+                android:gravity="center">
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+
+                    app:srcCompat="@drawable/map_search" />
+            </RelativeLayout>
+
+
+            <RelativeLayout
+                android:id="@+id/mapFliter"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_marginRight="10dp"
+                android:layout_below="@id/mapSearch"
+                android:layout_alignParentRight="true"
+                android:background="@color/alphaColor"
+                android:gravity="center">
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    app:srcCompat="@drawable/map_fliter" />
+            </RelativeLayout>
+
+
+            <RelativeLayout
+                android:id="@+id/mapBase"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_marginRight="10dp"
+                android:layout_below="@id/mapFliter"
+                android:layout_alignParentRight="true"
+                android:background="@color/alphaColor"
+                android:gravity="center">
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    app:srcCompat="@drawable/map_base" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/mapMore"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_marginRight="10dp"
+                android:layout_below="@id/mapBase"
+                android:layout_alignParentRight="true"
+                android:background="@color/alphaColor"
+                android:gravity="center">
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    app:srcCompat="@drawable/map_more" />
+            </RelativeLayout>
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:id="@+id/layers"
+                android:layout_width="wrap_content"
+                android:layout_height="60dp"
+                android:layout_alignBottom="@id/mapLayer"
+                android:layout_marginRight="5dp"
+                android:layout_toStartOf="@id/mapLayer"
+                android:background="@color/alphaColor"
+                android:orientation="horizontal">
+
+                <RelativeLayout
+                    android:id="@+id/projectLayer"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:background="@color/alphaColor"
+                    android:gravity="center">
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        app:srcCompat="@drawable/project_layer" />
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/maintainLayer"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:background="@color/alphaColor"
+                    android:gravity="center">
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        app:srcCompat="@drawable/maintian_layer" />
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/peopleLayer"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:background="@color/alphaColor"
+                    android:gravity="center">
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        app:srcCompat="@drawable/people_layer" />
+                </RelativeLayout>
+            </androidx.appcompat.widget.LinearLayoutCompat>
+        </RelativeLayout>
+    </FrameLayout>
+
 
 </FrameLayout>

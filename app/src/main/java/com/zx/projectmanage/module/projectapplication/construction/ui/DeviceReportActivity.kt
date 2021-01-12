@@ -96,9 +96,11 @@ class DeviceReportActivity : BaseActivity<DeviceReportPresenter, DeviceReportMod
         }
         deviceBean.detailedId = intent.getStringExtra("detailedId")
         deviceBean.subProjectId = intent.getStringExtra("subProjectId")
-
-        dataList.add(DeviceInfoBean(DeviceInfoBean.Edit_Type, "设备ID", stringValue = deviceBean.equipmentId ?: ""))
-        dataList.add(DeviceInfoBean(DeviceInfoBean.Edit_Type, "设备名称", stringValue = deviceBean.equipmentName ?: ""))
+        dataList.add(DeviceInfoBean(DeviceInfoBean.Edit_Type, "测点名称", stringValue = deviceBean.gaugingPoint ?: ""))
+        if (intent.getStringExtra("processType") == "1") {
+            dataList.add(DeviceInfoBean(DeviceInfoBean.Edit_Type, "设备ID", stringValue = deviceBean.equipmentId ?: ""))
+            dataList.add(DeviceInfoBean(DeviceInfoBean.Edit_Type, "设备名称", stringValue = deviceBean.equipmentName ?: ""))
+        }
         dataList.add(DeviceInfoBean(DeviceInfoBean.Select_Type, "规范模板", isDivider = true))
         dataList.add(
             DeviceInfoBean(

@@ -8,17 +8,17 @@
     android:orientation="vertical">
 
     <com.allen.library.SuperTextView
-        android:id="@+id/head"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/toolbar_height"
-        android:padding="5dp"
-        stv:sBackgroundDrawableRes="@color/white"
-        stv:sCenterTextSize="@dimen/text_big_size"
-        stv:sCenterTextString="施工审核"
-        stv:sCenterTopTextColor="@color/default_text_color"
-        stv:sLeftIconHeight="@dimen/toolbar_back_width"
-        stv:sLeftIconRes="@drawable/icon_toolbar_back"
-        stv:sLeftIconWidth="@dimen/toolbar_back_width" />
+    android:id="@+id/head"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/toolbar_height"
+    android:padding="5dp"
+    stv:sBackgroundDrawableRes="@color/white"
+    stv:sCenterTextSize="@dimen/text_big_size"
+    stv:sCenterTextString="施工审核"
+    stv:sCenterTopTextColor="@color/default_text_color"
+    stv:sLeftIconHeight="@dimen/toolbar_back_width"
+    stv:sLeftIconRes="@drawable/icon_toolbar_back"
+    stv:sLeftIconWidth="@dimen/toolbar_back_width" />
 
     <com.allen.library.SuperTextView
         android:id="@+id/basicInformation"

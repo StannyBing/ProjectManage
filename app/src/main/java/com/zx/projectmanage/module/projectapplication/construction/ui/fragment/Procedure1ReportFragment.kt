@@ -59,13 +59,15 @@ class Procedure1ReportFragment : BaseFragment<ProcedureOneReportPresenter, Proce
         detailedId: String = "",
         subProjectId: String = "",
         deviceListBean: DeviceListBean? = null,
-        editable: Boolean? = null
+        editable: Boolean? = null,
+        processType: String? = null
     ) {
         val intent = Intent(activity, DeviceReportActivity::class.java)
         intent.putExtra("detailedId", detailedId)
         intent.putExtra("subProjectId", subProjectId)
         intent.putExtra("deviceListBean", deviceListBean)
         intent.putExtra("editable", editable)
+        intent.putExtra("processType", processType)
         startActivityForResult(intent, 0x01)
 
     }

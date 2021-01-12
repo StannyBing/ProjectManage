@@ -5,4 +5,5 @@
     <color name="colorAccent">#09AAE9</color>
 
     <color name="editColor">#80FAFAFA</color>
+    <color name="alphaColor">#70000000</color>
 </resources>
