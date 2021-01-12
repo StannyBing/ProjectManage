@@ -95,7 +95,7 @@ class CameraActivity : BaseActivity<CameraPresenter, CameraModel>(), CameraContr
             .setCameraMode(if (cameraType == 1) GTCameraView.BUTTON_STATE_ONLY_CAPTURE else if (cameraType == 2) GTCameraView.BUTTON_STATE_ONLY_RECORDER else GTCameraView.BUTTON_STATE_BOTH)
             .setMediaQuality(GTCameraView.MEDIA_QUALITY_HIGH)
             .setMaxVedioDuration(30)
-            .showAlbumView(false)
+            .showAlbumView(true)
             .setCameraLisenter(object : CameraListener {
                 override fun onCaptureCommit(bitmap: Bitmap) {
                     val time = ZXTimeUtil.getTime(System.currentTimeMillis(), SimpleDateFormat("yyyyMMdd_HHmmss"))

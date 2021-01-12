@@ -121,6 +121,14 @@ interface ApiService {
     ): Observable<BaseRespose<Any>>
 
     /**
+     * 提交反馈意见
+     */
+    @POST("/admin/sysFeedBack/save")
+    fun postFeedBack(
+        @Body body: RequestBody
+    ): Observable<BaseRespose<Any>>
+
+    /**
      * 查询工序进度
      */
     @GET("/business/report/app/progress/{detailedProId}")

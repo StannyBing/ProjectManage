@@ -1,6 +1,8 @@
 package com.zx.projectmanage.module.main.ui
 
+import android.Manifest
 import android.app.Activity
+import android.content.DialogInterface
 import android.content.Intent
 import android.database.Cursor
 import android.net.Uri
@@ -14,7 +16,11 @@ import com.zx.projectmanage.base.BaseActivity
 import com.zx.projectmanage.module.main.mvp.contract.FeedbackContract
 import com.zx.projectmanage.module.main.mvp.model.FeedbackModel
 import com.zx.projectmanage.module.main.mvp.presenter.FeedbackPresenter
+import com.zx.projectmanage.module.other.ui.CameraActivity
 import com.zx.projectmanage.module.projectapplication.construction.func.tool.setHintKtx
+import com.zx.zxutils.util.ZXDialogUtil
+import com.zx.zxutils.views.BottomSheet.SheetData
+import com.zx.zxutils.views.BottomSheet.ZXBottomSheet
 import com.zx.zxutils.views.PhotoPicker.widget.ZXPhotoPickerView
 import kotlinx.android.synthetic.main.activity_feedback.*
 
@@ -68,9 +74,39 @@ class FeedbackActivity : BaseActivity<FeedbackPresenter, FeedbackModel>(), Feedb
                 VIDEOPATH = ""
                 video_tool.setRightString("添加")
             } else {
-                val i = Intent(Intent.ACTION_PICK, MediaStore.Video.Media.EXTERNAL_CONTENT_URI)
-                startActivityForResult(i, 66)
+                getPermission(arrayOf(Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.RECORD_AUDIO)) {
+                    val list = mutableListOf<String>("从相册选择视频", "拍摄视频")
+                    ZXDialogUtil.showListDialog(mContext, "请选择视频选取方式", "取消", list) { p0, p1 ->
+                        when (p1) {
+                            1 -> {
+                                CameraActivity.startAction(this, false, requestCode = 0x001)
+                            }
+                            0 -> {
+                                val i = Intent(Intent.ACTION_PICK, MediaStore.Video.Media.EXTERNAL_CONTENT_URI)
+                                startActivityForResult(i, 66)
+                            }
+                        }
+                    }
+
+
+                }
+
             }
+        }
+        btn_approve_submit.setOnClickListener {
+            if (feedBackContent.text.toString().isNotEmpty()) {
+                if (player.visibility == View.VISIBLE) {
+                    photoList1.add(VIDEOPATH)
+                    mPresenter.saveDataInfo(feedBackContent.text.toString(), photoList1, 1)
+                } else {
+                    mPresenter.saveDataInfo(feedBackContent.text.toString(), photoList1, 0)
+                }
+            } else {
+                showToast("请务必描述您的问题")
+                return@setOnClickListener
+            }
+
+
         }
     }
 
@@ -123,5 +159,10 @@ class FeedbackActivity : BaseActivity<FeedbackPresenter, FeedbackModel>(), Feedb
         if (!player.onBackPressed()) {
             super.onBackPressed()
         }
+    }
+
+    override fun onSaveResult() {
+        finish()
+        showToast("上传成功")
     }
 }

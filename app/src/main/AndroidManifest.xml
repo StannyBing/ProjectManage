@@ -51,6 +51,7 @@
 
         <activity android:name="com.zx.zxutils.views.PhotoPicker.PhotoPagerActivity" />
         <activity android:name="com.zx.zxutils.views.PhotoPicker.PhotoPickerActivity" />
+        <activity android:name=".module.other.func.tool.image.IMGEditActivity"/>
         <activity
             android:name=".module.other.ui.BaseWebActivity"
             android:screenOrientation="portrait" />

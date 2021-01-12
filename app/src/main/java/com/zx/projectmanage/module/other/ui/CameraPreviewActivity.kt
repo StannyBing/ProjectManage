@@ -17,6 +17,7 @@ import com.zx.projectmanage.R
 import com.zx.projectmanage.base.BaseActivity
 import com.zx.projectmanage.module.other.mvp.contract.CameraPreviewContract
 import com.zx.projectmanage.module.other.mvp.model.CameraPreviewModel
+import com.zx.projectmanage.module.other.mvp.presenter.CameraPreviewPresenter
 import com.zx.zxutils.util.ZXDialogUtil
 import com.zx.zxutils.util.ZXLogUtil
 import kotlinx.android.synthetic.main.activity_camera_preview.*

@@ -40,6 +40,7 @@
                 stv:sRightIconRes="@drawable/icon_next" />
 
             <com.allen.library.SuperTextView
+                android:id="@+id/messageInfo"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/item_height"
                 stv:sBackgroundDrawableRes="@color/white"

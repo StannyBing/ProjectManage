@@ -125,7 +125,7 @@
                 android:layout_alignBottom="@id/mapLayer"
                 android:layout_marginRight="5dp"
                 android:layout_toStartOf="@id/mapLayer"
-                android:background="@color/alphaColor"
+
                 android:orientation="horizontal">
 
                 <RelativeLayout

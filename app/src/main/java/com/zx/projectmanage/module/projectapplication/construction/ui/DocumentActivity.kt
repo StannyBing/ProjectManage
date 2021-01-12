@@ -67,7 +67,7 @@ class DocumentActivity : BaseActivity<DocumentPresenter, DocumentModel>(), Docum
     }
 
     override fun onFileInfoResult(data: FileInfoBean?) {
-        if (data?.type == "png") {
+        if (data?.type == "png" ||data?.type == "jpg" ||data?.type =="jepg") {
             Glide.with(mContext)
                 .load(ApiConfigModule.BASE_IP + "admin/sys-file/getFileById?id=${id}")
                 .into(iv_photo)
