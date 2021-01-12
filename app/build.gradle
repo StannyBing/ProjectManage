@@ -105,6 +105,7 @@ dependencies {
     implementation project(':zxmvp')
     implementation project(':zxmap')
     implementation project(':module_map')
+
     implementation('com.github.StannyBing:ZXUtils:2.3.8') {
         exclude group: 'com.squareup.okhttp3'
     }
