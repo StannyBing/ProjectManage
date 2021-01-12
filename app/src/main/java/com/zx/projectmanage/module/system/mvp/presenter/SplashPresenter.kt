@@ -22,7 +22,7 @@ class SplashPresenter : SplashContract.Presenter() {
             .subscribe(object : RxSubscriber<UserBean>(mView) {
                 override fun _onNext(t: UserBean?) {
                     if (t != null && t.code == null) {
-                        UserManager.setUser(t)
+                        UserManager.user = t
                         mView.onAppLoginResult(t)
                     } else {
                         t?.msg?.let {

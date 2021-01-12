@@ -4,6 +4,7 @@ package com.zx.projectmanage.api
 import com.frame.zxmvp.basebean.BaseRespose
 import com.zx.projectmanage.base.NormalList
 import com.zx.projectmanage.module.main.bean.UserBean
+import com.zx.projectmanage.module.main.bean.VersionBean
 import com.zx.projectmanage.module.projectapplication.construction.bean.BaiduGeocoderBean
 import com.zx.projectmanage.module.projectapplication.construction.bean.FileInfoBean
 import com.zx.projectmanage.module.projectapplication.construction.bean.FileUploadBean
@@ -235,4 +236,10 @@ interface ApiService {
      */
     @GET("business/report/app/equipmentDetail/{standardProId}/{standardId}")
     fun getDeviceDetail(@Path("standardProId") standardProId: String, @Path("standardId") standardId: String): Observable<BaseRespose<DeviceListBean>>
+
+    /**
+     * 获取更新
+     */
+    @GET("*****")
+    fun getVersion(): Observable<BaseRespose<VersionBean>>
 }

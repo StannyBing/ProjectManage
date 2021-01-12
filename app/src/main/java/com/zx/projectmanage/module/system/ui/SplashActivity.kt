@@ -77,7 +77,6 @@ class SplashActivity : BaseActivity<SplashPresenter, SplashModel>(), SplashContr
     }
 
     override fun onAppLoginResult(userBean: UserBean?) {
-        MainActivity.startAction(this, true)
         if (userBean != null) {
             showToast("登录成功")
             MainActivity.startAction(this, true)

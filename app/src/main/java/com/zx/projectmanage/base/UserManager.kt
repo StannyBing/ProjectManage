@@ -11,7 +11,22 @@ import com.zx.zxutils.util.ZXSharedPrefUtil
  */
 object UserManager {
 
-    private var user: UserBean? = null
+    var user: UserBean? = null
+        get() {
+            if (field == null) {
+                val sharedPref = MyApplication.mSharedPrefUtil
+                field = sharedPref.getObject("userBean")
+                if (field == null) {
+                    field = UserBean()
+                }
+            }
+            return field
+        }
+        set(value) {
+            ApiConfigModule.COOKIE = field?.access_token ?: ""
+            field = value
+            saveUser()
+        }
 
     var userName: String = ""
         set(value) {
@@ -42,23 +57,6 @@ object UserManager {
                 return field
             }
         }
-
-    fun getUser(): UserBean {
-        if (user == null) {
-            val sharedPref = MyApplication.mSharedPrefUtil
-            user = sharedPref.getObject("userBean")
-            if (user == null) {
-                user = UserBean()
-            }
-        }
-        return user!!
-    }
-
-    fun setUser(userBean: UserBean) {
-        ApiConfigModule.COOKIE = userBean.access_token
-        user = userBean
-        saveUser()
-    }
 
     fun saveUser() {
         val sharedPref = MyApplication.mSharedPrefUtil

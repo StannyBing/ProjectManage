@@ -5,11 +5,13 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.zx.projectmanage.R
+import com.zx.projectmanage.api.ApiConfigModule
 import com.zx.projectmanage.app.ConstStrings
 import com.zx.projectmanage.base.BaseFragment
 import com.zx.projectmanage.base.SimpleDecoration
 import com.zx.projectmanage.base.UserManager
 import com.zx.projectmanage.module.main.bean.UserSettingBean
+import com.zx.projectmanage.module.main.bean.VersionBean
 import com.zx.projectmanage.module.main.func.adapter.UserSettingAdapter
 import com.zx.projectmanage.module.main.mvp.contract.UserContract
 import com.zx.projectmanage.module.main.mvp.model.UserModel
@@ -55,7 +57,7 @@ class UserFragment : BaseFragment<UserPresenter, UserModel>(), UserContract.View
      */
     override fun initView(savedInstanceState: Bundle?) {
         Glide.with(mContext)
-            .load("https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fb-ssl.duitang.com%2Fuploads%2Fitem%2F201607%2F07%2F20160707163006_EnLeG.thumb.700_0.jpeg&refer=http%3A%2F%2Fb-ssl.duitang.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=jpeg?sec=1611296290&t=b8ae99d0f4c5482d5e0d53496d6083d8")
+            .load("${ApiConfigModule.BASE_IP}admin/sys-file/getFile?fileName=${UserManager.user?.user_info?.avatar}")
             .apply(RequestOptions.circleCropTransform())
             .into(iv_user_headicon)
 
@@ -73,7 +75,7 @@ class UserFragment : BaseFragment<UserPresenter, UserModel>(), UserContract.View
             adapter = settingAdapter
             addItemDecoration(SimpleDecoration(mContext))
         }
-        R.dimen.text_big_size
+
         super.initView(savedInstanceState)
     }
 
@@ -123,5 +125,33 @@ class UserFragment : BaseFragment<UserPresenter, UserModel>(), UserContract.View
         } else {
             ZXFileUtil.deleteFiles(localFile)
         }
+    }
+
+    override fun onVersionResult(versionBean: VersionBean) {
+        if (ZXSystemUtil.getVersionCode() < versionBean.versionCode) {
+            val content = if (versionBean.content.isNullOrEmpty()) {
+                ""
+            } else {
+                "-" + versionBean.content
+            }
+            ZXDialogUtil.showYesNoDialog(
+                mContext,
+                "提示",
+                "检测到最新版本：${versionBean.versionName}${content}，是否立即更新"
+            ) { dialog, which ->
+                mPresenter.downloadApk(versionBean)
+            }
+        } else {
+            showToast("已是最新版本")
+        }
+    }
+
+    override fun onDownloadProgress(progress: Int) {
+        ZXDialogUtil.showLoadingDialog(mContext, "下载中...", if (progress >= 100) 99 else progress)
+    }
+
+    override fun onApkDownloadResult(file: File) {
+        ZXDialogUtil.dismissLoadingDialog()
+        ZXAppUtil.installApp(mActivity, file.path)
     }
 }
