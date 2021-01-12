@@ -1,4 +1,4 @@
-package com.zx.projectmanage.module.projectapplication.construction.ui
+package com.zx.projectmanage.module.projectapplication.construction.ui.fragment
 
 import android.app.Activity
 import android.content.Intent
@@ -12,11 +12,11 @@ import com.zx.projectmanage.module.projectapplication.construction.bean.DeviceLi
 import com.zx.projectmanage.module.projectapplication.construction.bean.ProjectProcessInfoBean
 import com.zx.projectmanage.module.projectapplication.construction.func.adapter.ProcedureListAdapter
 import com.zx.projectmanage.module.projectapplication.construction.mvp.contract.ProcedureOneReportContract
-import com.zx.projectmanage.module.projectapplication.construction.mvp.contract.ProcedureReportContract
 import com.zx.projectmanage.module.projectapplication.construction.mvp.model.ProcedureOneReportModel
-import com.zx.projectmanage.module.projectapplication.construction.mvp.model.ProcedureReportModel
 import com.zx.projectmanage.module.projectapplication.construction.mvp.presenter.ProcedureOneReportPresenter
-import com.zx.projectmanage.module.projectapplication.construction.mvp.presenter.ProcedureReportPresenter
+import com.zx.projectmanage.module.projectapplication.construction.ui.DeviceReportActivity
+import com.zx.projectmanage.module.projectapplication.construction.ui.DocumentActivity
+import com.zx.projectmanage.module.projectapplication.construction.ui.ProjectProgressActivity
 import com.zx.zxutils.util.ZXDialogUtil
 import com.zx.zxutils.util.ZXSharedPrefUtil
 import com.zx.zxutils.util.ZXToastUtil
@@ -89,7 +89,7 @@ class Procedure1ReportFragment : BaseFragment<ProcedureOneReportPresenter, Proce
         if (parcelable?.showSafetyRegulations == 0) {
             safetyRegulations.visibility = View.GONE
         }
-        sv_score.setRightString(parcelable?.score.toString())
+        sv_score.setRightString(if (parcelable?.score == null) "" else parcelable!!.score.toString())
         //设置adapter
         dataShow.apply {
             layoutManager = LinearLayoutManager(mContext)
@@ -118,7 +118,7 @@ class Procedure1ReportFragment : BaseFragment<ProcedureOneReportPresenter, Proce
         }
         reportListAdapter.setOnItemClickListener { adapter, view, position ->
             val deviceListBean = adapter.data[position] as DeviceListBean
-            if (deviceListBean.status == "9" || deviceListBean.status == "-1" || deviceListBean.status == "-2") {
+            if ((deviceListBean.status == "9" && parcelable?.auditStatus == "0") || deviceListBean.status == "-1" || deviceListBean.status == "-2") {
                 startAction(activity!!, parcelable?.id.toString(), subProjectId, deviceListBean, true)
             } else {
                 startAction(activity!!, parcelable?.id.toString(), subProjectId, deviceListBean, false)
@@ -152,29 +152,14 @@ class Procedure1ReportFragment : BaseFragment<ProcedureOneReportPresenter, Proce
 
         }
         btn_approve_submit.setOnClickListener {
-            if (parcelable?.auditStatus == "0") {
-                var b = 0
-                for (deviceListBean in list) {
-                    val toInt = deviceListBean.status?.toInt()
-                    if (toInt == -1) {
-                        b++
-                    }
+            var b = 0
+            for (deviceListBean in list) {
+                val toInt = deviceListBean.status?.toInt()
+                if (toInt == -1 || toInt == 9) {
+                    b++
                 }
-                if (b == list.size) {
-                    //自动登录
-                    mPresenter.postSubmit(
-                        hashMapOf(
-                            "detailedProId" to list[0].detailedProId,
-                            "projectId" to projectId,
-                            "subProecssId" to parcelable?.id.toString()
-                        ).toJson2()
-                    )
-                } else {
-                    ZXDialogUtil.showYesNoDialog(mContext, "提示", "您有设备未完成资料上传") { _, i ->
-                        ZXDialogUtil.dismissDialog()
-                    }
-                }
-            } else {
+            }
+            if (b == list.size) {
                 //自动登录
                 mPresenter.postSubmit(
                     hashMapOf(
@@ -183,7 +168,12 @@ class Procedure1ReportFragment : BaseFragment<ProcedureOneReportPresenter, Proce
                         "subProecssId" to parcelable?.id.toString()
                     ).toJson2()
                 )
+            } else {
+                ZXDialogUtil.showYesNoDialog(mContext, "提示", "您有设备未完成资料上传") { _, i ->
+                    ZXDialogUtil.dismissDialog()
+                }
             }
+
         }
     }
 
@@ -192,15 +182,22 @@ class Procedure1ReportFragment : BaseFragment<ProcedureOneReportPresenter, Proce
         reportListAdapter.setNewData(
             data
         )
-        if (parcelable?.auditStatus == "0") {
-            tv_report_addEquip.visibility = View.VISIBLE
-        }
-        if (parcelable?.auditStatus == "0" || parcelable?.auditStatus == "9") {
-            btn_approve_submit.visibility = View.VISIBLE
-        }
+
         if (data != null) {
             list.clear()
             list = data
+            var b = 0
+            data.forEach {
+                if (it.auditStatus == "9") {
+                    b++
+                }
+            }
+            if (parcelable?.auditStatus == "0" || data.size == 0) {
+                tv_report_addEquip.visibility = View.VISIBLE
+            }
+            if ((parcelable?.auditStatus == "0" && data.size > 0) || b > 0) {
+                btn_approve_submit.visibility = View.VISIBLE
+            }
             if (parcelable?.sort == 0) {
                 allList = data
                 ZXSharedPrefUtil().putString("process1ID", parcelable?.id.toString())
@@ -212,6 +209,7 @@ class Procedure1ReportFragment : BaseFragment<ProcedureOneReportPresenter, Proce
 
     override fun postSubmitResult(data: Any?) {
         ZXToastUtil.showToast("提交成功")
+        activity!!.finish()
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

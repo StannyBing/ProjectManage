@@ -18,10 +18,12 @@ class ApproveScoreAdapter(dataList: List<ScoreTemplateBean>) : ZXQuickAdapter<Sc
     private var listener: DataStepListener? = null
     override fun convert(helper: ZXBaseHolder, item: ScoreTemplateBean) {
         helper.setText(R.id.tv_data_edit_name, item.subAssessmentName)
+        item.subAssessText = item.fraction.toString()
         helper.setText(R.id.et_score_edit_value, item.subAssessText)
         helper.setText(R.id.tv_data_edit_info, item.standard)
         helper.getView<EditText>(R.id.et_score_edit_value).hint = "请输入评分共(${item.fraction})"
-        helper.getView<EditText>(R.id.et_score_edit_value).addTextChangedListener(object : TextWatcher {
+        val view = helper.getView<EditText>(R.id.et_score_edit_value)
+        view.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(s: Editable?) {
             }
 
@@ -29,11 +31,11 @@ class ApproveScoreAdapter(dataList: List<ScoreTemplateBean>) : ZXQuickAdapter<Sc
             }
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-
-                val info = helper.getView<EditText>(R.id.et_score_edit_value).text.toString()
+                val info = view.text.toString()
 
                 if (info.isNotEmpty() && info.toInt() > item.fraction!!) {
                     ZXToastUtil.showToast("请输入正确的分数")
+                    view.setText("")
                 } else {
                     listener?.onEditChange(helper.adapterPosition, info)
                     item.subAssessText = info
@@ -42,4 +44,5 @@ class ApproveScoreAdapter(dataList: List<ScoreTemplateBean>) : ZXQuickAdapter<Sc
             }
         })
     }
+
 }

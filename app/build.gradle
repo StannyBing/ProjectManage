@@ -114,4 +114,9 @@ dependencies {
     implementation 'com.youth.banner:banner:2.1.0'
     implementation 'com.github.lygttpod:SuperTextView:2.4.2'
     implementation 'com.hyman:flowlayout-lib:1.1.2'
+    implementation 'com.github.dueeeke.dkplayer:dkplayer-java:3.2.6'
+    implementation 'com.github.dueeeke.dkplayer:dkplayer-ui:3.2.6'
+
+    implementation 'com.aliyun.ams:alicloud-android-push:3.2.4'
+
 }

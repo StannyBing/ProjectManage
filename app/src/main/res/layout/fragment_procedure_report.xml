@@ -82,7 +82,6 @@
             <com.allen.library.SuperTextView
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/item_height"
-                android:visibility="gone"
                 stv:sBackgroundDrawableRes="@color/white"
                 stv:sLeftIconHeight="17dp"
                 stv:sLeftIconRes="@drawable/title_rangle"

@@ -9,6 +9,7 @@ import com.zx.projectmanage.base.BaseActivity
 
 import com.zx.projectmanage.module.projectapplication.construction.bean.InformationBean
 import com.zx.projectmanage.module.projectapplication.construction.bean.InformationListBean
+import com.zx.projectmanage.module.projectapplication.construction.bean.UnitDicBean
 import com.zx.projectmanage.module.projectapplication.construction.func.adapter.BaseInfomationAdapter
 import com.zx.projectmanage.module.projectapplication.construction.mvp.contract.ProjectBaseInfomationContract
 import com.zx.projectmanage.module.projectapplication.construction.mvp.model.ProjectBaseInfomationModel
@@ -23,6 +24,8 @@ class ProjectBaseInfomationActivity : BaseActivity<ProjectBaseInfomationPresente
     private var list: MutableList<InformationListBean> = arrayListOf<InformationListBean>()
     private val mAdapter = BaseInfomationAdapter(list)
     var projectId = ""
+
+    var unitBean: MutableList<UnitDicBean>? = null
 
     companion object {
         /**
@@ -55,8 +58,8 @@ class ProjectBaseInfomationActivity : BaseActivity<ProjectBaseInfomationPresente
             adapter = mAdapter
 //            addItemDecoration(SimpleDecoration(mContext))
         }
+        mPresenter.getUnitDic()
 
-        mPresenter.getProjectInformation(projectId)
     }
 
     /**
@@ -79,45 +82,50 @@ class ProjectBaseInfomationActivity : BaseActivity<ProjectBaseInfomationPresente
         list.add(InformationListBean("工序方案", "", 2))
         list.add(InformationListBean("竣工时间", data?.completedTime, 2))
         list.add(InformationListBean("项目状态", data?.statusDesc.toString(), 2))
-        list.add(InformationListBean("总质评分", data?.score.toString(), 2))
+        list.add(InformationListBean("总质评分", if (data?.score == null) "" else data.score.toString(), 2))
 
         val participates = data?.participates
         participates?.forEach {
-            if (it.type == "1") {
-                list.add(InformationListBean("设计", "", 1))
-                list.add(InformationListBean("单位名称", it.orgName, 2))
-                list.add(InformationListBean("资质", "优等", 2))
-                list.add(InformationListBean("单位负责人", it.chargeUser, 2))
-                list.add(InformationListBean("联系方式", it.contactWay, 2))
-                list.add(InformationListBean("监督员", it.superviseUser, 2))
-            } else if (it.type == "2") {
-                list.add(InformationListBean("监理", "", 1))
-                list.add(InformationListBean("单位名称", it.orgName, 2))
-                list.add(InformationListBean("资质", "优等", 2))
-                list.add(InformationListBean("单位负责人", it.chargeUser, 2))
-                list.add(InformationListBean("联系方式", it.contactWay, 2))
-                list.add(InformationListBean("监督员", it.superviseUser, 2))
-            } else if (it.type == "3") {
-                list.add(InformationListBean("业主", "", 1))
-                list.add(InformationListBean("单位名称", it.orgName, 2))
-                list.add(InformationListBean("资质", "优等", 2))
-                list.add(InformationListBean("单位负责人", it.chargeUser, 2))
-                list.add(InformationListBean("联系方式", it.contactWay, 2))
-                list.add(InformationListBean("监督员", it.superviseUser, 2))
-            } else if (it.type == "4") {
-                list.add(InformationListBean("施工", "", 1))
-                list.add(InformationListBean("单位名称", it.orgName, 2))
-                list.add(InformationListBean("资质", "优等", 2))
-                list.add(InformationListBean("单位负责人", it.chargeUser, 2))
-                list.add(InformationListBean("联系方式", it.contactWay, 2))
-                list.add(InformationListBean("监督员", it.superviseUser, 2))
+
+            unitBean?.forEachIndexed { index, unitBean ->
+                if (it.type == unitBean.id && unitBean.label == "设计方") {
+                    list.add(InformationListBean("设计", "", 1))
+                    list.add(InformationListBean("单位名称", it.orgName, 2))
+                    list.add(InformationListBean("单位负责人", it.chargeUser, 2))
+                    list.add(InformationListBean("联系方式", it.contactWay, 2))
+                    list.add(InformationListBean("监督员", it.superviseUser, 2))
+                } else if (it.type == unitBean.id && unitBean.label == "监理方") {
+                    list.add(InformationListBean("监理", "", 1))
+                    list.add(InformationListBean("单位名称", it.orgName, 2))
+                    list.add(InformationListBean("单位负责人", it.chargeUser, 2))
+                    list.add(InformationListBean("联系方式", it.contactWay, 2))
+                    list.add(InformationListBean("监督员", it.superviseUser, 2))
+                } else if (it.type == unitBean.id && unitBean.label == "业主方") {
+                    list.add(InformationListBean("业主", "", 1))
+                    list.add(InformationListBean("单位名称", it.orgName, 2))
+                    list.add(InformationListBean("单位负责人", it.chargeUser, 2))
+                    list.add(InformationListBean("联系方式", it.contactWay, 2))
+                    list.add(InformationListBean("监督员", it.superviseUser, 2))
+                } else if (it.type == unitBean.id && unitBean.label == "施工方") {
+                    list.add(InformationListBean("施工", "", 1))
+                    list.add(InformationListBean("单位名称", it.orgName, 2))
+                    list.add(InformationListBean("单位负责人", it.chargeUser, 2))
+                    list.add(InformationListBean("联系方式", it.contactWay, 2))
+                    list.add(InformationListBean("监督员", it.superviseUser, 2))
+                }
             }
         }
+
         list.add(InformationListBean("其他", "", 1))
         list.add(InformationListBean("工程概况", data?.projectSurvey, 2))
         list.add(InformationListBean("工程措施", data?.projectMeasures, 2))
         list.add(InformationListBean("备注", data?.remarks, 2))
         mAdapter.setNewData(list)
+    }
+
+    override fun onUnitDicResult(data: MutableList<UnitDicBean>?) {
+        unitBean = data
+        mPresenter.getProjectInformation(projectId)
     }
 
 }

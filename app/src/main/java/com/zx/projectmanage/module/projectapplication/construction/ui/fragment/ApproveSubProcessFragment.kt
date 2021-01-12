@@ -1,4 +1,4 @@
-package com.zx.projectmanage.module.projectapplication.construction.ui
+package com.zx.projectmanage.module.projectapplication.construction.ui.fragment
 
 import android.app.Activity
 import android.content.Intent
@@ -14,9 +14,21 @@ import com.zx.projectmanage.module.projectapplication.construction.func.adapter.
 import com.zx.projectmanage.module.projectapplication.construction.mvp.contract.ApproveSubProcessContract
 import com.zx.projectmanage.module.projectapplication.construction.mvp.model.ApproveSubProcessModel
 import com.zx.projectmanage.module.projectapplication.construction.mvp.presenter.ApproveSubProcessPresenter
+import com.zx.projectmanage.module.projectapplication.construction.ui.ApproveScoreActivity
+import com.zx.projectmanage.module.projectapplication.construction.ui.DeviceAuditActivity
+import com.zx.projectmanage.module.projectapplication.construction.ui.DocumentActivity
+import com.zx.projectmanage.module.projectapplication.construction.ui.ProjectProgressActivity
 import com.zx.zxutils.util.ZXDialogUtil
 import com.zx.zxutils.util.ZXToastUtil
 import kotlinx.android.synthetic.main.fragment_approve_sub_process.*
+import kotlinx.android.synthetic.main.fragment_approve_sub_process.btn_approve_submit
+import kotlinx.android.synthetic.main.fragment_approve_sub_process.dataShow
+import kotlinx.android.synthetic.main.fragment_approve_sub_process.materials
+import kotlinx.android.synthetic.main.fragment_approve_sub_process.operationGuide
+import kotlinx.android.synthetic.main.fragment_approve_sub_process.process_progress
+import kotlinx.android.synthetic.main.fragment_approve_sub_process.safetyRegulations
+import kotlinx.android.synthetic.main.fragment_approve_sub_process.sv_score
+import kotlinx.android.synthetic.main.fragment_procedure_report.*
 
 /**
  * Create By admin On 2017/7/11
@@ -70,7 +82,7 @@ class ApproveSubProcessFragment : BaseFragment<ApproveSubProcessPresenter, Appro
         if (parcelable?.safetyRegulations == null) {
             safetyRegulations.visibility = View.GONE
         }
-        sv_score.setRightString(parcelable?.score.toString())
+        sv_score.setRightString(if (parcelable?.score == null) "" else parcelable!!.score.toString())
         //设置adapter
         dataShow.apply {
             layoutManager = LinearLayoutManager(mContext)
@@ -101,7 +113,11 @@ class ApproveSubProcessFragment : BaseFragment<ApproveSubProcessPresenter, Appro
      */
     override fun onViewListener() {
         process_progress.setOnSuperTextViewClickListener {
-            ProjectProgressActivity.startAction(activity as Activity, false, parcelable?.detailedProId.toString())
+            ProjectProgressActivity.startAction(
+                activity as Activity,
+                false,
+                parcelable?.detailedProId.toString()
+            )
         }
         reportListAdapter.setOnItemClickListener { adapter, view, position ->
             val deviceListBean = adapter.data[position] as DeviceListBean
@@ -109,7 +125,7 @@ class ApproveSubProcessFragment : BaseFragment<ApproveSubProcessPresenter, Appro
                 showToast("当前设备不可审批")
                 return@setOnItemClickListener
             }
-            if (deviceListBean.auditStatus?.toInt()!! < 3) {
+            if (deviceListBean.auditStatus?.toInt()!! < 4) {
                 startAction(activity!!, deviceListBean.detailedId.toString(), subProjectId, deviceListBean, true)
             } else {
                 startAction(activity!!, deviceListBean.detailedId.toString(), subProjectId, deviceListBean, false)
@@ -191,7 +207,7 @@ class ApproveSubProcessFragment : BaseFragment<ApproveSubProcessPresenter, Appro
     private fun isAllfinish(): Int {
         var b = 0
         list.forEach {
-            if (it.auditStatus?.toInt()!! < 3) {
+            if (it.auditStatus?.toInt()!! < 4) {
                 b++
             }
         }

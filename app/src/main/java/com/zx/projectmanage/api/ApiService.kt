@@ -42,6 +42,12 @@ interface ApiService {
     fun getProjectPeriod(): Observable<BaseRespose<MutableList<ProjectPeriodBean>>>
 
     /**
+     * 获取字典单位数据
+     */
+    @GET("/admin/dict/type/entity_type")
+    fun getProjectUnit(): Observable<BaseRespose<MutableList<UnitDicBean>>>
+
+    /**
      * 查询项目列表
      */
     @GET("/business/app/buildpost/pageProject")

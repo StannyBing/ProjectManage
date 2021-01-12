@@ -94,6 +94,7 @@ class ConstructionReportChildActivity : BaseActivity<ConstructionReportChildPres
      */
     private fun refresh(searchText: String? = null) {
         pageNo = 1
+        isRefresh = true
         mPresenter.getPageSubProject(
             hashMapOf(
                 "projectId" to projectId
@@ -104,6 +105,7 @@ class ConstructionReportChildActivity : BaseActivity<ConstructionReportChildPres
 
 
     private fun loadMore() {
+        isRefresh = false
         pageNo++
         mPresenter.getPageSubProject(
             hashMapOf(
@@ -182,11 +184,13 @@ class ConstructionReportChildActivity : BaseActivity<ConstructionReportChildPres
             if (actionId == EditorInfo.IME_ACTION_SEARCH) {
                 //点击搜索的时候隐藏软键盘
                 searchText.hitSoft()
+                isRefresh = true
                 // 网络请求数据
                 mPresenter.getPageSubProject(
                     hashMapOf(
                         "projectId" to projectId,
-                        "pageNo" to pageNo.toString(),
+                        "pageNo" to "1",
+                        "pageSize" to "999",
                         "subProjectName" to v.text.toString()
                     ),
                     type
@@ -198,10 +202,12 @@ class ConstructionReportChildActivity : BaseActivity<ConstructionReportChildPres
         //搜索图标点击监听
         searchImg.setOnClickListener {
             // 网络请求数据
+            isRefresh = true
             mPresenter.getPageSubProject(
                 hashMapOf(
                     "projectId" to projectId,
-                    "pageNo" to pageNo.toString(),
+                    "pageNo" to "1",
+                    "pageSize" to "999",
                     "subProjectName" to searchText.text.toString()
                 ),
                 type

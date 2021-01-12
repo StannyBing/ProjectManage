@@ -100,6 +100,7 @@ class DeviceInfoAdapter(dataList: List<DeviceInfoBean>) : ZXMultiItemQuickAdapte
         }
     }
 
+
     fun setDataStepListener(listener: DataStepListener) {
         this.listener = listener
     }

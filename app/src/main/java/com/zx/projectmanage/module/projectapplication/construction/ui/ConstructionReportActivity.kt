@@ -153,6 +153,7 @@ class ConstructionReportActivity : BaseActivity<ConstructionReportPresenter, Con
                 } else {
                     mPresenter.getPageProject(pageNo = 1, type = type)
                 }
+                isRefresh = true
                 it.dismiss()
             })
 
@@ -167,6 +168,7 @@ class ConstructionReportActivity : BaseActivity<ConstructionReportPresenter, Con
             if (actionId == EditorInfo.IME_ACTION_SEARCH) {
                 //点击搜索的时候隐藏软键盘
                 searchText.hitSoft()
+                isRefresh = true
                 // 网络请求数据
                 mPresenter.getPageProject(pageSize = 50, keyword = v.text.toString().trim(), type = type)
                 return@OnEditorActionListener true
@@ -175,6 +177,7 @@ class ConstructionReportActivity : BaseActivity<ConstructionReportPresenter, Con
         })
         //搜索图标点击监听
         searchImg.setOnClickListener {
+            isRefresh = true
             // 网络请求数据
             mPresenter.getPageProject(pageSize = 50, keyword = searchText.text.toString().trim(), type = type)
         }
