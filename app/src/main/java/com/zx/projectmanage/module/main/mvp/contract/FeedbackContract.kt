@@ -30,7 +30,7 @@ interface FeedbackContract {
     //方法
     abstract class Presenter : BasePresenter<View, Model>() {
         abstract fun saveDataInfo(
-            content: String, imageList: MutableList<String>?, type: Int
+            content: String, imageList: MutableList<String>, type: Int
         )
     }
 }

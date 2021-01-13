@@ -106,6 +106,7 @@ class DeviceAuditActivity : BaseActivity<DeviceAuditPresenter, DeviceAuditModel>
                 mPresenter.doReject(
                     hashMapOf(
                         "auditReason" to etFeedBack.text.toString(),
+
                         "detailedProId" to deviceBean?.detailedProId,
                         "standardProId" to deviceBean?.standardProId,
                         "submitNumber" to deviceBean?.submitNumber
@@ -149,8 +150,11 @@ class DeviceAuditActivity : BaseActivity<DeviceAuditPresenter, DeviceAuditModel>
         deviceBean?.standardId = standardId
         deviceBean?.standardProId = standardProId
         dataList.clear()
-        dataList.add(DeviceInfoBean(DeviceInfoBean.Text_Type, "设备ID", stringValue = deviceBean?.equipmentId ?: ""))
-        dataList.add(DeviceInfoBean(DeviceInfoBean.Text_Type, "设备名称", stringValue = deviceBean?.equipmentName ?: ""))
+        dataList.add(DeviceInfoBean(DeviceInfoBean.Text_Type, "测点名称", stringValue = deviceBean?.gaugingPoint ?: ""))
+        if (intent.getStringExtra("processType") == "1") {
+            dataList.add(DeviceInfoBean(DeviceInfoBean.Text_Type, "设备ID", stringValue = deviceBean?.equipmentId ?: ""))
+            dataList.add(DeviceInfoBean(DeviceInfoBean.Text_Type, "设备名称", stringValue = deviceBean?.equipmentName ?: ""))
+        }
         dataList.add(DeviceInfoBean(DeviceInfoBean.Text_Type, "规范模板", isDivider = true))
         dataList.add(DeviceInfoBean(DeviceInfoBean.Text_Type, "施工负责人", stringValue = deviceBean?.equipmentId ?: ""))
         dataList.add(DeviceInfoBean(DeviceInfoBean.Text_Type, "上报人员", stringValue = deviceBean?.equipmentName ?: ""))

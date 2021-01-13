@@ -97,13 +97,15 @@ class ApproveSubProcessFragment : BaseFragment<ApproveSubProcessPresenter, Appro
         detailedId: String = "",
         subProjectId: String = "",
         deviceListBean: DeviceListBean? = null,
-        editable: Boolean
+        editable: Boolean,
+        processType: String
     ) {
         val intent = Intent(activity, DeviceAuditActivity::class.java)
         intent.putExtra("detailedId", detailedId)
         intent.putExtra("subProjectId", subProjectId)
         intent.putExtra("deviceListBean", deviceListBean)
         intent.putExtra("editable", editable)
+        intent.putExtra("processType", processType)
         startActivityForResult(intent, 0x01)
 
     }
@@ -117,6 +119,7 @@ class ApproveSubProcessFragment : BaseFragment<ApproveSubProcessPresenter, Appro
                 activity as Activity,
                 false,
                 parcelable?.detailedProId.toString()
+
             )
         }
         reportListAdapter.setOnItemClickListener { adapter, view, position ->
@@ -125,10 +128,10 @@ class ApproveSubProcessFragment : BaseFragment<ApproveSubProcessPresenter, Appro
                 showToast("当前设备不可审批")
                 return@setOnItemClickListener
             }
-            if (deviceListBean.auditStatus?.toInt()!! < 4 && deviceListBean.auditStatus?.toInt()!! > -1) {
-                startAction(activity!!, deviceListBean.detailedId.toString(), subProjectId, deviceListBean, true)
+            if (deviceListBean.auditStatus?.toInt()!! < 4 && deviceListBean.auditStatus?.toInt()!! > -1 && parcelable?.auditFlag == 1) {
+                startAction(activity!!, deviceListBean.detailedId.toString(), subProjectId, deviceListBean, true, parcelable?.processType.toString())
             } else {
-                startAction(activity!!, deviceListBean.detailedId.toString(), subProjectId, deviceListBean, false)
+                startAction(activity!!, deviceListBean.detailedId.toString(), subProjectId, deviceListBean, false, parcelable?.processType.toString())
             }
 
 

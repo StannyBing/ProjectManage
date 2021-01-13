@@ -13,7 +13,6 @@
     <uses-permission android:name="android.permission.REORDER_TASKS" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
@@ -25,6 +24,7 @@
     <uses-feature
         android:glEsVersion="0x00020000"
         android:required="true" />
+
     <application
         android:name=".app.MyApplication"
         android:allowBackup="true"
@@ -37,21 +37,21 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true"
         tools:ignore="LockedOrientationActivity">
+        <activity android:name=".module.projectapplication.patrol.PatrolActivity"></activity>
+
         <meta-data
             android:name="com.alibaba.app.appkey"
             android:value="*****" /> <!-- 请填写你自己的- appKey -->
         <meta-data
             android:name="com.alibaba.app.appsecret"
             android:value="****" /> <!-- 请填写你自己的appSecret -->
-
         <activity
             android:name=".module.main.ui.FeedbackActivity"
             android:configChanges="orientation|screenSize|keyboardHidden"
             android:screenOrientation="portrait" />
-
         <activity android:name="com.zx.zxutils.views.PhotoPicker.PhotoPagerActivity" />
         <activity android:name="com.zx.zxutils.views.PhotoPicker.PhotoPickerActivity" />
-        <activity android:name=".module.other.func.tool.image.IMGEditActivity"/>
+        <activity android:name=".module.other.func.tool.image.IMGEditActivity" />
         <activity
             android:name=".module.other.ui.BaseWebActivity"
             android:screenOrientation="portrait" />
@@ -124,7 +124,7 @@
         </provider>
 
         <receiver
-            android:name="com.zx.projectmanage.receiver.AliPushReceiver"
+            android:name=".receiver.AliPushReceiver"
             android:exported="false"> <!-- 为保证receiver安全，建议设置不可导出，如需对其他应用开放可通过android：permission进行限制 -->
             <intent-filter>
                 <action android:name="com.alibaba.push2.action.NOTIFICATION_OPENED" />

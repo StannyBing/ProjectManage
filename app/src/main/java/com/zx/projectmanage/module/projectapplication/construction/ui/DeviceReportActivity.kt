@@ -384,7 +384,7 @@ class DeviceReportActivity : BaseActivity<DeviceReportPresenter, DeviceReportMod
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == 0x001 && data != null) {
             if (data.getStringExtra("vedioPath").isNullOrEmpty()) {
-                saveFile = File("${ConstStrings.getCachePath()}${ZXTimeUtil.getCurrentTime(SimpleDateFormat("yyyyMMddHHmm"))}jpg")
+                saveFile = File("${ConstStrings.getCachePath()}${ZXTimeUtil.getCurrentTime(SimpleDateFormat("yyyyMMddHHmmss"))}jpg")
                 val currentTime = System.currentTimeMillis()
                 val file = File(data.getStringExtra("path") ?: "")
                 val lastModified = file.lastModified()

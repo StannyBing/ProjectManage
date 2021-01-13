@@ -133,7 +133,7 @@ class ConstructionReportActivity : BaseActivity<ConstructionReportPresenter, Con
             setPeriodFlow(inflate, 1)
             setPeriodFlow(inflate, 2)
 
-            val bottomSheet = BottomSheetTool.showBottomSheet(mContext, "请选择设备", inflate, {
+            val bottomSheet = BottomSheetTool.showBottomSheet(mContext, "筛选", inflate, {
                 var takeStatus = ""
                 var takePeriod = ""
                 if (arraystatus.toString().length > 2) {
@@ -185,6 +185,20 @@ class ConstructionReportActivity : BaseActivity<ConstructionReportPresenter, Con
         refresh.setOnRefreshListener {
             refresh()
             refresh.isRefreshing = false
+        }
+        reportListAdapter.setOnItemClickListener { adapter, view, position ->
+            val any = adapter.data[position] as ReportListBean.RecordsBean
+            ConstructionReportChildActivity.startAction(
+                mContext as Activity,
+                false,
+                any.projectId.toString(),
+                any.projectName.toString(),
+                any.assessmentId.toString(),
+                type,
+                mVals1,
+                mVals
+            )
+
         }
         reportListAdapter.setOnLoadMoreListener(
             {
@@ -270,17 +284,6 @@ class ConstructionReportActivity : BaseActivity<ConstructionReportPresenter, Con
         })
     }
 
-    /**
-     * 弹窗高度，默认为屏幕高度的四分之三
-     * 子类可重写该方法返回peekHeight
-     *
-     * @return height
-     */
-    protected fun getPeekHeight(): Int {
-        val peekHeight = resources.displayMetrics.heightPixels
-        //设置弹窗高度为屏幕高度的3/4
-        return peekHeight - peekHeight / 3
-    }
 
     override fun getDataResult(baseRespose: ReportListBean?) {
         setData(baseRespose?.records as MutableList<ReportListBean.RecordsBean>?)

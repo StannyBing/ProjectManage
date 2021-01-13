@@ -33,18 +33,6 @@ class ReportListAdapter(dataList: List<ReportListBean.RecordsBean>, type: Int) :
         }
 
 
-        superTextView.setOnSuperTextViewClickListener {
-            item?.let {
-                ConstructionReportChildActivity.startAction(
-                    mContext as Activity,
-                    false,
-                    it.projectId.toString(),
-                    it.projectName.toString(),
-                    it.assessmentId.toString(),
-                    type
-                )
-            }
-        }
 
     }
 }

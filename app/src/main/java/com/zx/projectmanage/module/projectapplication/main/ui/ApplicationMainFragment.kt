@@ -14,6 +14,7 @@ import com.zx.projectmanage.module.projectapplication.main.func.adater.Applicati
 import com.zx.projectmanage.module.projectapplication.main.mvp.contract.ApplicationMainContract
 import com.zx.projectmanage.module.projectapplication.main.mvp.model.ApplicationMainModel
 import com.zx.projectmanage.module.projectapplication.main.mvp.presenter.ApplicationMainPresenter
+import com.zx.projectmanage.module.projectapplication.patrol.PatrolActivity
 import kotlinx.android.synthetic.main.fragment_application_main.*
 
 /**
@@ -98,14 +99,19 @@ class ApplicationMainFragment : BaseFragment<ApplicationMainPresenter, Applicati
      */
     override fun onViewListener() {
         funcAdapter.setOnItemClickListener { adapter, view, position ->
-            when (position) {
-                0 -> {
-                    ConstructionReportActivity.startAction(mContext as Activity, false,0)
+            val any = adapter.data[position] as ApplicationFuncBean
+            when (any.name) {
+                "施工上报" -> {
+                    ConstructionReportActivity.startAction(mContext as Activity, false, 0)
                 }
-                1 -> {
-                    ConstructionReportActivity.startAction(mContext as Activity, false,1)
+                "施工审核" -> {
+                    ConstructionReportActivity.startAction(mContext as Activity, false, 1)
+                }
+                "巡查巡检" -> {
+                    PatrolActivity.startAction(mContext as Activity, false)
                 }
             }
+
 
         }
     }

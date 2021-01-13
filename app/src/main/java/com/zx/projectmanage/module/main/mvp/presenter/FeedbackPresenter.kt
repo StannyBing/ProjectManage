@@ -52,9 +52,9 @@ class FeedbackPresenter : FeedbackContract.Presenter() {
         })
     }
 
-    override fun saveDataInfo(content: String, imageList: MutableList<String>?, type: Int) {
+    override fun saveDataInfo(content: String, imageList: MutableList<String>, type: Int) {
         var uploadIndex: Int = 0
-        if (imageList != null) {
+        if (imageList.isNotEmpty()) {
             uploadFile(content, imageList, uploadIndex, type)
         } else {
             submitInfo(content, null, type)

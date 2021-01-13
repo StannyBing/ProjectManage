@@ -205,9 +205,9 @@ class DeviceReportPresenter : DeviceReportContract.Presenter() {
 
     private fun submitInfo(dataList: List<DeviceInfoBean>, deviceBean: DeviceListBean?, idMapList: ArrayList<Pair<String, HashMap<String, String?>>>) {
 
-        val gaugingPoint = dataList.first { it.name == "测点名称" }.stringValue
-        val equipmentId = dataList.first { it.name == "设备ID" }.stringValue
-        val equipmentName = dataList.first { it.name == "设备名称" }.stringValue
+        val gaugingPoint = dataList.firstOrNull { it.name == "测点名称" }?.stringValue
+        val equipmentId = dataList.firstOrNull { it.name == "设备ID" }?.stringValue
+        val equipmentName = dataList.firstOrNull { it.name == "设备名称" }?.stringValue
         val detailedId = deviceBean?.detailedId
         val subProjectId = deviceBean?.subProjectId
         val standardId = dataList.first { it.name == "规范模板" }.standardBean?.id

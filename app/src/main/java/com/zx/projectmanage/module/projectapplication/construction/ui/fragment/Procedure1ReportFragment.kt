@@ -94,7 +94,7 @@ class Procedure1ReportFragment : BaseFragment<ProcedureOneReportPresenter, Proce
             safetyRegulations.visibility = View.GONE
             total++
         }
-        if (total ==3) {
+        if (total == 3) {
             messageInfo.visibility = View.GONE
         }
         sv_score.setRightString(if (parcelable?.score == null) "" else parcelable!!.score.toString())
@@ -122,6 +122,8 @@ class Procedure1ReportFragment : BaseFragment<ProcedureOneReportPresenter, Proce
         process_progress.setOnSuperTextViewClickListener {
             if (list.size > 0) {
                 ProjectProgressActivity.startAction(activity as Activity, false, list[0].detailedProId)
+            } else {
+                showToast("暂无工序进度")
             }
         }
         reportListAdapter.setOnItemClickListener { adapter, view, position ->

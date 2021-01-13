@@ -16,6 +16,8 @@ import com.zhy.view.flowlayout.TagFlowLayout
 import com.zx.projectmanage.R
 import com.zx.projectmanage.base.BaseActivity
 import com.zx.projectmanage.base.BottomSheetTool
+import com.zx.projectmanage.module.projectapplication.construction.bean.ProjectPeriodBean
+import com.zx.projectmanage.module.projectapplication.construction.bean.ProjectStatusBean
 import com.zx.projectmanage.module.projectapplication.construction.bean.ReportSubListBean
 import com.zx.projectmanage.module.projectapplication.construction.func.adapter.ReportChildListAdapter
 import com.zx.projectmanage.module.projectapplication.construction.func.tool.hitSoft
@@ -31,6 +33,7 @@ import kotlinx.android.synthetic.main.activity_construction_report_child.head
 import kotlinx.android.synthetic.main.activity_construction_report_child.searchText
 import kotlinx.android.synthetic.main.activity_construction_report_child.swipeRecyler
 import kotlinx.android.synthetic.main.dialog_filter_project.view.*
+import java.io.Serializable
 
 
 /**
@@ -40,12 +43,18 @@ import kotlinx.android.synthetic.main.dialog_filter_project.view.*
 class ConstructionReportChildActivity : BaseActivity<ConstructionReportChildPresenter, ConstructionReportChildModel>(), ConstructionReportChildContract.View {
     private var list: MutableList<ReportSubListBean> = arrayListOf<ReportSubListBean>()
     private lateinit var reportListAdapter: ReportChildListAdapter
-    private var mVals = listOf<String>("1", "2", "3")
-    private var mVals1 = listOf<String>("已完成", "未通过", "进行中")
+
+    //期次list
+    private var mVals: MutableList<ProjectPeriodBean> = ArrayList()
+
+    //状态list
+    private var mVals1: MutableList<ProjectStatusBean> = ArrayList()
     private var pageNo = 1
     private var pageSize = 10
     var isRefresh = true
     lateinit var projectId: String
+    var arrayPeriod = StringBuffer()
+    var arraystatus = StringBuffer()
     var type: Int = 0
 
     companion object {
@@ -53,12 +62,19 @@ class ConstructionReportChildActivity : BaseActivity<ConstructionReportChildPres
         /**
          * 启动器
          */
-        fun startAction(activity: Activity, isFinish: Boolean, projectId: String, projectName: String, assessmentId: String, type: Int) {
+        fun startAction(
+            activity: Activity, isFinish: Boolean, projectId: String, projectName: String,
+            assessmentId: String, type: Int,
+            statusBean: MutableList<ProjectStatusBean>,
+            periodBean: MutableList<ProjectPeriodBean>
+        ) {
             val intent = Intent(activity, ConstructionReportChildActivity::class.java)
             intent.putExtra("projectName", projectName)
             intent.putExtra("projectId", projectId)
             intent.putExtra("assessmentId", assessmentId)
             intent.putExtra("type", type)
+            intent.putExtra("statusBean", statusBean as Serializable)
+            intent.putExtra("periodBean", periodBean as Serializable)
             activity.startActivity(intent)
             if (isFinish) activity.finish()
         }
@@ -76,6 +92,8 @@ class ConstructionReportChildActivity : BaseActivity<ConstructionReportChildPres
      */
     override fun initView(savedInstanceState: Bundle?) {
         type = intent.getIntExtra("type", 0)
+        mVals = intent.getSerializableExtra("periodBean") as MutableList<ProjectPeriodBean>
+        mVals1 = intent.getSerializableExtra("statusBean") as MutableList<ProjectStatusBean>
         reportListAdapter = ReportChildListAdapter(list, type)
         super.initView(savedInstanceState)
         projectId = intent.getStringExtra("projectId").toString()
@@ -142,29 +160,67 @@ class ConstructionReportChildActivity : BaseActivity<ConstructionReportChildPres
         //头部点击事件
         head.setRightImageViewClickListener {
             val inflate = View.inflate(mContext, R.layout.dialog_filter_project, null)
-            setPeriodFlow(inflate, mVals, 1)
-            setPeriodFlow(inflate, mVals1, 2)
+            setPeriodFlow(inflate, 1)
+            setPeriodFlow(inflate, 2)
 
-            val bottomSheet = BottomSheetTool.showBottomSheet(mContext, "请选择设备", inflate, {
-//                var takeStatus = ""
-//                var takePeriod = ""
-//                if (arraystatus.toString().length > 2) {
-//                    takeStatus = arraystatus.toString().take(arraystatus.toString().length - 1)
-//                }
-//                if (arrayPeriod.toString().length > 2) {
-//                    takePeriod = arrayPeriod.toString().take(arrayPeriod.toString().length - 1)
-//                }
-//
-//                //发起筛选请求
-//                if (takeStatus.isNotEmpty() && takePeriod.isNotEmpty()) {
-//                    mPresenter.getPageProject(pageNo = 1, projectStatus = takeStatus.toString(), buildPeriod = takePeriod.toString(), type = type)
-//                } else if (takeStatus.isNotEmpty() && takePeriod.isEmpty()) {
-//                    mPresenter.getPageProject(pageNo = 1, projectStatus = takeStatus.toString(), type = type)
-//                } else if (takeStatus.isEmpty() && takePeriod.isNotEmpty()) {
-//                    mPresenter.getPageProject(pageNo = 1, buildPeriod = takePeriod.toString(), type = type)
-//                } else {
-//                    mPresenter.getPageProject(pageNo = 1, type = type)
-//                }
+            val bottomSheet = BottomSheetTool.showBottomSheet(mContext, "筛选", inflate, {
+                var takeStatus = ""
+                var takePeriod = ""
+                if (arraystatus.toString().length > 2) {
+                    takeStatus = arraystatus.toString().take(arraystatus.toString().length - 1)
+                }
+                if (arrayPeriod.toString().length > 2) {
+                    takePeriod = arrayPeriod.toString().take(arrayPeriod.toString().length - 1)
+                }
+
+                //发起筛选请求
+                if (takeStatus.isNotEmpty() && takePeriod.isNotEmpty()) {
+
+                    mPresenter.getPageSubProject(
+                        hashMapOf(
+                            "projectId" to projectId,
+                            "pageNo" to "1",
+                            "pageSize" to "999",
+                            "status" to takeStatus,
+                            "period" to takePeriod
+                        ),
+                        type
+                    )
+                } else if (takeStatus.isNotEmpty() && takePeriod.isEmpty()) {
+
+                    mPresenter.getPageSubProject(
+                        hashMapOf(
+                            "projectId" to projectId,
+                            "pageNo" to "1",
+                            "pageSize" to "999",
+                            "status" to takeStatus
+
+                        ),
+                        type
+                    )
+                } else if (takeStatus.isEmpty() && takePeriod.isNotEmpty()) {
+
+                    mPresenter.getPageSubProject(
+                        hashMapOf(
+                            "projectId" to projectId,
+                            "pageNo" to "1",
+                            "pageSize" to "999",
+                            "period" to takePeriod
+                        ),
+                        type
+                    )
+                } else {
+
+                    mPresenter.getPageSubProject(
+                        hashMapOf(
+                            "projectId" to projectId,
+                            "pageNo" to "1",
+                            "pageSize" to "999"
+                        ),
+                        type
+                    )
+                }
+                isRefresh = true
                 it.dismiss()
             })
 
@@ -248,56 +304,79 @@ class ConstructionReportChildActivity : BaseActivity<ConstructionReportChildPres
     /**
      * 设置Flow选项卡列表
      */
-    private fun setPeriodFlow(inflate: View, mVals: List<String>, flag: Int) {
-
-        val tagAdapter = object : TagAdapter<Any>(mVals) {
-            override fun getView(parent: FlowLayout?, position: Int, t: Any?): View {
+    private fun setPeriodFlow(inflate: View, flag: Int) = if (flag == 1) {
+        val tagAdapter = object : TagAdapter<Any>(mVals as List<Any>?) {
+            override fun getView(parent: com.zhy.view.flowlayout.FlowLayout?, position: Int, t: Any?): View {
 
                 val view = View.inflate(mContext, R.layout.flowlayout_textview_selected, null) as TextView
                 //设置展示的值
-                view.text = mVals[position]
+                view.text = mVals[position].label
                 //动态设置标签宽度
                 view.width = 170
                 return view
             }
         }
+        if (arrayPeriod.toString().isNotEmpty()) {
+            arrayPeriod.delete(0, arrayPeriod.toString().length)
+        }
         //预先设置选中
-        tagAdapter.setSelectedList(0, 1)
-        if (flag == 1) {
-            inflate.periodFlow.adapter = tagAdapter
-            inflate.periodFlow.setMaxSelectCount(9)
-            //为FlowLayout的标签设置选中监听事件
-            inflate.periodFlow.setOnSelectListener(object : TagFlowLayout.OnSelectListener {
-                override fun onSelected(selectPosSet: Set<Int>) {
-                    //选中的index
-                    ZXToastUtil.showToast(selectPosSet.toString())
+        inflate.periodFlow.adapter = tagAdapter
+        inflate.periodFlow.setMaxSelectCount(9)
+        //为FlowLayout的标签设置选中监听事件
+        inflate.periodFlow.setOnSelectListener(object : TagFlowLayout.OnSelectListener {
+            override fun onSelected(selectPosSet: Set<Int>) {
+                if (arrayPeriod.toString().isNotEmpty()) {
+                    arrayPeriod.delete(0, arrayPeriod.toString().length)
                 }
-            })
-        } else {
-            inflate.statusFlow.adapter = tagAdapter
-            inflate.statusFlow.setMaxSelectCount(9)
-            //为FlowLayout的标签设置选中监听事件
-            inflate.statusFlow.setOnSelectListener(object : TagFlowLayout.OnSelectListener {
-                override fun onSelected(selectPosSet: Set<Int>) {
-                    //选中的index
-                    ZXToastUtil.showToast(selectPosSet.toString())
+                for (i in selectPosSet) {
+                    if (i == selectPosSet.size - 1) {
+                        arrayPeriod.append(mVals[i].dictId)
+                    } else {
+                        arrayPeriod.append(mVals[i].dictId)
+                        arrayPeriod.append(",")
+                    }
                 }
-            })
+            }
+        })
+    } else {
+        val tagAdapter = object : TagAdapter<Any>(mVals1 as List<Any>?) {
+            override fun getView(parent: com.zhy.view.flowlayout.FlowLayout?, position: Int, t: Any?): View {
+
+                val view = View.inflate(mContext, R.layout.flowlayout_textview_selected, null) as TextView
+                //设置展示的值
+                view.text = mVals1[position].statusName
+                //动态设置标签宽度
+                view.width = 170
+                return view
+            }
+        }
+        inflate.statusFlow.adapter = tagAdapter
+        inflate.statusFlow.setMaxSelectCount(9)
+        if (arraystatus.toString().isNotEmpty()) {
+            arraystatus.delete(0, arraystatus.toString().length)
         }
 
+        //为FlowLayout的标签设置选中监听事件
+        inflate.statusFlow.setOnSelectListener(object : TagFlowLayout.OnSelectListener {
+            override fun onSelected(selectPosSet: Set<Int>) {
+                if (arraystatus.toString().isNotEmpty()) {
+                    arraystatus.delete(0, arraystatus.toString().length)
+                }
+                for (i in selectPosSet) {
+                    if (i == selectPosSet.size - 1) {
+                        arraystatus.append(mVals1[i].statusId)
+                    } else {
+                        arraystatus.append(mVals1[i].statusId)
+                        arraystatus.append(",")
+                    }
+
+                }
+
+
+            }
+        })
     }
 
-    /**
-     * 弹窗高度，默认为屏幕高度的四分之三
-     * 子类可重写该方法返回peekHeight
-     *
-     * @return height
-     */
-    private fun getPeekHeight(): Int {
-        val peekHeight = resources.displayMetrics.heightPixels
-        //设置弹窗高度为屏幕高度的3/4
-        return peekHeight - peekHeight / 3
-    }
 
     override fun getDataSubResult(baseRespose: NormalList<ReportSubListBean>?) {
 

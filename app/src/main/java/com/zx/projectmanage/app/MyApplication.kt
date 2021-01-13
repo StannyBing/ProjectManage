@@ -3,6 +3,7 @@ package com.zx.projectmanage.app
 import android.app.Activity
 import android.content.Context
 import android.os.Build
+import android.os.Build.VERSION.RELEASE
 import android.os.StrictMode
 
 import com.alibaba.sdk.android.push.CommonCallback

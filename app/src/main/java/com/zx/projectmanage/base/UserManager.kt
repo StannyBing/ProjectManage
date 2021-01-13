@@ -23,8 +23,8 @@ object UserManager {
             return field
         }
         set(value) {
-            ApiConfigModule.COOKIE = field?.access_token ?: ""
             field = value
+            ApiConfigModule.COOKIE = field?.access_token ?: ""
             saveUser()
         }
 

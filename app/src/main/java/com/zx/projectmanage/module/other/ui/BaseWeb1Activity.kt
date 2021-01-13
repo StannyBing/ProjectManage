@@ -3,18 +3,16 @@ package com.zx.projectmanage.module.other.ui
 import android.annotation.SuppressLint
 import android.annotation.TargetApi
 import android.app.Activity
-import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.view.View
 import android.webkit.*
-import android.widget.Toast
 import com.frame.zxmvp.base.RxBaseActivity
 import com.zx.projectmanage.R
-import com.zx.projectmanage.api.ApiConfigModule
 import com.zx.projectmanage.base.BaseActivity
+
 import com.zx.projectmanage.module.other.mvp.contract.BaseWebContract
 import com.zx.projectmanage.module.other.mvp.model.BaseWebModel
 import com.zx.projectmanage.module.other.mvp.presenter.BaseWebPresenter
@@ -25,40 +23,27 @@ import kotlinx.android.synthetic.main.activity_base_web.*
  * Create By admin On 2017/7/11
  * 功能：基础网页
  */
-open class BaseWebActivity<T, U> : BaseActivity<BaseWebPresenter, BaseWebModel>(), BaseWebContract.View {
+open class BaseWeb1Activity<T, U> : BaseActivity<BaseWebPresenter, BaseWebModel>(), BaseWebContract.View {
 
     companion object {
         /**
          * 启动器
          */
         fun startAction(activity: Activity, isFinish: Boolean) {
-            val intent = Intent(activity, BaseWebActivity::class.java)
+            val intent = Intent(activity, BaseWeb1Activity::class.java)
             activity.startActivity(intent)
             if (isFinish) activity.finish()
         }
     }
 
+    private var webView: WebView? = null
+
     private var fileCallback: ValueCallback<Array<Uri>>? = null
 
-    /**
-     * layout配置
-     */
-    override fun getLayoutId(): Int {
-        return R.layout.activity_base_web
-    }
-
-    /**
-     * 初始化
-     */
-
-    @SuppressLint("JavascriptInterface")
-    override fun initView(savedInstanceState: Bundle?) {
-        web_view.apply {
+    fun initWebView(webView1: WebView){
+        this.webView =webView1
+        webView?.apply {
             settings.javaScriptEnabled = true
-            addJavascriptInterface(
-                JavaScriptinterface(mContext),
-                "android"
-            );
             scrollBarStyle = WebView.SCROLLBARS_OUTSIDE_OVERLAY
             webViewClient = WebViewClient()
             webChromeClient = object : WebChromeClient() {
@@ -89,13 +74,11 @@ open class BaseWebActivity<T, U> : BaseActivity<BaseWebPresenter, BaseWebModel>(
                 }
             }
         }
-
-        web_view.setLongClickable(true)
-        web_view.setOnLongClickListener(object : View.OnLongClickListener {
-            override fun onLongClick(v: View?): Boolean {
-                return true
-            }
-        })
+    }
+    /**
+     * 初始化
+     */
+    override fun initView(savedInstanceState: Bundle?) {
         super.initView(savedInstanceState)
     }
 
@@ -105,19 +88,11 @@ open class BaseWebActivity<T, U> : BaseActivity<BaseWebPresenter, BaseWebModel>(
     override fun onViewListener() {
 
     }
-
-    /**
-     * 获取webview对象
-     */
-    fun getWebView(): WebView {
-        return web_view
-    }
-
     /**
      * 加载页面
      */
     fun loadUrl(url: String) {
-        web_view.loadUrl(url)
+        webView?.loadUrl(url)
     }
 
     /**
@@ -131,7 +106,7 @@ open class BaseWebActivity<T, U> : BaseActivity<BaseWebPresenter, BaseWebModel>(
             params.append("'")
             if (index < info.size - 1) params.append(",")
         }
-        web_view.loadUrl("javascript:${methodName}(${params})")
+        webView?.loadUrl("javascript:${methodName}(${params})")
 
     }
 
@@ -140,7 +115,7 @@ open class BaseWebActivity<T, U> : BaseActivity<BaseWebPresenter, BaseWebModel>(
      */
     @SuppressLint("JavascriptInterface")
     fun applyMethod(methodName: String, listener: Any) {
-        web_view.addJavascriptInterface(listener, methodName)
+        webView?.addJavascriptInterface(listener, methodName)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -175,8 +150,8 @@ open class BaseWebActivity<T, U> : BaseActivity<BaseWebPresenter, BaseWebModel>(
     }
 
     override fun onBackPressed() {
-        if (web_view.canGoBack()) {
-            web_view.goBack()
+        if (webView?.canGoBack() ==true) {
+            webView?.goBack()
         } else {
             super.onBackPressed()
         }
@@ -184,45 +159,16 @@ open class BaseWebActivity<T, U> : BaseActivity<BaseWebPresenter, BaseWebModel>(
 
     override fun onPause() {
         super.onPause()
-        web_view.onPause()
+        webView?.onPause()
     }
 
     override fun onResume() {
         super.onResume()
-        web_view.onResume()
+        webView?.onResume()
     }
 
-    class JavaScriptinterface(c: Context) {
-        var context: Context
-
-        /**
-         * 与js交互时用到的方法，在js里直接调用的
-         */
-        @JavascriptInterface
-        fun showToast(ssss: String?) {
-            Toast.makeText(context, ssss, Toast.LENGTH_LONG).show()
-        }
-
-        /**
-         * 与js交互时用到的方法，在js里直接调用的
-         */
-        @JavascriptInterface
-        fun getToken(): String {
-            return if (ApiConfigModule.COOKIE.isEmpty()) "Basic YXBwOmFwcA==" else "Bearer ${ApiConfigModule.COOKIE}"
-        }
-
-        /**
-         * 与js交互时用到的方法，在js里直接调用的
-         */
-        @JavascriptInterface
-        fun setFinish() {
-            val activity = context as Activity
-            activity.finish()
-        }
-
-        init {
-            context = c
-        }
+    override fun getLayoutId(): Int {
+        return  0
     }
 
 }
